@@ -1,0 +1,131 @@
+<%- include('header.ejs') %>
+<body>
+   <div class="container-fluid bg-success text-white text-capitalize p-2">
+       <div class="container">
+           <div class="row">
+               <div class="col">
+                   <h3>sonosoft</h3>
+               </div>
+               <div class="col-8">
+                   <input type="search" name="search-id" id="form-control" class="form-control">
+               </div>
+               <div class="col">
+
+               </div>
+           </div>
+       </div>
+   </div>
+   <section style="display: grid; grid-template-columns: 15% auto;">
+       <aside>
+        <%- include('sidebar.ejs') %>
+       </aside>
+       <main>
+           <section id="registration">
+               <form action="">
+                    <div class="split">
+                        <div class="form-row">
+                            <label for="fullname">fullname</label>
+                            <input type="text" required class="form-control" id="fullname">
+                         </div>
+                         <div class="form-row">
+                          <label for="gender">gender</label>
+                          <select name="gender" id="gender" class="form-control">
+                              <option value="female">female</option>
+                              <option value="male">male</option>
+                              <option value="other">other</option>
+                          </select>
+                       </div>
+                       <div class="form-row">
+                          <label for="age">age</label>
+                          <div class="split">
+                            <input type="number" class="form-control" id="age">
+                            <select name="years" id="years" class="form-control">
+                                <option value="years">years</option>
+                                <option value="months">months</option>
+                                <option value="day">day</option>
+                            </select>
+                          </div>
+                       </div>
+                       <div class="form-row">
+                          <label for="scan">scan</label>
+                          <select name="scan" id="scan" class="form-control">
+      
+                          </select>
+                       </div>
+                    </div>
+                    <div class="split">
+                        <div class="form-row">
+                            <label for="referer">referer</label>
+                            <select name="referer" id="referer" class="form-control">
+                                
+                            </select>
+                         </div>
+                         <div class="form-row">
+                            <label for="institution">institution</label>
+                            <select name="institution" id="institution" class="form-control">
+                                
+                            </select>
+                         </div>
+                         <div class="form-row">
+                            <label for="payment-mode">payment mode</label>
+                            <select name="payment-mode" id="payment-mode" class="form-control">
+                                <option value="mobile money">momo</option>
+                                <option value="cash">cash</option>
+                            </select>
+                         </div>
+                         <div class="form-row">
+                            <label for="amount-paid">amount paid</label>
+                            <input type="number" class="form-control" id="amount-paid">
+                         </div>
+                         <div class="form-row">
+                            <label for="discount">discount</label>
+                            <input type="discount" class="form-control" id="discount">
+                         </div>
+                         <div class="form-row">
+                             <label for="state">state</label>
+                             <select name="state" id="state" class="form-control">
+                                 <option value="in pains">in pains</option>
+                                 <option value="empty bladder">empty bladder</option>
+                                 <option value="null">null</option>
+                             </select>
+                         </div>
+                         <div class="form-row" style="display:none">
+                            <label for="transaction">transaction id</label>
+                            <input type="number" class="form-control" id="transaction">
+                         </div>
+                    </div>
+                 <div class="form-row mt-3">
+                     <button type="button" class="btn btn-outline-primary">save</button>
+                     <button type="button" class="btn btn-outline-info">cancel</button>
+                     <button type="button" class="btn btn-outline-danger">delete</button>
+                 </div>
+               </form>
+           </section>
+           <section itemid="client-list">
+               <table>
+                   <thead>
+                       <th>transactionid</th>
+                       <th>fullname</th>
+                       <th>scan</th>
+                       <th>state</th>
+                       <th>resolution</th>
+                       <th>time elapsed</th>
+                       <th>action</th>
+                   </thead>
+                   <tbody>
+                       <tr>
+                           <td>12463783993</td>
+                           <td>dr jake akin yin</td>
+                           <td>abdominal scan</td>
+                           <td>uncompleted</td>
+                           <td>empty baldder</td>
+                           <td>resolution</td>
+                           <td>editing</td>
+                       </tr>
+                   </tbody>
+               </table>
+           </section>
+       </main>
+   </section>
+   <script src="./src/js/registration.js"></script>
+</body>

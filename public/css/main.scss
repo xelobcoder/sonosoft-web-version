@@ -1,0 +1,43 @@
+ main{
+     margin: 0;
+     padding: 10px 10px;
+     height: 100vh;
+     overflow: hidden;
+     #registration{
+         padding: 10px 20px;
+         form{
+             .split{
+                 display: grid;
+                 grid-template-columns: 50% auto;
+                 .form-row{
+                    display: grid;
+                    grid-template-columns: 15% auto;
+                    margin: 10px 20px;
+                }
+                input,select,textarea{
+                    height: 60px;
+                    border: 1px solid lightgray;
+                    background-color: white;
+                    
+                }
+                input:required{
+                   border: 1px solid red;
+                }
+                input:required:before{
+                   content: "*";
+                   color: red;
+                }
+             }
+             label{
+                 color: gray;
+                 text-transform: capitalize;
+             }
+             select{
+                 option{
+                     padding: 30px;
+                     height: 30px;
+                 }
+             }
+         }
+     }
+ }
