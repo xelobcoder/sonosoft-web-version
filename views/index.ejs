@@ -20,8 +20,19 @@
         <%- include('sidebar.ejs') %>
        </aside>
        <main>
+           <section id="top-section">
+            <div>
+                <div style="display: none;" class="alert alert-primary" id="messagesDx">
+
+                </div>
+            </div>
+              <div id="search-query">
+                <input type="number" id="sharp-search" class="form-control" style="display: flex; justify-content: flex-end; width: 200px;">
+                <button type="button" class="btn btn-primary" style="padding: 10px 30px; border-radius: 30px;">search</button>
+              </div>
+            </section>
            <section id="registration">
-               <form action="">
+               <form action="" id="registration-form">
                     <div class="split">
                         <div class="form-row">
                             <label for="fullname">fullname</label>
@@ -29,16 +40,16 @@
                          </div>
                          <div class="form-row">
                           <label for="gender">gender</label>
-                          <select name="gender" id="gender" class="form-control">
+                          <select required name="gender" id="gender" class="form-control">
                               <option value="female">female</option>
                               <option value="male">male</option>
                               <option value="other">other</option>
                           </select>
                        </div>
                        <div class="form-row">
-                          <label for="age">age</label>
+                          <label  for="age">age</label>
                           <div class="split">
-                            <input type="number" class="form-control" id="age">
+                            <input  required type="number" class="form-control" id="age">
                             <select name="years" id="years" class="form-control">
                                 <option value="years">years</option>
                                 <option value="months">months</option>
@@ -56,26 +67,26 @@
                     <div class="split">
                         <div class="form-row">
                             <label for="referer">referer</label>
-                            <select name="referer" id="referer" class="form-control">
+                            <select required name="referer" id="referer" class="form-control">
                                 
                             </select>
                          </div>
                          <div class="form-row">
                             <label for="institution">institution</label>
-                            <select name="institution" id="institution" class="form-control">
+                            <select  name="institution" id="institution" class="form-control">
                                 
                             </select>
                          </div>
                          <div class="form-row">
                             <label for="payment-mode">payment mode</label>
-                            <select name="payment-mode" id="payment-mode" class="form-control">
-                                <option value="mobile money">momo</option>
+                            <select name="payment-mode" id="paymentMode" class="form-control">
                                 <option value="cash">cash</option>
+                                <option value="momo">momo</option>
                             </select>
                          </div>
                          <div class="form-row">
                             <label for="amount-paid">amount paid</label>
-                            <input type="number" class="form-control" id="amount-paid">
+                            <input  required type="number" class="form-control" id="amount-paid">
                          </div>
                          <div class="form-row">
                             <label for="discount">discount</label>
@@ -89,14 +100,14 @@
                                  <option value="null">null</option>
                              </select>
                          </div>
-                         <div class="form-row" style="display:none">
+                         <div class="form-row"  id="transac-parent">
                             <label for="transaction">transaction id</label>
                             <input type="number" class="form-control" id="transaction">
                          </div>
                     </div>
                  <div class="form-row mt-3">
                      <button type="button" class="btn btn-outline-primary">save</button>
-                     <button type="button" class="btn btn-outline-info">cancel</button>
+                     <button type="button" class="btn btn-outline-info" id="cancelButton">cancel</button>
                      <button type="button" class="btn btn-outline-danger">delete</button>
                  </div>
                </form>
@@ -127,5 +138,5 @@
            </section>
        </main>
    </section>
-   <script src="./src/js/registration.js"></script>
+   <script src="js/registration.js"></script>
 </body>

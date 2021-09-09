@@ -1,6 +1,5 @@
  main{
      margin: 0;
-     padding: 10px 10px;
      height: 100vh;
      overflow: hidden;
      #registration{
@@ -20,9 +19,9 @@
                     background-color: white;
                     
                 }
-                input:required{
-                   border: 1px solid red;
-                }
+                // input:required{
+                //    border: 1px solid red;
+                // }
                 input:required:before{
                    content: "*";
                    color: red;
@@ -41,3 +40,22 @@
          }
      }
  }
+ #top-section{
+     margin: 0;
+     padding: 0;
+     background-color: white;
+     display: grid;
+     padding: 20px 20px;
+     grid-template-columns: 70% auto;
+     #search-query{
+         margin-left: 20px;
+         display: grid;
+         grid-template-columns: 70% auto;
+     }
+
+    
+ }
+
+ #transac-parent{
+    display: none !important;
+}

@@ -1,6 +1,5 @@
 main {
   margin: 0;
-  padding: 10px 10px;
   height: 100vh;
   overflow: hidden;
 }
@@ -30,10 +29,6 @@ main #registration form .split input, main #registration form .split select, mai
   background-color: white;
 }
 
-main #registration form .split input:required {
-  border: 1px solid red;
-}
-
 main #registration form .split input:required:before {
   content: "*";
   color: red;
@@ -47,5 +42,28 @@ main #registration form label {
 main #registration form select option {
   padding: 30px;
   height: 30px;
+}
+
+#top-section {
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  display: -ms-grid;
+  display: grid;
+  padding: 20px 20px;
+  -ms-grid-columns: 70% auto;
+      grid-template-columns: 70% auto;
+}
+
+#top-section #search-query {
+  margin-left: 20px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 70% auto;
+      grid-template-columns: 70% auto;
+}
+
+#transac-parent {
+  display: none !important;
 }
 /*# sourceMappingURL=main.css.map */
