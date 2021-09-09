@@ -92,5 +92,16 @@ window.onload = (ev) => {
 
     emptyInputs()
 
+    const Forward_Data = function(object,accesscontrol,url){
+       if(typeof(object) != "object"){
+           return new Error("object required");
+       }
+       if(typeof(object) === "object" && object.hasOwnProperty(accesscontrol) == false){
+           return `Atleast object must contain ${accesscontrol}`;
+       }
+       
+       fetch()
+
+    }
     
 }
