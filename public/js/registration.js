@@ -92,16 +92,26 @@ window.onload = (ev) => {
 
     emptyInputs()
 
-    const Forward_Data = function(object,accesscontrol,url){
+    const Forward_Data = function(object,accesscontrol,api){
        if(typeof(object) != "object"){
            return new Error("object required");
        }
        if(typeof(object) === "object" && object.hasOwnProperty(accesscontrol) == false){
            return `Atleast object must contain ${accesscontrol}`;
        }
-       
-       fetch()
-
     }
-    
+    fetch(api,{
+        method: "post",
+        headers:{
+            "content-type" : "application/json"
+        },
+        body: JSON.stringify(object)
+    }).then(function(response){
+        console.log(response.json())
+    })
+    .catch(
+        (err) => {
+            if(err) throw err;
+        }
+    )
 }
