@@ -1,0 +1,22 @@
+.loggersbar {
+  margin: 0;
+  padding: 0;
+}
+
+.loggersbar .search-wrapper-settings {
+  padding: 10px 10px;
+}
+
+.loggersbar ul {
+  margin: 0;
+  padding: 10px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 90% auto;
+      grid-template-columns: 90% auto;
+}
+
+.loggersbar ul li {
+  list-style-type: none;
+}
+/*# sourceMappingURL=loggers.css.map */

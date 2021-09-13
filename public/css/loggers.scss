@@ -1,0 +1,16 @@
+.loggersbar{
+    margin:0;
+    padding: 0;
+    .search-wrapper-settings{
+        padding: 10px 10px;
+    }
+    ul{
+        margin: 0;
+        padding:10px;
+        display: grid;
+        grid-template-columns: 90% auto;
+        li{
+            list-style-type: none; 
+        }
+    }
+}
