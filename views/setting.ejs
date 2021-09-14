@@ -1,36 +1,80 @@
 <%- include('header.ejs') %>
-<%- include('top.ejs') %>
-<div class="top-wrapper" style="background-color: white;display: grid; grid-template-columns: 15% 15% 15% auto;">
-    <div class="sidebar">
+<body>
+    <%- include('top.ejs') %>
+    <div class="top-wrapper" style="background-color: white;display: grid; grid-template-columns: 15% 15% 15% auto;">
+        <div class="sidebar">
         <%- include('sidebar.ejs') %>
-    </div>
-    <div class="loggersbar">
-        <div class="search-wrapper-settings">
-            <input type="search" name="" id="settings-search" class="form-control">
         </div>
-        <ul>
-            <li>institution</li>
-            <li><button class="btn btn-success">new</button></li>
-        </ul>
-        <ul>
-            <li>referer</li>
-            <li><button class="btn btn-success">new</button></li>
-        </ul>
-        <ul>
-            <li>scan price</li>
-            <li><button class="btn btn-success">new</button></li>
-        </ul>
-        <ul>
-            <li>states</li>
-            <li><button class="btn btn-success">new</button></li>
-        </ul>
-    </div>
-    <div>
+        <div class="loggersbar">
+            <div class="search-wrapper-settings">
+                <input type="search" name="" id="settings-search" class="form-control">
+            </div>
+            <ul>
+              <li>institution</li>
+              <button class="button-times">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                    <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
+                  </svg>
+                <div class="text">new</div>
+              </button>
 
-    </div>
-    <div class="mainbar">
+            </ul>
+            <ul>
+                <li>referer</li>
+                <button class="button-times">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
+                      </svg>
+                    <div class="text">new</div>
+                </button>
+            </ul>
+            <ul>
+                <li>scan price</li>
+                <button class="button-times">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
+                      </svg>
+                    <div class="text">new</div>
+                </button>
+            </ul>
+            <ul>
+                <li>states</li>
+                <button class="button-times">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
+                      </svg>
+                    <div class="text">new</div>
+                </button>
+            </ul>
+        </div>
+        <div id="thirdbar">
+             <div class="alert"></div>
+             <form action="">
+                 <label for="">institution</label>
+                 <input type="text" class="form-control" id="instutition">
+                 <button type="button" class="btn btn-success mt-3 flex-end" id="save">save</button>
+             </form>
+             <form action="">
+                 <label for="">referer</label>
+                 <input type="text" name="referer" id="referer" class="form-control">
+                 <button class="btn btn-success mt-3">save</button> 
+             </form>
+             <form action="">
+                <label for="">scan price</label>
+                <input type="text" name="scan" id="scan" class="form-control">
+                <button class="btn btn-success mt-3">save</button> 
+            </form>
+            <form action="">
+                <label for="">states</label>
+                <input type="text" name="states" id ="states" class="form-control">
+                <button class="btn btn-success mt-3">save</button> 
+            </form>
+        </div>
+        <div class="mainbar">
 
-    </div>
-</div>
-
+        </div>
+    </div> 
+    
+</body>
+<script src="js/creator.js"></script> 
 <%- include('footer.ejs') %>

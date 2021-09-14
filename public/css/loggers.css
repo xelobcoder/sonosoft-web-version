@@ -1,6 +1,7 @@
 .loggersbar {
   margin: 0;
   padding: 0;
+  background-color: whitesmoke;
 }
 
 .loggersbar .search-wrapper-settings {
@@ -12,11 +13,50 @@
   padding: 10px;
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 90% auto;
-      grid-template-columns: 90% auto;
+  -ms-grid-columns: 80% 20%;
+      grid-template-columns: 80% 20%;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .loggersbar ul li {
   list-style-type: none;
+  text-transform: capitalize;
+}
+
+.loggersbar ul .button-times {
+  padding: 3px 4px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  font-size: small;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: whitesmoke;
+}
+
+.loggersbar ul .button-times svg {
+  font-size: smaller;
+  color: green;
+}
+
+.loggersbar ul .button-times .text {
+  font-size: 14px;
+  margin-left: 3px;
+}
+
+.loggersbar ul .button-times:hover {
+  border: 2px solid green;
+  border-radius: 5px !important;
+}
+
+.loggersbar ul:hover {
+  background-color: white;
+  color: black;
 }
 /*# sourceMappingURL=loggers.css.map */

@@ -1,6 +1,7 @@
 .loggersbar{
     margin:0;
     padding: 0;
+    background-color: whitesmoke;
     .search-wrapper-settings{
         padding: 10px 10px;
     }
@@ -8,9 +9,38 @@
         margin: 0;
         padding:10px;
         display: grid;
-        grid-template-columns: 90% auto;
+        grid-template-columns: 80% 20%;
+        font-family: Arial, Helvetica, sans-serif;
         li{
             list-style-type: none; 
+            text-transform: capitalize;
         }
+        .button-times{
+            padding: 3px 4px;
+            border: 1px solid lightgray;
+            border-radius: 5px;
+            font-size: small;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: whitesmoke;
+            svg{
+                font-size: smaller;
+                color: green;
+            }
+            .text{
+                font-size: 14px;
+                margin-left: 3px;
+            }
+        }
+        .button-times:hover{
+            border: 2px solid green;
+            border-radius: 5px !important;
+        }
+
+    }
+    ul:hover{
+        background-color: white;
+        color: black;
     }
 }
