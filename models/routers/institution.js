@@ -17,15 +17,36 @@ router.route("/institutions")
         response.send(results);
     })
 })
-.post( function(request,response){
+.post( function(request,response,next){
     const {institution} = request.body;
-    if(institution === null || undefined){
-        const sql = `INSERT INTO INSTITUTIONS (INSTITUTION)VALUE("${institution}")`;
-        connection.query(sql, function(err,result,fields){
-            if(err) throw err;
-            response.send(result);
-        })
+
+    // check if such institution is already present
+    const isPresent = `SELECT * FROM INSTITUTIONS WHERE INSTITUTION = "${institution}"`;
+
+    connection.query(isPresent, function(err,results,fields){
+        if(err) throw err;
+        if(results.length > 0){
+            response.send("institution already present");
+        }else{
+            next();
+        }
+    })
+})
+.post( function(request,response,next){
+    const {institution} = request.body;
+    
+    // insert data into the database
+    const insertion = function(){
+        if(institution != null ||institution != undefined){
+            const sql = `INSERT INTO institutions (INSTITUTION) VALUE("${institution}")`;
+            connection.query(sql, function(err,result,fields){
+                if(err) throw err;
+                response.send("insertion successful");
+            })
+        }
     }
+
+    insertion()
 })
 .delete( function(request,response){
     const {id} = request.body;

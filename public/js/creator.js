@@ -1,5 +1,4 @@
 const saveI = document.getElementById("save-institution");
-
 saveI.onclick = function(ev){
     const input = document.getElementById("institution");
     if(input.value === ""){
@@ -16,7 +15,10 @@ saveI.onclick = function(ev){
     })
     .then( (response) => {
         let received = response.json();
-        console.log(received);
+        return received;
+    })
+    .then( (response)=>{
+        console.log(response)
     })
     .catch( (err)=> {
         if(err) throw err;
