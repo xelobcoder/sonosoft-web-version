@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const ejs = require("ejs");
 const path = require("path");
+const institutions = require("./models/routers/institution");
 // const databaseConnection = require("./models/database");
 app.set("view engine","ejs");
 
@@ -11,6 +12,7 @@ app.use(express.static(path.join(__dirname ,"public")));
 
 app.use('/js', express.static(path.join(__dirname, 'public')));
 app.use("/css",express.static(path.join(__dirname,"public")));
+app.use(institutions);
 app.listen(port, function(err){
     if(err){
         throw err;

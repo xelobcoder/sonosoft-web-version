@@ -1,21 +1,24 @@
-function createlement(element,xlass){
-     let item = document.createElement(element);
-     item.setAttribute("class",xlass);
-     item.setAttribute("id",xlass);
-     item.setAttribute("name",xlass);
-     return item;
+const saveI = document.getElementById("save-institution");
+
+saveI.onclick = function(ev){
+    const input = document.getElementById("institution");
+    if(input.value === ""){
+        ev.preventDefault();
+    }
+    fetch("http://localhost:8000/INSTITUTIONS",{
+        method: "POST",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify({
+            institution : input.value
+        })
+    })
+    .then( (response) => {
+        let received = response.json();
+        console.log(received);
+    })
+    .catch( (err)=> {
+        if(err) throw err;
+    })
 }
-
-function institution (){
-    let parent = createlement("div","parent-div");
-    let institition = createlement("input","institition");
-    let insti_wrapper = createlement("div","insti-wrapper");
-    let saveBtn = createlement("button","save-button");
-    insti_wrapper.appendChild(institition)
-    parent.appendChild(insti_wrapper);
-    parent.appendChild(saveBtn);
-    return parent;
-}
-
-
-console.log(institution())
