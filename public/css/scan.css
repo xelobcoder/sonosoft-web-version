@@ -57,4 +57,77 @@ body {
   font-weight: 500 !important;
   color: gray;
 }
+
+.m-modal {
+  display: none;
+  color: black;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.151);
+}
+
+.m-modal .m-content {
+  margin: 3% 30%;
+  border: 1px solid lightgray;
+  background-color: white;
+}
+
+.m-modal .m-content .m-m-h, .m-modal .m-content .m-m-c, .m-modal .m-content .m-m-f {
+  margin: 0;
+}
+
+.m-modal .m-content .m-m-h div {
+  padding: 0;
+  margin: 0;
+  background-color: whitesmoke;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 90% auto;
+      grid-template-columns: 90% auto;
+}
+
+.m-modal .m-content .m-m-h div .m-header {
+  padding: 10px 10px;
+}
+
+.m-modal .m-content .m-m-h div .m-cancel {
+  font-size: 20px;
+  color: black;
+  background-color: red;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.m-modal .m-content .m-m-h div .m-cancel:hover {
+  color: white;
+  background-color: #3b1010;
+  -webkit-transition: 500ms cubic-bezier(0.215, 0.61, 0.355, 1);
+  transition: 500ms cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.m-modal .m-content .m-m-c {
+  padding: 10px 10px;
+  height: 100px;
+}
+
+.m-modal .m-content .m-m-f {
+  background-color: whitesmoke;
+  padding: 10px 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
 /*# sourceMappingURL=scan.css.map */

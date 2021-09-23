@@ -39,7 +39,33 @@
                 </tbody>
             </table>
         </div>
+        <div class="m-modal">
+           <div class="m-content">
+                <div class="m-m-h">
+                   <div>
+                        <div class="m-header">
+                            Lorem ipsum dolor sit.
+                        </div>
+                        <div class="m-cancel">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
+                            </svg>
+                        </div>
+                   </div>
+                </div>
+                <div class="m-m-c">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, inventore?
+                </div>
+                <div class="m-m-f">
+                    <div class="button-wrapper">
+                        <button>cancel</button>
+                        <button>delete</button>
+                    </div>
+                </div>
+           </div>
+        </div>
     </section>
+
     <script>
         const save = document.getElementById("savedb");
         const scan = document.getElementById("scan");
@@ -154,6 +180,15 @@
     
     displayList()
 
+    function displaymodal(){
+         let modal = document.querySelector(".m-modal");
+         modal.style.display = "block";  
+    }
+
+    function hideModal(){
+        let modal = document.querySelector(".m-modal");
+        modal.style.display = "none";
+    }
 
     function deleteScan(){
        let allDelete = document.querySelectorAll("#deletescan");
@@ -161,7 +196,7 @@
            function(item){
                item.onclick = function(){
                    let deleteID = item.getAttribute("delestate");
-                   
+                   displaymodal();
                }
            }
        )
