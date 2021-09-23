@@ -39,14 +39,14 @@
                 </tbody>
             </table>
         </div>
-        <div class="m-modal">
+        <div class="m-modal"  target="cancalModal">
            <div class="m-content">
                 <div class="m-m-h">
                    <div>
                         <div class="m-header">
-                            Lorem ipsum dolor sit.
+                            alert!!!!!!
                         </div>
-                        <div class="m-cancel">
+                        <div class="m-cancel" id="xtimes">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
                                 <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
                             </svg>
@@ -54,12 +54,12 @@
                    </div>
                 </div>
                 <div class="m-m-c">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, inventore?
+                     
                 </div>
                 <div class="m-m-f">
                     <div class="button-wrapper">
-                        <button>cancel</button>
-                        <button>delete</button>
+                        <button type="button" class="btn btn-success" id="cancelbtn">cancel</button>
+                        <button type="button" class="btn btn-danger" id="xdeletebtn">delete</button>
                     </div>
                 </div>
            </div>
@@ -136,12 +136,12 @@
                         <td>${array.COST}</td>
                         <td>${array.SONOGRAPHER}</td>
                         <td>${array.DATEADDED}</td>
-                        <td id= "editscan" editsate = ${array.ID}>
+                        <td id= "editscan" editstate = ${array.ID}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
                                 <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
                             </svg>
                         </td >
-                        <td id="deletescan" delestate = ${array.ID}>
+                        <td id="deletescan" scan=${array.SCANS} delestate = ${array.ID}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-archive-fill" viewBox="0 0 16 16">
                                 <path d="M12.643 15C13.979 15 15 13.845 15 12.5V5H1v7.5C1 13.845 2.021 15 3.357 15h9.286zM5.5 7h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1zM.8 1a.8.8 0 0 0-.8.8V3a.8.8 0 0 0 .8.8h14.4A.8.8 0 0 0 16 3V1.8a.8.8 0 0 0-.8-.8H.8z"/>
                             </svg>
@@ -171,7 +171,8 @@
             .then ( (response) => {
                 console.log(Array.isArray(response));
                 renderHtml(response);
-                deleteScan()
+                deleteScan();
+                editScan();
             })
             .catch ( (err) => {
                 console.log(err);
@@ -180,9 +181,12 @@
     
     displayList()
 
-    function displaymodal(){
+    function displaymodal(array){
          let modal = document.querySelector(".m-modal");
          modal.style.display = "block";  
+         const content = document.querySelector(".m-m-c");
+         content.innerHTML = `Do you want to delete ${array} ?`;
+
     }
 
     function hideModal(){
@@ -190,13 +194,31 @@
         modal.style.display = "none";
     }
 
+    const cancelBtn = document.getElementById("cancelbtn");
+
+    cancelBtn.onclick = function(){
+        hideModal();
+    }
+
+    const xBtn = document.getElementById("xtimes");
+
+    xBtn.onclick = function(){
+        hideModal();
+    }
+    
+
     function deleteScan(){
        let allDelete = document.querySelectorAll("#deletescan");
        Array.from(allDelete).map (
            function(item){
                item.onclick = function(){
                    let deleteID = item.getAttribute("delestate");
-                   displaymodal();
+                   let deleteScan = item.getAttribute("scan");
+                   displaymodal(deleteScan);
+                   const deleteBtn = document.getElementById("xdeletebtn");
+                   deleteBtn.onclick = function(){
+                       delete_Scan(deleteID,deleteScan);
+                   }
                }
            }
        )
@@ -204,7 +226,28 @@
 
      
     function editScan(){
+         const allEdit = document.querySelectorAll("#editscan");
+         Array.from(allEdit).map(
+             function(item){
+                 item.onclick = function(){
+                     let id = item.getAttribute("editstate");
+                     
+                 }
+             }
+         )
+    }
 
+
+
+
+    function delete_Scan(deleteID,deleteScan){
+        fetch("http://localhost:8000/scanpanel",{
+            method :"DELETE",
+            headers: {"content-type" : "application/json"},
+            body: JSON.stringify({id : deleteID,scan : deleteScan  }) })
+            .then ( (response)=> { return response.json(); })
+            .then ( (response) => {console.log(response);hideModal();displayList()})
+            .catch ( (err) => {if(err) throw err;})
     }
 
     </script>

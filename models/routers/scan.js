@@ -11,11 +11,29 @@ router.route("/scanpanel")
     next();
 })
 .get( function(request,response){
-    const sql = "SELECT * FROM SCAN";
-    connection.query(sql, function(err,results,fields){
-        if(err) throw err;
-        response.send(results);
-    })
+    const retrieveAll = function(){
+        const sql = "SELECT * FROM SCAN";
+        connection.query(sql, function(err,results,fields){
+            if(err) throw err;
+            response.send(results);
+        })
+    }
+
+    const retrieveSingle = function(){
+        const sql = `SELECT * FROM SCAN WHERE ID = '${id}'`;
+        connection.query(sql,
+            function(err,results,fields){
+                if(err) throw err;
+                response.send(results)
+            }
+        )
+    }
+
+    if(Object.keys(request.body).hasAttribute("id")){
+        retrieveSingle();
+    }else{
+        retrieveAll();
+    }
 })
 .post( function(request,response){
     const {scanName,shortname,cost,oncallSonographer,date} = request.body;
