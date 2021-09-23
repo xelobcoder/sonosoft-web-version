@@ -4,6 +4,9 @@ const ejs = require("ejs");
 const path = require("path");
 const institutions = require("./models/routers/institution");
 // const databaseConnection = require("./models/database");
+const scanpanels = require ("./models/routers/scan");
+
+
 app.set("view engine","ejs");
 
 
@@ -13,6 +16,7 @@ app.use(express.static(path.join(__dirname ,"public")));
 app.use('/js', express.static(path.join(__dirname, 'public')));
 app.use("/css",express.static(path.join(__dirname,"public")));
 app.use(institutions);
+app.use(scanpanels)
 app.listen(port, function(err){
     if(err){
         throw err;
@@ -26,4 +30,12 @@ app.get("/", function(req,res,next){
 })
 app.get("/settings", function(request,res,next){
     res.render("setting");
+})
+
+app.get("/settings/institutions",function(req,res,next){
+    res.render("institution")
+})
+
+app.get("/scans", function(request,response){
+    response.render("scan");
 })
