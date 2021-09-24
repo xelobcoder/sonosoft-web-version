@@ -92,29 +92,25 @@
                event.preventDefault();
                inputchecker();
            }else{
-               const newScan = JSON.stringify({
+               const newScan = {
                     scanName : scan.value,
                     shortname : shortname.value,
                     cost : cost.value,
                     oncallSonographer : oncall.value
-               })
-
-               fetch("http://localhost:8000/scanpanel",{
-                   method: "POST",
-                   headers: {
-                       "content-type": "application/json"
-                   },
-                   body : newScan
-               })
-               .then ( (response) =>  {
-                   return response.json();
-               })
-               .then  ( (response) =>  {
-                   displayList()
-               })
-               .catch ( (err) => {
-                   if(err) throw err;
-               })
+               }
+                let Todb = function(api,methods,object){
+                  fetch(api,{method: methods,headers: {"content-type": "application/json"},body: JSON.stringify(object)})
+                  .then ( (res) => {return res.json()})
+                  .then ( (res) => { displayList()})
+                  .catch ( (err) => {if (err) throw err})
+               }
+               if(save.hasAttribute("state")){
+                   if(save.getAttribute("state")  != 0){
+                       newScan.id = save.getAttribute("state");
+                       Todb("http://localhost:8000/scanpanel","PUT",newScan);
+                       save.removeAttribute("state");
+                   }
+               }else{ Todb("http://localhost:8000/scanpanel","POST",newScan);}
            }
        }
 
@@ -228,10 +224,17 @@
     function editScan(){
          const allEdit = document.querySelectorAll("#editscan");
          Array.from(allEdit).map(
-             function(item){
-                 item.onclick = function(){
-                     let id = item.getAttribute("editstate");
-                     
+            function(item){
+                item.onclick = function(){
+                     let editItem = item.getAttribute("editstate");
+                     fetch(`http://localhost:8000/scanpanel/${editItem}`)
+                     .then ( (response) => {
+                        return response.json();
+                     }).then ( (response) => {
+                         destructAndFill(response);
+                         givestate(editItem);
+                         console.log(save)
+                     }).catch ((err) => {throw err})
                  }
              }
          )
@@ -242,13 +245,32 @@
 
     function delete_Scan(deleteID,deleteScan){
         fetch("http://localhost:8000/scanpanel",{
-            method :"DELETE",
+         method :"DELETE",
             headers: {"content-type" : "application/json"},
             body: JSON.stringify({id : deleteID,scan : deleteScan  }) })
             .then ( (response)=> { return response.json(); })
             .then ( (response) => {console.log(response);hideModal();displayList()})
             .catch ( (err) => {if(err) throw err;})
     }
+
+
+    const givestate = function(id){
+        save.setAttribute("state",id);
+    }
+
+
+    function destructAndFill(array){
+        const isArray = Array.isArray(array) ? true : false;
+        if(isArray){
+            const {SCANS,SHORTNAME,SONOGRAPHER,COST} = array[0];
+            shortname.value = SHORTNAME;
+            cost.value = COST;
+            oncall.value = SONOGRAPHER;
+            scan.value = SCANS;
+            givestate
+        }
+    }
+
 
     </script>
 </body>

@@ -18,22 +18,7 @@ router.route("/scanpanel")
             response.send(results);
         })
     }
-
-    const retrieveSingle = function(){
-        const sql = `SELECT * FROM SCAN WHERE ID = '${id}'`;
-        connection.query(sql,
-            function(err,results,fields){
-                if(err) throw err;
-                response.send(results)
-            }
-        )
-    }
-
-    if(Object.keys(request.body).hasAttribute("id")){
-        retrieveSingle();
-    }else{
-        retrieveAll();
-    }
+    retrieveAll()
 })
 .post( function(request,response){
     const {scanName,shortname,cost,oncallSonographer,date} = request.body;
@@ -60,7 +45,7 @@ router.route("/scanpanel")
 })
 .put (function(request,response){
     const {id,scanName,shortname,cost,oncallSonographer,date} = request.body;
-    const sql = `UPDATE SCAN SET SCANS = "${scanName} ,COST = '${cost}',SONOGRAPHER = '${oncallSonographer}',SHORTNAME = '${shortname}' WHERE ID = "${id}`;
+    const sql = `UPDATE SCAN SET SCANS = "${scanName}" ,COST = '${cost}',SONOGRAPHER = '${oncallSonographer}',SHORTNAME = '${shortname}' WHERE ID = "${id}"`;
     connection.query(sql, function(err,results,fields){
         if(err) throw err;
         response.send(results)

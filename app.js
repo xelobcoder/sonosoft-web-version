@@ -3,7 +3,7 @@ const app = express();
 const ejs = require("ejs");
 const path = require("path");
 const institutions = require("./models/routers/institution");
-// const databaseConnection = require("./models/database");
+const connection = require("./models/database");
 const scanpanels = require ("./models/routers/scan");
 
 
@@ -38,4 +38,17 @@ app.get("/settings/institutions",function(req,res,next){
 
 app.get("/scans", function(request,response){
     response.render("scan");
+})
+app.get("/scanpanel/:id", function(request,response){
+    const deleteID = request.params.id
+    const retrieveSingle = function(){
+        const sql = `SELECT * FROM SCAN WHERE ID = '${deleteID}'`;
+        connection.query(sql,
+            function(err,results,fields){
+                if(err) throw err;
+                response.send(results)
+            }
+        )
+    }
+    retrieveSingle();
 })
