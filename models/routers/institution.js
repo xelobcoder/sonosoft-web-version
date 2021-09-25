@@ -33,12 +33,12 @@ router.route("/institutions")
     })
 })
 .post( function(request,response,next){
-    const {institution} = request.body;
+    const {institution,shortcode,location} = request.body;
     
     // insert data into the database
     const insertion = function(){
         if(institution != null ||institution != undefined){
-            const sql = `INSERT INTO institutions (INSTITUTION) VALUE("${institution}")`;
+            const sql = `INSERT INTO institutions (INSTITUTION,LOCATION,SHORTCODE) VALUES("${institution}","${location}","${shortcode}")`;
             connection.query(sql, function(err,result,fields){
                 if(err) throw err;
                 response.send("insertion successful");
@@ -59,8 +59,8 @@ router.route("/institutions")
     }
 })
 .put (function(request,response){
-    const {institution,id} = request.body;
-    const sql = `UPDATE INSTITUTIONS SET INSTITUTION = "${institution} WHERE ID = "${id}`;
+    const {institution,id,shortcode,location} = request.body;
+    const sql = `UPDATE INSTITUTIONS SET INSTITUTION = "${institution}",LOCATION = "${location}",SHORTCODE = "${shortcode}" WHERE ID = "${id}"`;
     connection.query(sql, function(err,results,fields){
         if(err) throw err;
         response.send(results)

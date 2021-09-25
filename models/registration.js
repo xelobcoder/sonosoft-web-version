@@ -1,12 +1,12 @@
-const router = require ("express").Router();
-const { response } = require("express");
-const connection = require ("mysql");
+const express = require("express");
+const router = express.Router();
+const connection = require("./database");
 
 router.use(express.urlencoded({extented: true}));
 router.use(express.json())
 
 router.route("/registration")
-.all("/", function(request,response,next){
+.all(function(request,response,next){
     response.statusCode = 200;
     response.statusMessage = "OK";
     next();
@@ -31,5 +31,8 @@ router.route("/registration")
         amountpaid,
         discount,
         cost  
-    }
+    } = request.body;
 })
+
+
+module.exports = router;

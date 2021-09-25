@@ -43,6 +43,7 @@ window.onload = (ev) => {
         element.setAttribute("placeholder","Required");
     }
 
+    // make inputs red when emwpty and darken if a value is inserted
     let emptyInputs = function(event) {
         const inputs = document.querySelectorAll("input");
         Array.from(inputs).map(
@@ -77,20 +78,21 @@ window.onload = (ev) => {
         return true;
     }
     
-       
-   paymentMode.onchange = function(){
-        let transacParent = document.querySelector("#transac-parent");
-        let selected = paymentMode.options[paymentMode.selectedIndex].value;
-        if(selected === "momo"){
-            transacParent.style.display ="block !important";
-        }else{
-            transacParent.style.display = "none";
-        }
-    }
+    
 
     // tooglePaymentMode()
 
     emptyInputs()
+
+    let data = {
+        fullname : fullname.value,
+        gender : gender.value,
+        age : age.value,
+        scan :scan.value,
+        paymentmode: paymentMode.value,
+        referer : referer.value,
+        amountPaid : amountPaid.value
+    }
 
     const Forward_Data = function(object,accesscontrol,api){
        if(typeof(object) != "object"){
@@ -99,19 +101,18 @@ window.onload = (ev) => {
        if(typeof(object) === "object" && object.hasOwnProperty(accesscontrol) == false){
            return `Atleast object must contain ${accesscontrol}`;
        }
+       const register = function(){
+           const xhr = new XMLHttpRequest();
+           xhr.open("POST","" )
+           xhr.setRequestHeader("content-type","application/json");
+           xhr.onreadystatechange = function(){
+               if(xhr.readyState === 4 && xhr.status === 200){
+                 
+               }
+           }
+           xhr.send();
+       }
+       register();
     }
-    fetch(api,{
-        method: "post",
-        headers:{
-            "content-type" : "application/json"
-        },
-        body: JSON.stringify(object)
-    }).then(function(response){
-        console.log(response.json())
-    })
-    .catch(
-        (err) => {
-            if(err) throw err;
-        }
-    )
+
 }

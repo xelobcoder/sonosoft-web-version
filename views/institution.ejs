@@ -1,9 +1,276 @@
 <%- include('header.ejs') %>
-<section>
-    <form action="/institutions">
-        <div class="form-row">
-
+<body style="display: grid; grid-template-columns: 15% auto;">
+    <section>
+        <%- include('sidebar.ejs') %>
+    </section>
+    <section>
+        <div class="add-section">
+            <div id="label" style="width: 200px;">new institution</div>
+            <hr>
+             <div class="panel-wrapper">
+                <form action="/institutionpanel" method="post">
+                    <div class="form-row" style="display: grid; grid-template-columns: 30% 30% 30% auto;">
+                         <input type="text" name="institution" id="institution" placeholder="institution"required class="form-control" required>
+                         <input type="text" name="location" class="form-control" id="location" placeholder="location" required>
+                         <input type="number"  class="form-control" id="shortcode" placeholder="institutionCode">
+                        <button type="button" class="btn btn-success pt-0 pb-0" id="savedb">save</button>
+                    </div>
+               </form>
+             </div>
         </div>
-    </form>
-</section>
+        <div class="list-section">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Institution name</th>
+                        <th>shortcode</th>
+                        <th>location</th>
+                        <th>date added</th>
+                        <th>edit</th>
+                        <th>delete</th>
+                    </tr>
+                </thead>
+                <tbody class="tbody" id="list-body">
+                   
+                </tbody>
+            </table>
+        </div>
+        <div class="m-modal"  target="cancalModal">
+            <div class="m-content">
+                 <div class="m-m-h">
+                    <div>
+                         <div class="m-header">
+                             alert!!!!!!
+                         </div>
+                         <div class="m-cancel" id="xtimes">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                 <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
+                             </svg>
+                         </div>
+                    </div>
+                 </div>
+                 <div class="m-m-c">
+                      
+                 </div>
+                 <div class="m-m-f">
+                     <div class="button-wrapper">
+                         <button type="button"  class="btn btn-success" id="cancelbtn">cancel</button>
+                         <button type="button" class="btn btn-danger" id="xdeletebtn">delete</button>
+                     </div>
+                 </div>
+            </div>
+         </div>
+    </section>
+    <script>
+        const locationx = document.getElementById("location");
+        const institution = document.getElementById("institution");
+        const shortcode = document.getElementById("shortcode");
+        const save = document.getElementById("savedb");
+
+        // event after save button is clicked
+
+        save.onclick = function(event){
+           const inputchecker = function(){
+               const inputs = document.querySelectorAll("input");
+               inputs.forEach ( function(input){
+                   if(input.hasAttribute("required") && input.value === ""){
+                       input.style.border ="1px solid red";
+                    //    input.setAttribute("placeholder","required");
+                       input.style.color ="red";
+                   }
+                   input.onblur = function(){
+                       input.style.border = " 1px solid lightgray";
+                       input.style.color = "black";
+                   }
+               })
+           }
+           if(locationx.value === "" || institution.value === "" ){
+               event.preventDefault();
+               inputchecker();
+           }else{
+               const newInstitution = {
+                    location : locationx.value,
+                    institution : institution.value,
+                    shortcode : shortcode.value
+               }
+                let Todb = function(api,methods,object){
+                  fetch(api,{method: methods,headers: {"content-type": "application/json"},body: JSON.stringify(object)})
+                  .then ( (res) => {return res.json()})
+                  .then ( (res) => { displayList()})
+                  .catch ( (err) => {if (err) throw err})
+               }
+               if(save.hasAttribute("state")){
+                   if(save.getAttribute("state")  != 0){
+                       newInstitution.id = save.getAttribute("state");
+                       Todb("http://localhost:8000/institutions","PUT",newInstitution);
+                       save.removeAttribute("state");
+                       displayList()
+                   }
+               }else{ Todb("http://localhost:8000/institutions","POST",newInstitution); displayList()}
+           }
+       }
+
+       //    render all scan fields
+
+    const listSection = document.getElementById("list-section");
+    const tableBody = document.getElementById("list-body");
+
+    const renderHtml = function(array){
+        const is_Array = Array.isArray(array) ? true  : false;
+
+        const html = function(array){
+            return (`
+            <tr id= ${array.ID}>
+                        <td>${array.ID}</td>
+                        <td>${array.INSTITUTION}</td> 
+                        <td>${array.SHORTCODE}</td>
+                        <td>${array.LOCATION}</td>
+                        <td>${array.DATEADDED}</td>
+                        <td id= "editscan" editstate = ${array.ID}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" style="color: lightseagreen;" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                            </svg>
+                        </td >
+                        <td id="deleteinstitution" institution=${array.INSTITUTION} delestate = ${array.ID}>
+                            <svg xmlns="http://www.w3.org/2000/svg" style="color: red;" width="16" height="16" fill="currentColor" class="bi bi-archive-fill" viewBox="0 0 16 16">
+                                <path d="M12.643 15C13.979 15 15 13.845 15 12.5V5H1v7.5C1 13.845 2.021 15 3.357 15h9.286zM5.5 7h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1zM.8 1a.8.8 0 0 0-.8.8V3a.8.8 0 0 0 .8.8h14.4A.8.8 0 0 0 16 3V1.8a.8.8 0 0 0-.8-.8H.8z"/>
+                            </svg>
+                        </td>
+             </tr>
+            `)
+        }
+
+        const displayData = function(){
+            let data = array.map ( function(param){
+                return html(param)
+             }).join("");
+            return tableBody.innerHTML = data;
+        }  
+
+        if(is_Array == true){
+            displayData();
+        }
+    }
+   
+    const displayList = function(){
+        fetch ("http://localhost:8000/institutions")
+            .then ( (response )=> {
+                return response.json();
+            })
+            .then ( (response) => {
+                console.log(Array.isArray(response));
+                if(response.length == 0){
+                   noInstitution();
+                }else{
+                    renderHtml(response);
+                    deleteInstitution();
+                    editInstitution();
+                }
+            })
+            .catch ( (err) => {
+                console.log(err);
+            })
+    }
+    
+    displayList()
+
+    function displaymodal(array){
+         let modal = document.querySelector(".m-modal");
+         modal.style.display = "block";  
+         const content = document.querySelector(".m-m-c");
+         content.innerHTML = `Are you sure you want to delete ${array} from institution's list ?`;
+
+    }
+
+    function hideModal(){
+        let modal = document.querySelector(".m-modal");
+        modal.style.display = "none";
+    }
+
+    const cancelBtn = document.getElementById("cancelbtn");
+
+    cancelBtn.onclick = function(){
+        hideModal();
+    }
+
+    const xBtn = document.getElementById("xtimes");
+
+    xBtn.onclick = function(){
+        hideModal();
+    }
+    
+
+    function deleteInstitution(){
+       let allDelete = document.querySelectorAll("#deleteinstitution");
+       Array.from(allDelete).map (
+           function(item){
+               item.onclick = function(){
+                   let institutionID = item.getAttribute("delestate");
+                   let deleteInstitution = item.getAttribute("institution");
+                   displaymodal(deleteInstitution);
+                   const deleteBtn = document.getElementById("xdeletebtn");
+                   deleteBtn.onclick = function(){
+                       delete_Institution(institutionID,deleteInstitution);
+                       displayList();
+                   }
+               }
+           }
+       )
+    }
+
+     
+    function editInstitution(){
+         const allEdit = document.querySelectorAll("#editscan");
+         Array.from(allEdit).map(
+            function(item){
+                item.onclick = function(){
+                     let editItem = item.getAttribute("editstate");
+                     fetch(`http://localhost:8000/institutions/${editItem}`)
+                     .then ( (response) => {
+                        return response.json();
+                     }).then ( (response) => {
+                         destructAndFill(response);
+                         givestate(editItem);
+                     }).catch ((err) => {throw err})
+                 }
+             }
+         )
+    }
+
+    
+
+    function delete_Institution(deleteID,deleteScan){
+        fetch("http://localhost:8000/institutions",{
+         method :"DELETE",
+            headers: {"content-type" : "application/json"},
+            body: JSON.stringify({id : deleteID,scan : deleteScan  }) })
+            .then ( (response)=> { return response.json(); })
+            .then ( (response) => {console.log(response);hideModal();displayList()})
+            .catch ( (err) => {if(err) throw err;})
+    }
+
+
+    const givestate = function(id){
+        save.setAttribute("state",id);
+    }
+
+    function destructAndFill(array){
+        const isArray = Array.isArray(array) ? true : false;
+        if(isArray){
+            const {LOCATION,SHORTCODE,INSTITUTION} = array[0];
+            shortcode.value = SHORTCODE ;
+            institution.value= INSTITUTION;
+            locationx.value = LOCATION;
+            givestate()
+        }
+    }
+
+     const noInstitution = function(){
+       return tableBody.innerHTML = `<tr><td colspan="12">No instituition added!!!</td></tr>`;
+    }
+
+    </script>
+</body>
+
 <%- include('footer.ejs') %>
