@@ -45,23 +45,26 @@
                        </div>
                        <div class="form-row">
                           <label for="scan">scan</label>
-                          <select name="scan" id="scan" class="form-control">
+                          <input type="text" class="form-control" id="scan" list ="scanlist" multiple>
+                          <datalist name="scan" id="scanlist">
       
-                          </select>
+                          </datalist>
                        </div>
                     </div>
                     <div class="split">
                         <div class="form-row">
                             <label for="referer">referer</label>
-                            <select required name="referer" id="referer" class="form-control">
+                             <input  class="form-control" id="referer" list="refererlist">
+                            <datalist required name="referer" id="refererlist">
                                 
-                            </select>
+                            </datalist>
                          </div>
                          <div class="form-row">
                             <label for="institution">institution</label>
-                            <select  name="institution" id="institution" class="form-control">
-                                
-                            </select>
+                            <input  name="institution" id="institution" class="form-control" list="institutionlist">
+                            <datalist  required id="institutionlist" name="institution">
+                              
+                            </datalist>
                          </div>
                          <div class="form-row">
                             <label for="payment-mode">payment mode</label>

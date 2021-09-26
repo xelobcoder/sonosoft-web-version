@@ -1,14 +1,14 @@
 window.onload = (ev) => {
-    let fullname = document.getElementById('fullname');
-    let scan = document.getElementById('scan');
-    let age = document.getElementById('age');
-    let paymentMode = document.getElementById('paymentMode');
-    let referer = document.getElementById("referer");
-    let institution = document.getElementById("institution");
-    let amountPaid = document.getElementById("amountPaid");
-    let discount = document.getElementById("discount");
-    let state = document.getElementById("state");
-    let momoID = document.getElementById("transaction")
+    const  fullname = document.getElementById('fullname');
+    const  scan = document.getElementById('scan');
+    const  age = document.getElementById('age');
+    const paymentMode = document.getElementById('paymentMode');
+    const referer = document.getElementById("referer");
+    const institution = document.getElementById("institution");
+    const amountPaid = document.getElementById("amountPaid");
+    const discount = document.getElementById("discount");
+    const state = document.getElementById("state");
+    const momoID = document.getElementById("transaction")
 
     // form reset function;
 
@@ -62,57 +62,59 @@ window.onload = (ev) => {
             }
         )
     }
-
-    let amound_To_be_paid = function(discount,cost){
-        if(discount === 0 ){
-            return cost;
-        }
-      return cost - discount;
-    }
-
-    let validatePayment = function(n,p){
-        let message = document.querySelector("messageDx");
-        if(p > n || n > p){
-           return message.innerHTML = n + "Expected." + "kindly check on payment";            
-        }
-        return true;
-    }
-    
-    
-
-    // tooglePaymentMode()
-
-    emptyInputs()
-
-    let data = {
-        fullname : fullname.value,
-        gender : gender.value,
-        age : age.value,
-        scan :scan.value,
-        paymentmode: paymentMode.value,
-        referer : referer.value,
-        amountPaid : amountPaid.value
-    }
-
-    const Forward_Data = function(object,accesscontrol,api){
-       if(typeof(object) != "object"){
-           return new Error("object required");
-       }
-       if(typeof(object) === "object" && object.hasOwnProperty(accesscontrol) == false){
-           return `Atleast object must contain ${accesscontrol}`;
-       }
-       const register = function(){
-           const xhr = new XMLHttpRequest();
-           xhr.open("POST","" )
-           xhr.setRequestHeader("content-type","application/json");
-           xhr.onreadystatechange = function(){
-               if(xhr.readyState === 4 && xhr.status === 200){
-                 
-               }
+    // This return html into the datalist 
+    let htmlrender = function(p,a,name){
+        let parentElement = document.getElementById(p);
+        const isArray =  Array.isArray(a) ?  true : false;
+        if(isArray){
+           let html = function(v){
+              return (`<option value = "${v[name]}">${v[name]}</option>`);
            }
-           xhr.send();
-       }
-       register();
+           let insertion =  a.map( function(t){return html(t);}).join("");
+           console.log(insertion)
+           parentElement.innerHTML = insertion;
+        }
     }
+
+    // function to get api
+    let apiDeliverer = async function(api){
+        return await fetch(api) 
+    }
+
+    // deliver options into institution
+    const renderInstituition = function(){
+        let promise = apiDeliverer("http://localhost:8000/institutions")
+        promise.then ( (response) => {return response.json()})
+        .then ( (response) => { 
+            htmlrender("institutionlist",response,"INSTITUTION");
+        })
+        .catch( (err) =>  { if(err) throw err});
+    }
+
+    renderInstituition()
+
+
+    const renderClinician = function(){
+       let promise = apiDeliverer("http://localhost:8000/referers")
+       promise.then ( (response) => { return response.json()})
+       .then( (response) => { 
+           htmlrender("refererlist",response,"REFERER")
+       })
+       .catch( (err)  => {if(err) throw err;})
+    }
+
+    renderClinician();
+
+
+    const renderScan = function(){
+        let promise = apiDeliverer("http://localhost:8000/scanpanel")
+        promise.then ( (response) => {return response.json()})
+        .then ( (response) => { 
+            htmlrender("scanlist",response,"SCANS");
+        })
+        .catch( (err) =>  { if(err) throw err});
+    }
+   
+    renderScan();
 
 }

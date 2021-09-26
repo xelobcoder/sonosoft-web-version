@@ -32,6 +32,9 @@ router.route("/registration")
         discount,
         cost  
     } = request.body;
+
+
+    console.log(rquest.body);
 })
 
 
