@@ -30,11 +30,38 @@ router.route("/registration")
         state,
         amountpaid,
         discount,
-        cost  
+        cost,
+        momoID,
+        ageCategory,
+        scan,
+        paymentMode
+
     } = request.body;
 
+    const mysql =  `INSERT INTO REGISTRATION(
+        FULLNAME, AGE, GENDER,AGE_CATEGORY,SCAN,REFERER,INSTITUTION,
+        PAYMENT_MODE,AMOUNT_PAID,DISCOUNT,STATE,TRANSACTIONID,HISTORY,COST
+    ) VALUES ( 
+        "${fullname}",
+         "${age}", 
+         "${gender}",
+         "${ageCategory}",
+         "${scan}",
+         "${referer}",
+         "${institution}",
+         "${paymentMode}",
+         "${amountpaid}",
+         "${discount}",
+         "${state}",
+         "${momoID}",
+         "${history}",
+         "${cost}"
+         )`;
 
-    console.log(rquest.body);
+         connection.query( mysql, function(err,results,fields){
+             if(err) throw err;
+             response.send(results);
+         })
 })
 
 

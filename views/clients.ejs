@@ -1,0 +1,42 @@
+<%- include('header.ejs') %>
+<body>
+  <section style="display: grid; grid-template-columns: 15% auto;">
+      <aside>
+         <%- include('sidebar.ejs') %>
+      </aside>
+      <main>
+        <%- include('queryboard.ejs') %>
+        <div class="list-section">
+           <div class="wrapper">
+              <table class="table">
+                 <thead>
+                   <tr>
+                     <th>#</th>
+                     <th>customerID</th>
+                     <th>fullname</th>
+                     <th>gender</th>
+                     <th>age</th>
+                     <th>referer</th>
+                     <th>institution</th>
+                     <th>scan</th>
+                     <th>cost</th>
+                     <th>paid amount</th>
+                     <th>discount</th>
+                     <th>edit</th>
+                     <th>delete</th>
+                     <th>view history</th>
+                   </tr>
+                 </thead>
+                 <tbody class="tbody">
+
+                 </tbody>
+                 <tfoot>
+
+                 </tfoot>
+              </table>
+           </div>
+        </div>
+      </main>
+  </section>
+</body>
+<%- include('footer.ejs') %>

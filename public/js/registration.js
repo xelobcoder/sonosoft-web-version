@@ -2,13 +2,17 @@ window.onload = (ev) => {
     const  fullname = document.getElementById('fullname');
     const  scan = document.getElementById('scan');
     const  age = document.getElementById('age');
+    const ageCategory = document.getElementById("years")
     const paymentMode = document.getElementById('paymentMode');
     const referer = document.getElementById("referer");
     const institution = document.getElementById("institution");
-    const amountPaid = document.getElementById("amountPaid");
+    const amountPaid = document.getElementById("amount-paid");
     const discount = document.getElementById("discount");
     const state = document.getElementById("state");
     const momoID = document.getElementById("transaction")
+    const cost = document.getElementById("cost");
+    const gender = document.getElementById("gender");
+    const history = document.getElementById("history");
 
     // form reset function;
 
@@ -117,4 +121,64 @@ window.onload = (ev) => {
    
     renderScan();
 
+    
+
+    const saveButton = document.getElementById("saveButton");
+
+    const check = function(){
+        const inputs = document.forms["registration-form"].getElementsByTagName("input");
+        const selects = document.forms["registration-form"].getElementsByTagName("select");
+        Array.from(inputs).map(
+            function(item){
+                if(item.value === 0 && item.hasAttribute("required")
+                || item.value === "" && item.hasAttribute("required")){
+                    item.style.border = "2px solid red";
+                    item.setAttribute("placeholder","Required");
+                    item.style.color = "red";
+                }
+            }
+        )    
+    }
+
+    saveButton.onclick = function(event){
+        const customer = {
+            fullname : fullname.value,
+            scan : scan.value,
+            age : age.value,
+            ageCategory : ageCategory.value,
+            paymentmode : paymentMode.value,
+            referer : referer.value,
+            institution : institution.value,
+            amountpaid : amountPaid.value,
+            discount : discount.value,
+            state : state.value,
+            momoID : momoID.value || null,
+            history : history.value,
+            cost : cost.value || 0,
+            gender : gender.value
+        }
+
+        if(fullname.value === "" || scan.value === "" || age.value === 0   || referer.value === ""){
+            event.preventDefault();
+            check();
+        }else{
+            deliverPost("http://localhost:8000/registration",customer,"POST")
+            .then ( function(res){
+                return res.json();
+            })
+            .then ( function(res){
+                console.log(res);
+            }).catch( (err)=>{ if(err) throw err;})
+        }
+    }
+
+    let deliverPost = async function(api,data,methodtype){
+       return await fetch(api,{
+           method : methodtype,
+           headers : {
+               "content-type" : "application/json"
+           },
+           body: JSON.stringify(data)
+       })
+    }
 }

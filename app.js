@@ -7,6 +7,7 @@ const connection = require("./models/database");
 const scanpanels = require ("./models/routers/scan");
 const referer = require("./models/routers/referer");
 const registration = require("./models/registration");
+const { response } = require("express");
 
 
 app.set("view engine","ejs");
@@ -95,4 +96,9 @@ app.get("/institutions/:id", function(request,response){
         )
     }
     retrieveSingle();
+})
+
+
+app.get("/clients", function(request,response){
+    response.render("clients")
 })

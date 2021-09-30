@@ -6,17 +6,7 @@
         <%- include('sidebar.ejs') %>
        </aside>
        <main>
-           <section id="top-section">
-            <div>
-                <div style="display: none;" class="alert alert-primary" id="messagesDx">
-
-                </div>
-            </div>
-              <div id="search-query">
-                <input type="number" id="sharp-search" class="form-control" style="display: flex; justify-content: flex-end; width: 200px;">
-                <button type="button" class="btn btn-primary" style="padding: 10px 30px; border-radius: 30px;">search</button>
-              </div>
-            </section>
+        <%- include('queryboard.ejs') %>
            <section id="registration">
                <form action="" id="registration-form">
                     <div class="split">
@@ -45,7 +35,7 @@
                        </div>
                        <div class="form-row">
                           <label for="scan">scan</label>
-                          <input type="text" class="form-control" id="scan" list ="scanlist" multiple>
+                          <input type="text" required class="form-control" id="scan" list ="scanlist" multiple>
                           <datalist name="scan" id="scanlist">
       
                           </datalist>
@@ -54,25 +44,22 @@
                     <div class="split">
                         <div class="form-row">
                             <label for="referer">referer</label>
-                             <input  class="form-control" id="referer" list="refererlist">
+                             <input required  class="form-control" id="referer" list="refererlist">
                             <datalist required name="referer" id="refererlist">
                                 
                             </datalist>
                          </div>
                          <div class="form-row">
                             <label for="institution">institution</label>
-                            <input  name="institution" id="institution" class="form-control" list="institutionlist">
+                            <input required name="institution" id="institution" class="form-control" list="institutionlist">
                             <datalist  required id="institutionlist" name="institution">
                               
                             </datalist>
                          </div>
                          <div class="form-row">
-                            <label for="payment-mode">payment mode</label>
-                            <select name="payment-mode" id="paymentMode" class="form-control">
-                                <option value="cash">cash</option>
-                                <option value="momo">momo</option>
-                            </select>
-                         </div>
+                            <label for="">cost</label>
+                            <input type="number" name="cost" disabled id="cost" class="form-control">
+                        </div>
                          <div class="form-row">
                             <label for="amount-paid">amount paid</label>
                             <input  required type="number" class="form-control" id="amount-paid">
@@ -80,6 +67,13 @@
                          <div class="form-row">
                             <label for="discount">discount</label>
                             <input type="discount" class="form-control" id="discount">
+                         </div>
+                          <div class="form-row">
+                            <label for="payment-mode">payment mode</label>
+                            <select name="payment-mode" id="paymentMode" class="form-control">
+                                <option value="cash">cash</option>
+                                <option value="momo">momo</option>
+                            </select>
                          </div>
                          <div class="form-row">
                              <label for="state">state</label>
@@ -93,9 +87,13 @@
                             <label for="transaction">transaction id</label>
                             <input type="number" class="form-control" id="transaction">
                          </div>
+                         <div class="form-row">
+                             <label for="">history</label>
+                             <textarea name="history" id="history" cols="30" rows="10"></textarea>
+                         </div>
                     </div>
                  <div class="form-row mt-3">
-                     <button type="button" class="btn btn-outline-primary">save</button>
+                     <button type="button" class="btn btn-outline-primary" id="saveButton">save</button>
                      <button type="button" class="btn btn-outline-info" id="cancelButton">cancel</button>
                      <button type="button" class="btn btn-outline-danger">delete</button>
                  </div>
