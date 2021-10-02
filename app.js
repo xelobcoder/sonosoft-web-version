@@ -102,3 +102,10 @@ app.get("/institutions/:id", function(request,response){
 app.get("/clients", function(request,response){
     response.render("clients")
 })
+
+
+app.get("/finance", 
+    function(request,response) {
+        response.render("finance")
+    }
+)
