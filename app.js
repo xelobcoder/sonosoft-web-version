@@ -1,5 +1,8 @@
 const express = require("express");
+const http = require ("http");
 const app = express();
+const server = http.createServer(app);
+const io= require("socket.io")(server);
 const ejs = require("ejs");
 const path = require("path");
 const institutions = require("./models/routers/institution");
@@ -7,26 +10,30 @@ const connection = require("./models/database");
 const scanpanels = require ("./models/routers/scan");
 const referer = require("./models/routers/referer");
 const registration = require("./models/registration");
-const { response } = require("express");
 
 
 app.set("view engine","ejs");
 
 
+
 const port = 8000 || process.env.PORT;
 app.use(express.static(path.join(__dirname ,"public")));
-
 app.use('/js', express.static(path.join(__dirname, 'public')));
 app.use("/css",express.static(path.join(__dirname,"public")));
 app.use(institutions);
 app.use(scanpanels);
 app.use(referer);
 app.use(registration);
-app.listen(port, function(err){
+server.listen(port, function(err){
     if(err){
         throw err;
     }
     console.log("connection is successfull");
+})
+
+
+io.on("connection", function(socket){
+    console.log(`socket connected by user ${socket.id}`);
 })
 
 
@@ -103,9 +110,8 @@ app.get("/clients", function(request,response){
     response.render("clients")
 })
 
-
 app.get("/finance", 
     function(request,response) {
-        response.render("finance")
+        response.render("finance");
     }
 )

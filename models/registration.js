@@ -38,9 +38,11 @@ router.route("/registration")
 
     } = request.body;
 
+    const uniqueid = Date.now();
+
     const mysql =  `INSERT INTO REGISTRATION(
         FULLNAME, AGE, GENDER,AGE_CATEGORY,SCAN,REFERER,INSTITUTION,
-        PAYMENT_MODE,AMOUNT_PAID,DISCOUNT,STATE,TRANSACTIONID,HISTORY,COST
+        PAYMENT_MODE,AMOUNT_PAID,DISCOUNT,STATE,TRANSACTIONID,HISTORY,COST,UUID
     ) VALUES ( 
         "${fullname}",
          "${age}", 
@@ -55,12 +57,14 @@ router.route("/registration")
          "${state}",
          "${momoID}",
          "${history}",
-         "${cost}"
+         "${cost}",
+         "${uniqueid}"
          )`;
 
          connection.query( mysql, function(err,results,fields){
              if(err) throw err;
              response.send(results);
+
          })
 })
 
