@@ -63,8 +63,10 @@ router.route("/registration")
 
          connection.query( mysql, function(err,results,fields){
              if(err) throw err;
-             response.send(results);
-
+             response.send({
+                 message: "insertion successfull",
+                 field: results
+             })
          })
 })
 

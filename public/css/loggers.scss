@@ -50,3 +50,74 @@
     background-color: lightgray;
     padding: 10px 20px;
 }
+
+.panel{
+    margin: 10px;
+    border: 1px solid lightgray;
+    padding: 0;
+    height: 500px;
+    border-radius: 5px;
+    .panel-header,.panel-body{
+        border-bottom: 1px solid lightgray;
+    }
+    .panel-header{
+        background-color: rgb(18, 49, 37);
+        color: white;
+        padding: 20px 20px;
+        font-style: italic;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        height: 50px;
+    }
+    .panel-body{
+        font-size: 13px;
+        padding: 10px 20px;
+        height: 400px;
+        line-height: 1.5rem;
+    }
+    .panel-footer{
+        height: 50px;
+    }
+}
+
+#history-section{
+    border-left: 1px solid lightgray;
+    height: 100vh;
+}
+
+th{
+    font-size: 15px !important;
+    color: gray;
+    font-weight: 400;
+}
+
+.template-list-section{
+    margin: 0;
+    padding: 0;
+    .wrapper{
+        display: grid;
+        padding: 5px 10px;
+        grid-template-columns: 50% auto;
+        grid-column-gap: 20px;
+        grid-row-gap: 20px;
+        .items{
+            border: 1px solid lightgray;
+            padding: 10px 10px;
+            display: grid;
+            grid-template-columns: 80% auto;
+            border-radius: 5px;
+            svg{
+                font-size: 25px !important;
+                color: aquamarine;
+            }
+        }
+        .items:hover{
+            background-color: whitesmoke;
+            color: black;
+            border: 2px solid black;
+        }
+        .items:visited{
+            border: 1px solid whitesmoke;
+        }
+    }
+}

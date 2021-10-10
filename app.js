@@ -56,6 +56,9 @@ app.get("/referer", function(request,response){
     response.render("referer");
 })
 
+app.get("/sonoqueue", function(request,response){
+    response.render("sonoqueue");
+})
 app.get("/institution", function(request,response){
     response.render("institution");
 })
