@@ -1,11 +1,75 @@
 <%- include('header.ejs') %>
+<%- include('top.ejs') %>
 <body>
-  <section>
-      <form action="" method="post" class="crl">
-         <label for="">
-              fetus number
-             <input type="text" class="form-control">
-         </label>
-      </form>
+  <div class="container-fluid bg-white">
+    <div class="container">
+      <div class="row">
+        <div style="display: flex;" class="col-9 p-2">
+          <div class="client-id" style="display: flex;">
+             <div style="margin-right: 5px;">ClientID:</div>
+             <div class="client-id" style="margin-right: 50px;">2673937373877</div>
+          </div>
+          <div style="display: flex;">
+             <div style="margin-right: 5px;">fullname:</div>
+             <div class="fullname ">Tiifu Hamza Kojo Boronson</div>
+          </div>
+        </div>
+         <div class="col p-2" style="display: flex; justify-content: end;">
+          <button type="button" style="padding: 10px 20px; color: black; border: 1px solid lightgray; border-radius: 5px; background: whitesmoke ;">preset</button>
+         </div>
+      </div>
+    </div>
+  </div>
+  <section style="display: grid; grid-template-columns: 20% 60% 20%;">
+     <div class="container-fluid bg-light text-danger">
+      
+     </div>
+      <div class="container-fluid">
+        <div class="container">
+          <div class="row">
+            <div class="col"  style="display: flex; justify-content: center;">
+              <form action="" method="post" class="crl" style="height: 600px; width: 700px; overflow-y: auto; padding: 10px;">
+                <label for="">pregnancy location</label>
+                <select name="pl" id="pl" class="form-control">
+                  <option value="intrauterine">intrauterine</option>
+                  <option value="extrauterine">extrauterine</option>
+                </select>
+                 <label for="">foetus number</label>
+                 <select name="fn" id="fn" class="form-control" >
+                   <option value="single">single</option>
+                   <option value="twins">twins</option>
+                   <option value="triplets">triplets</option>
+                 </select>
+                 <label for="">crl</label>
+                 <input type="number" name="crl" id="crl" class="form-control">
+                 <label for="">cardiac activity</label>
+                 <select name="ca" id="ca" class="form-control">
+                   <option value="present">positive</option>
+                   <option value="absent">negative</option>
+                 </select>
+                 <label for="">gestational age</label>
+                 <div class="d-flex">
+                    <input type="number" name="gs" id="gs" class="form-control mr-5" placeholder="weeks">
+                    <input type="text" name="gs-d" id="gs-d" class="form-control ml-5" placeholder="days">
+                 </div>
+                 <label for="">edd</label>
+                 <input type="date" name="edd" id="edd" class="form-control">
+                 <label for="">ovaries</label>
+                 <textarea name="ovaries" id="ovaries" class="form-control" cols="30" rows="3"></textarea>
+                 <label for="">adnexa</label>
+                 <textarea name="adnexa" id="adnexa" cols="30" class="form-control" rows="3"></textarea>
+                 <label for="">abnormal findings</label>
+                 <textarea name="ab" id="ab" cols="30" rows="3" class="form-control"></textarea>
+                 <label for="">impression</label>
+                 <textarea name="impression" id="impression" cols="30" rows="5" class="form-control"></textarea>
+                 <button type="button" class="btn btn-outline-success mt-3 d-flex">save</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container-fluid">
+      
+      </div>
   </section>
 </body>
