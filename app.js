@@ -63,6 +63,10 @@ app.get("/institution", function(request,response){
     response.render("institution");
 })
 
+app.get("/crl", function(request,response){
+    response.render("crl")
+})
+
 app.get("/scanpanel/:id", function(request,response){
     const deleteID = request.params.id
     const retrieveSingle = function(){
