@@ -1,0 +1,71 @@
+.panel-divider{
+    background-color: whitesmoke;
+    color: black;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    height: 100vh;
+    grid-template-columns: 20% 40% 20% 20%;
+    .panell{
+        border-right: 1px solid lightgray;
+        padding: 5px 10px;
+    }
+}
+
+textarea{
+    border: 1px solid white !important;
+    background-color:black !important;
+    color: white !important;
+}
+#panel-3{
+    section{
+        .grouper{
+            padding: 10px 10px;
+            color: black;
+            display: block;
+            div{
+                input{
+                    margin-top: 20px;
+                }
+            }
+        }
+    }
+}
+#panel-1{
+    padding: 0px 0px;
+    margin: 0px 0px;
+    .grouper-sidebar{
+        margin: 0;
+        padding: 0px;
+        .search{
+            display: flex;
+            margin-top: 20px;
+            justify-content: center;
+            
+        }
+        .group-list{
+            margin: 0;
+            padding: 0;
+            ul{
+                margin-left: 44px;
+                padding: 0;
+                margin-top: 20px;
+                li{
+                    list-style-type: none;
+                    padding: 5px 10px;
+                    border-bottom: 1px solid lightgray;
+                }
+                li:hover{
+                    border: 1px solid black;
+                }
+            }
+        }
+    }
+}
+#panel-2{
+    section{
+        overflow-y: auto;
+        height: 600px;
+        padding: 10px 20px;
+    }
+}

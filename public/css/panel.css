@@ -1,0 +1,80 @@
+.panel-divider {
+  background-color: whitesmoke;
+  color: black;
+  margin: 0;
+  padding: 0;
+  display: -ms-grid;
+  display: grid;
+  height: 100vh;
+  -ms-grid-columns: 20% 40% 20% 20%;
+      grid-template-columns: 20% 40% 20% 20%;
+}
+
+.panel-divider .panell {
+  border-right: 1px solid lightgray;
+  padding: 5px 10px;
+}
+
+textarea {
+  border: 1px solid white !important;
+  background-color: black !important;
+  color: white !important;
+}
+
+#panel-3 section .grouper {
+  padding: 10px 10px;
+  color: black;
+  display: block;
+}
+
+#panel-3 section .grouper div input {
+  margin-top: 20px;
+}
+
+#panel-1 {
+  padding: 0px 0px;
+  margin: 0px 0px;
+}
+
+#panel-1 .grouper-sidebar {
+  margin: 0;
+  padding: 0px;
+}
+
+#panel-1 .grouper-sidebar .search {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 20px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+#panel-1 .grouper-sidebar .group-list {
+  margin: 0;
+  padding: 0;
+}
+
+#panel-1 .grouper-sidebar .group-list ul {
+  margin-left: 44px;
+  padding: 0;
+  margin-top: 20px;
+}
+
+#panel-1 .grouper-sidebar .group-list ul li {
+  list-style-type: none;
+  padding: 5px 10px;
+  border-bottom: 1px solid lightgray;
+}
+
+#panel-1 .grouper-sidebar .group-list ul li:hover {
+  border: 1px solid black;
+}
+
+#panel-2 section {
+  overflow-y: auto;
+  height: 600px;
+  padding: 10px 20px;
+}
+/*# sourceMappingURL=panel.css.map */

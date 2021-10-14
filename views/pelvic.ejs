@@ -1,28 +1,111 @@
-<section>
-         <label for="">uterus</label>
-            <textarea id="uterus" class="form-control" name="uterus" cols="30" rows="3"> </textarea>
+<%- include('header.ejs') %>
+<%- include('top.ejs') %>
+<body>
+    <div class="container-fluid bg-white" >
+        <div class="container">
+          <div class="row">
+            <div style="display: flex;" class="col-9 p-2">
+              <div class="client-id col-4" style="display: flex;">
+                 <div style="margin-right: 5px;">ClientID:</div>
+                 <div class="client-id" style="margin-right: 50px;">
+                   <input type="number" name="clientid" id="clientid" class="form-control"  disabled>
+                </div>
+              </div>
+              <div style="display: flex;" class="col-5">
+                 <div style="margin-right: 5px;">fullname:</div>
+                 <div class="fullname">
+                   <input type="text" name="fullname" id="fullname" class="form-control" disabled> 
+                 </div>
+              </div>
+            </div>
+             <div class="col p-2" style="display: flex; justify-content: end;">
+              <button type="button" style="padding: 10px 20px; color: black; border: 1px solid lightgray; border-radius: 5px; background: whitesmoke ;">preset</button>
+             </div>
+          </div>
         </div>
-        <div class="form-row">
-            <label for="">right ovary</label>
-            <textarea id="rtovary" class="form-control" name="right-ovary" cols="30" rows="3"> </textarea>
+      </div>
+  <div class="panel-divider">
+    <div class="panell" id="panel-1">
+        <div class="grouper-sidebar">
+            <div class="search">
+                <input type="number" name="" id="searchid" placeholder="search with client id">
+            </div>
+            <div class="group-list">
+                 <ul>
+                     <li>2345678907743</li>
+                     <li>4567890985678</li>
+                 </ul>
+            </div>
         </div>
-        <div class="form-row">
-            <label for="">left ovary</label>
-            <textarea id="ltovary" class="form-control" name="left-ovary" cols="30" rows="3"> </textarea>
-        </div>
-        <div class="form-row">
-            <label for="">adnexa</label>
-            <textarea id="adnexa" class="form-control" name="adnexa" cols="30" rows="3"> </textarea>
-        </div>
-        <div class="form-row">
-            <label for="">pouch of douglas</label>
-            <textarea id="pod" class="form-control" name="pod" cols="30" rows="3"> </textarea>
-        </div>
-        <div class="form-row">
-            <label for="">impression</label>
-            <textarea id="impression" class="form-control" name="impression" cols="30" rows="3"> </textarea>
-        </div>
-        <div class="form-row">
-            <button class="btn btn-primary">save</button>
-        </div>
-</section>
+    </div>
+    <div class="panell" id="panel-2">
+       <section>
+           <form action="" method="post">
+            <div class="form-row">
+                <label for="">uterus</label>
+                   <textarea id="uterus" class="form-control" name="uterus" cols="30" rows="3"> </textarea>
+               </div>
+               <div class="form-row">
+                   <label for="">right ovary</label>
+                   <textarea id="rtovary" class="form-control" name="right-ovary" cols="30" rows="3"> </textarea>
+               </div>
+               <div class="form-row">
+                   <label for="">left ovary</label>
+                   <textarea id="ltovary" class="form-control" name="left-ovary" cols="30" rows="3"> </textarea>
+               </div>
+               <div class="form-row">
+                   <label for="">adnexa</label>
+                   <textarea id="adnexa" class="form-control" name="adnexa" cols="30" rows="3"> </textarea>
+               </div>
+               <div class="form-row">
+                   <label for="">pouch of douglas</label>
+                   <textarea id="pod" class="form-control" name="pod" cols="30" rows="3"> </textarea>
+               </div>
+               <div class="form-row">
+                   <label for="">impression</label>
+                   <textarea id="impression" class="form-control" name="impression" cols="30" rows="3"> </textarea>
+               </div>
+               <div class="form-row">
+                   <button class="btn btn-outline-success mt-3">save</button>
+               </div>
+           </form>
+   </section>
+    </div>
+    <div class="panell" id="panel-3">
+        <section>
+            <div class="grouper">
+                <label for="">uterus</label>
+                <div>
+                    <input class="short-input" placeholder="length" type="number" name="len" id="len">
+                    <input class="short-input" placeholder="width" type="number" name="width" id="width">
+                    <input class="short-input" placeholder="A-P" type="number" name="ap" id="ap">
+                </div>
+            </div>
+            <div class="grouper">
+                <label for="right ovary">right ovary</label>
+                <div>
+                    <input type="number" name="rt" id="rt" >
+                    <input type="number" name="rtl" id="rtl">
+                </div>
+            </div>
+
+            <div class="grouper">
+                <label for="left ovary">left ovary</label>
+                <div>
+                    <input type="number" name="lt" id="lt" >
+                    <input type="number" name="ltl" id="ltl">
+                </div>
+            </div>
+
+            <div class="grouper">
+                <label for="left ovary">POD(volume of fluid if present)</label>
+                <div>
+                    <input type="number" name="vol" id="vol"  placeholder="Vol in cm">
+                </div>
+            </div>
+            
+        </section>
+    </div>
+    <div class="panell" id="panel-4"></div>
+  </div>
+</body>

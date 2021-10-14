@@ -52,6 +52,9 @@ app.get("/scans", function(request,response){
     response.render("scan");
 })
 
+app.get("/pelvic", function(request,response){
+    response.render("pelvic")
+})
 app.get("/referer", function(request,response){
     response.render("referer");
 })
@@ -122,3 +125,9 @@ app.get("/finance",
         response.render("finance");
     }
 )
+
+// all templete rendering
+
+app.get("/msd", function(request,response){
+    response.render("msd");
+})
