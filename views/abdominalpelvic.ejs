@@ -40,7 +40,7 @@
        </div>
        <div class="panell" id="panel-2">
         <section>
-            <form action="/abdominal">
+            <form action="/abdominalpelvic">
                 <div class="form-row">
                     <label for="">liver</label>
                     <textarea id="liver" class="form-control" name="liver"> </textarea>
@@ -58,14 +58,21 @@
                     <textarea id="pancreas" class="form-control" name="pancreas" cols="30" rows="3"> </textarea>
                 </div>
                 <div class="form-row">
-                    <label for="">abdominal cavity</label>
-                    <textarea id="cavity" class="form-control" name="cavity" cols="30" rows="3"> </textarea>
-                </div>
-                <div class="form-row">
                     <label for="">other findings</label>
                     <textarea id="ofindings" class="form-control" name="ofindings" cols="30" rows="3"> </textarea>
                 </div>
-                <hr>
+                <div class="form-row">
+                    <label for="">uterus</label>
+                    <textarea id="uterus" class="form-control" name="uterus" cols="30" rows="3"> </textarea>
+                </div>
+                <div class="form-row">
+                    <label for="">ovaries</label>
+                    <textarea id="ovaries" class="form-control" name="ovaries" cols="30" rows="3"> </textarea>
+                </div>
+                <div class="form-row">
+                    <label for="">adnexa</label>
+                    <textarea id="adnexa" class="form-control" name="adnexa" cols="30" rows="3"> </textarea>
+                </div>
                 <div class="form-row">
                     <label for="">impression</label>
                     <textarea id="impression" class="form-control" name="impression" cols="30" rows="3"> </textarea>
@@ -77,7 +84,7 @@
         </section>
        </div>
        <div class="panell" id="panel-3">
-           <section>
+           <section style="padding: 10px 10px; overflow-y: auto; height: 650px;">
             <div class="grouper">
                 <label for="">liver</label>
                 <div>
@@ -108,6 +115,36 @@
                             <input class="short-input-2" placeholder="length" type="number" name="len" id="ltkidneylen">
                             <input class="short-input-2" placeholder="width" type="number" name="width" id="ltkidneywidth">
                         </div>
+                    </div>
+                    
+                </div>
+                <div class="grouper">
+                    <label for="">uterus</label>
+                    <div>
+                        <input class="short-input" placeholder="length" type="number" name="len" id="len">
+                        <input class="short-input" placeholder="width" type="number" name="width" id="width">
+                        <input class="short-input" placeholder="A-P" type="number" name="ap" id="ap">
+                    </div>
+                </div>
+                <div class="grouper">
+                    <label for="right ovary">right ovary</label>
+                    <div>
+                        <input type="number" name="rt" id="rt" >
+                        <input type="number" name="rtl" id="rtl">
+                    </div>
+                </div>
+                <div class="grouper">
+                    <label for="left ovary">left ovary</label>
+                    <div>
+                        <input type="number" name="lt" id="lt" >
+                        <input type="number" name="ltl" id="ltl">
+                    </div>
+                </div>
+    
+                <div class="grouper">
+                    <label for="pod">POD(volume of fluid if present)</label>
+                    <div>
+                        <input type="number" name="vol" id="vol"  placeholder="Vol in cm">
                     </div>
                 </div>
             </div>

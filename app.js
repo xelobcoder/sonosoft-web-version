@@ -55,10 +55,15 @@ app.get("/scans", function(request,response){
 app.get("/pelvic", function(request,response){
     response.render("pelvic")
 })
+app.get("/abdominal", function(request,response){
+    response.render("abdominal");
+})
 app.get("/referer", function(request,response){
     response.render("referer");
 })
-
+app.get("/abdominalpelvic", function(request,response){
+    response.render("abdominalpelvic")
+})
 app.get("/sonoqueue", function(request,response){
     response.render("sonoqueue");
 })
