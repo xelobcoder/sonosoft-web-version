@@ -10,6 +10,7 @@ const connection = require("./models/database");
 const scanpanels = require ("./models/routers/scan");
 const referer = require("./models/routers/referer");
 const registration = require("./models/registration");
+// const events = require("./models/events");
 
 
 app.set("view engine","ejs");
@@ -24,6 +25,7 @@ app.use(institutions);
 app.use(scanpanels);
 app.use(referer);
 app.use(registration);
+
 server.listen(port, function(err){
     if(err){
         throw err;

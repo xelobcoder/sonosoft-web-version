@@ -76,7 +76,35 @@ const connection = require("./database");
        })
    }
    get();
-    
+
 }
 
+
+  /**
+   * 
+   * @param {id} id transactional id of client which is unique for each client
+   * @param {panel} panel panel to seach if id is already present
+   * 
+   */
+    // return a promis
+   const isExist = async function(id,panel){
+        let query = `SELECT * FROM ${panel} WHERE ID = "${id}"`;
+        let dual = new Promise (
+            function(resolve,reject){
+                connection.query(query,
+                    function(err,results,fields){
+                        if(err) throw err;
+                        if(results){
+                             if(results.length === 0 ){
+                                 resolve(0)
+                             }else{
+                                 reject(1)
+                             }
+                        }
+                    }
+                )
+            }
+        )
+        return dual;
+   }
 
