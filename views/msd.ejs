@@ -32,7 +32,7 @@
         <div class="container">
           <div class="row">
             <div class="col"  style="display: flex; justify-content: center;">
-              <form action="" method="post" class="crl" style="height: 600px; width: 700px; overflow-y: auto; padding: 10px;">
+              <form name="msd-form" action="" method="post" class="crl" style="height: 600px; width: 700px; overflow-y: auto; padding: 10px;">
                 <label for="">pregnancy location</label>
                 <select name="pl" id="pl" class="form-control">
                   <option value="intrauterine">intrauterine</option>
@@ -62,7 +62,7 @@
                  <textarea name="ab" id="ab" cols="30" rows="3" class="form-control"></textarea>
                  <label for="">impression</label>
                  <textarea name="impression" id="impression" cols="30" rows="5" class="form-control"></textarea>
-                 <button type="button" class="btn btn-outline-success mt-3 d-flex">save</button>
+                 <button type="button" class="btn btn-outline-success mt-3 d-flex" id="save">save</button>
               </form>
             </div>
           </div>
@@ -72,4 +72,5 @@
       
       </div>
   </section>
+  <script src="/js/msd.js"></script>
 </body>

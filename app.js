@@ -5,6 +5,7 @@ const server = http.createServer(app);
 const io= require("socket.io")(server);
 const ejs = require("ejs");
 const path = require("path");
+const scanPanels = require ("./models/routers/msd");
 const institutions = require("./models/routers/institution");
 const connection = require("./models/database");
 const scanpanels = require ("./models/routers/scan");
@@ -23,6 +24,7 @@ app.use('/js', express.static(path.join(__dirname, 'public')));
 app.use("/css",express.static(path.join(__dirname,"public")));
 app.use(institutions);
 app.use(scanpanels);
+app.use(scanPanels);
 app.use(referer);
 app.use(registration);
 
