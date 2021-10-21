@@ -140,3 +140,8 @@ app.get("/finance",
 app.get("/msd", function(request,response){
     response.render("msd");
 })
+
+app.get("/scanpanel/scan/template/:id", function(request,response){
+    const uuid = request.params.id;
+    response.render("msd",{uuid})
+})
