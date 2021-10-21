@@ -46,7 +46,7 @@ window.onload = (ev) => {
             function(elem){
                elem.addEventListener("click",function(ev){
                   let data = getinfo(ev);
-                  window.location.href = `http://localhost:8000/scanpanel/scan/template/${data.UUID}`;
+                  window.location.href = `http://localhost:8000/abdominal/${data.UUID}`;
                });
             }
         )

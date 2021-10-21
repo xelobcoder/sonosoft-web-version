@@ -141,7 +141,8 @@ app.get("/msd", function(request,response){
     response.render("msd");
 })
 
-app.get("/scanpanel/scan/template/:id", function(request,response){
+app.get("/abdominal/:id", function(request,response){
     const uuid = request.params.id;
-    response.render("msd",{uuid})
+    console.log(uuid)
+    response.render("abdominal")
 })
