@@ -11,6 +11,7 @@ const connection = require("./models/database");
 const scanpanels = require ("./models/routers/scan");
 const referer = require("./models/routers/referer");
 const registration = require("./models/registration");
+const { Console } = require("console");
 // const events = require("./models/events");
 
 
@@ -143,6 +144,29 @@ app.get("/msd", function(request,response){
 
 app.get("/abdominal/:id", function(request,response){
     const uuid = request.params.id;
-    console.log(uuid)
-    response.render("abdominal")
+
+    const query = `SELECT * FROM REGISTRATION WHERE UUID = ${uuid}`;
+
+    connection.query(query, function(err,results,fields){
+        if(err) throw err;
+        if(results.length === 0){
+            response.render("customError",{message: "CUSTOMER ID NOT VALID"})
+        } else {
+            let result = {
+                transactionID : results[0]["UUID"],
+                fullname : results[0]["FULLNAME"],
+            }
+            response.render("abdominal",result);
+        }
+    })
+})
+
+app.get("/viewhistory/:id", (request,response) => {
+    const uuid = request.params.id;
+    const query = `SELECT HISTORY FROM REGISTRATION WHERE ID = "${uuid}"`;
+    connection.query(query, function(err,results,fields){
+       if(err) throw err;
+        response.send(results);
+        console.log(results)
+    })
 })

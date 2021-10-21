@@ -1,0 +1,42 @@
+<%- include('header.ejs') %>
+<body>
+    <div class="container-fluid bg-dark text-white p-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-11">
+                    <h3>sonosoft</h3>
+                </div>
+                <div class="col">
+                    <svg style="font-size: 30px !important;" xmlns="http://www.w3.org/2000/svg" width="50" title="logout" height="50" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
+                        <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+                      </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                     <div class="wrapper" style="display: flex; justify-content: center; align-content : center;">
+                        <div class="error">
+                            <div class="text mb-5">
+                                <h1>OOPS! NOTHING HERE TO DISPLAY</h1>
+                                <h2 style="margin-left: 100px;" class="mt-5"><%=message%></h2>
+                            </div>
+                            <div style="display: flex; justify-content: center;" ><button id="home" onclick="homepage()" class="btn btn-outline-primary mt-5" style="border-radius: 20px; padding: 10px 30px; ">
+                                back to home
+                            </button></div>
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const homepage = (ev) => {
+            window.location.href ="http://localhost:8000";
+        }
+    </script>
+</body>
