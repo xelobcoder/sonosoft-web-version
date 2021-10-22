@@ -25,7 +25,8 @@ window.onload = (ev) => {
             <td>${element.SCAN}</td>
             <td>${element.TIME}</td>
             <td>${element.STATE}</td>
-            <td historyid = "${element.ID}"><button class="btn btn-info" id="viewHistory"> view history</button></td>
+            <td> ${element.REFERER} </td>
+            <td historyid = "${element.ID}"><button class="btn btn-info" id="viewHistory">history</button></td>
             <td><button class="btn btn-danger" id="enter-result-btn">result</button></td>
          </tr>
         `)
@@ -73,16 +74,26 @@ window.onload = (ev) => {
 
     // monitoring all viewHistory button click;
 
-    const clearPanel = () => {
-        const panelBody = document.getElementById("history-section");
+    const showPanel = (text) => {
+        const panelBody = document.getElementById("panel-body");
         const hxpanel = document.querySelector(".panel");
         if(hxpanel.style.display = "none"){
             hxpanel.style.display = "block";
+            panelBody.innerHTML = text;
         } 
-        return hxpanel.style.display = "block";
+    }
+    //  hide history panel
+    
+    const hidePanel = () => {
+        const panelBody = document.getElementById("panel-body");
+        const hxpanel = document.querySelector(".panel");
+        if(hxpanel.style.display = "block"){
+             hxpanel.style.display ="none";
+             panelBody.innerHTML = "";
+        }
     }
 
-    clearPanel()
+    // preview history function
 
     const historyView = () => {
         const getid =  function(ev){
@@ -92,7 +103,7 @@ window.onload = (ev) => {
             return id;   
         }
         const viewHistoryBtn = document.querySelectorAll("#viewHistory");
-        
+        // received history of client using the transactional id
         const sendID = async function(id){
             let url = await fetch(`http://localhost:8000/viewhistory/${id}`);
             return url.json();
@@ -103,10 +114,24 @@ window.onload = (ev) => {
             function(item){
                 item.onclick = () => {
                    let id = getid(item);
-                   let hsitory = sendID(id).then ( (res) => { return res}).catch ( (err) =>  {if(err){ throw err}});
-                   console.log(hsitory);
+                   sendID(id).then ( (res) => { 
+                       let history = res[0]["HISTORY"];
+                       togglePanel.showed();
+                       showPanel(history);
+                   })
+                   .catch ( (err) =>  {if(err){ throw err}});
                 }
             }
         )
     }
+
+    // display history section
+
+
+  
+
+  
+
+
+
 }
