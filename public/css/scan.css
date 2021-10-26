@@ -130,4 +130,9 @@ body {
       -ms-flex-pack: end;
           justify-content: flex-end;
 }
+
+.name:hover {
+  background-color: white;
+  cursor: pointer;
+}
 /*# sourceMappingURL=scan.css.map */

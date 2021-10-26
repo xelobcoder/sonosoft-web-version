@@ -65,40 +65,6 @@
   padding: 10px 20px;
 }
 
-#history-section {
-  border-left: 1px solid lightgray;
-  height: 100vh;
-}
-
-#history-section .panel {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  width: 100%;
-  height: 50vh;
-  background-color: rgba(0, 0, 0, 0.11);
-  margin-left: 9px;
-}
-
-#history-section .panel .panel-wrapper .header {
-  color: white;
-  background-color: rgba(0, 0, 0, 0.322);
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  text-transform: uppercase;
-}
-
-#history-section .panel .panel-wrapper .body {
-  padding: 10px;
-}
-
 th {
   font-size: 15px !important;
   color: gray;
@@ -143,5 +109,55 @@ th {
 
 .template-list-section .wrapper .items:visited {
   border: 1px solid whitesmoke;
+}
+
+#modal-sonoqueue-view {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.212);
+  width: 100%;
+  height: 100vh;
+  display: none;
+}
+
+#modal-sonoqueue-view #content {
+  margin-top: 0;
+  margin-left: 75%;
+  height: 100vh;
+  background-color: white;
+  -webkit-transition: 300ms ease-in-out;
+  transition: 300ms ease-in-out;
+}
+
+#modal-sonoqueue-view #content .top-section {
+  position: relative;
+  top: 0;
+  text-align: center;
+  font-size: 30px !important;
+  background-color: whitesmoke;
+}
+
+#modal-sonoqueue-view #content #history-section {
+  padding: 10px 20px;
+}
+
+.close {
+  display: none;
+}
+
+.open {
+  display: block;
+}
+
+#close-wrapper {
+  border: 1px solid lightgray;
+  background-color: red;
+  color: white;
+  width: 50px;
+  height: 50px;
+  position: relative;
+  top: 0;
+  left: 85%;
 }
 /*# sourceMappingURL=loggers.css.map */

@@ -15,6 +15,20 @@ window.onload = (ev) => {
        return url.json();
     }
 
+    // hide scan selections
+
+    const hideScanSelection = function() {
+        const selection = document.querySelector(".template-list-section");
+        return selection.style.display ="none";
+    }
+
+    // shoe scan selections
+
+    const showScanSelection = () =>  {
+        const selection = document.querySelector(".template-list-section");
+        return selection.style.display = "block";
+    }
+
     const html  = function(element){
         return (`
         <tr tabindex= "${element.ID}" uuid = "${element.UUID}" client = "${element.FULLNAME}"">
@@ -38,8 +52,7 @@ window.onload = (ev) => {
             let parent = (element.target.parentElement).parentElement;
             return {
                 UUID: parent.getAttribute("uuid"),
-                FULLNAME: parent.getAttribute("client"),
-                SCAN : "MSD"
+                FULLNAME: parent.getAttribute("client")
             }
         }
 
@@ -47,7 +60,11 @@ window.onload = (ev) => {
             function(elem){
                elem.addEventListener("click",function(ev){
                   let data = getinfo(ev);
-                  window.location.href = `http://localhost:8000/abdominal/${data.UUID}`;
+                  openHistoryModal();
+                  hidePanel();
+                  showScanSelection();
+                  selectScan(data);
+                //   let direct =  window.location.href = `http://localhost:8000/abdominal/${data.UUID}`;
                });
             }
         )
@@ -77,9 +94,17 @@ window.onload = (ev) => {
     const showPanel = (text) => {
         const panelBody = document.getElementById("panel-body");
         const hxpanel = document.querySelector(".panel");
+        
+        const spliText = function(){
+            let splitted = text.split("\n");
+            let items =  splitted.map( (item) => {
+               return `<li>${item}</li>`;
+            });
+            return items;
+        }
         if(hxpanel.style.display = "none"){
             hxpanel.style.display = "block";
-            panelBody.innerHTML = text;
+            panelBody.innerHTML = `<ul>${spliText()}</ul>`;
         } 
     }
     //  hide history panel
@@ -116,8 +141,9 @@ window.onload = (ev) => {
                    let id = getid(item);
                    sendID(id).then ( (res) => { 
                        let history = res[0]["HISTORY"];
-                       togglePanel.showed();
+                       openHistoryModal();
                        showPanel(history);
+                       hideScanSelection();
                    })
                    .catch ( (err) =>  {if(err){ throw err}});
                 }
@@ -125,7 +151,75 @@ window.onload = (ev) => {
         )
     }
 
-    // display history section
+
+const openHistoryModal = function() {
+    const modal = document.getElementById("modal-sonoqueue-view");
+    modal.style.display ="block"
+}
+
+const closeHistoryModal = () => {
+    const modal = document.getElementById("modal-sonoqueue-view");
+    return modal.style.display = "none";
+}
+
+// close the modal
+
+// close tag
+
+const times = document.querySelector("#close-wrapper");
+
+times.onclick = function() {
+    closeHistoryModal();
+}
+
+
+const reloadPage =  (data,scan) => {
+    const {UUID,FULLNAME} = data;
+    console.log(scan)
+    switch(scan) {
+        case "MSD": 
+            window.location.href= `http://localhost:8000/msd/${UUID}`;
+        break;
+        case "ABDOMINAL":
+            window.location.href = `http://localhost:8000/abdominal/${UUID}`;
+        break;
+        case "ABDOMINAL_PELVIC":
+            window.location.href = `http://localhost:8000/abdominal_pelvic/${UUID}`;
+        break;
+        case "CRL":
+            window.location.href = `http://localhost:8000/crl/${UUID}`;
+        break;
+        case "UROLOGY":
+            window.location.href = `http://localhost:8000/urology/${UUID}`;
+        break;
+        default: 
+            return;
+    }
+}
+    
+
+const selectScan = (data) => {
+    const errorMesage = () =>  {
+        return new Error("objects required");
+    }
+
+    const isObject = typeof data === "object" ?  true : errorMesage;
+   
+    const items = document.querySelectorAll(".items > .name");
+    for(var i = 0; i < items.length; i++){
+        let item = items[i];
+        item.onclick = () => {
+            let selectedScan = item.getAttribute("log");
+            if(selectedScan != null && isObject ){
+               return  reloadPage(data,selectedScan);
+            } else {
+                return null;
+            }
+
+        }
+    }
+}
+
 
 
   

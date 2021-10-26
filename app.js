@@ -142,23 +142,52 @@ app.get("/msd", function(request,response){
     response.render("msd");
 })
 
-app.get("/abdominal/:id", function(request,response){
-    const uuid = request.params.id;
+//  renders template depending on selected scan on user input
 
-    const query = `SELECT * FROM REGISTRATION WHERE UUID = ${uuid}`;
+const renderTemplate =  (scan, id, response) => {
+    const query = `SELECT * FROM REGISTRATION WHERE UUID = ${id}`;
 
+    const templates = {
+        MSD: "msd",
+        ABDOMINAL : "abdominal",
+        CRL : "crl",
+        ABDOMINAL_PELVIC : "abdominalpelvic",
+        UROLOGY : "urology",
+        BREAST: "breast"
+    }
     connection.query(query, function(err,results,fields){
         if(err) throw err;
         if(results.length === 0){
+            // redirect to custom error templete pages with custom message
             response.render("customError",{message: "CUSTOMER ID NOT VALID"})
         } else {
             let result = {
                 transactionID : results[0]["UUID"],
                 fullname : results[0]["FULLNAME"],
             }
-            response.render("abdominal",result);
+            response.render(templates[scan],result);
         }
     })
+}
+
+app.get("/abdominal/:id", function(request,response){
+    const uuid = request.params.id;
+    renderTemplate("ABDOMINAL",uuid,response)
+})
+
+app.get("/msd/:id", function(request,response){
+    const uuid = request.params.id;
+    renderTemplate("MSD",uuid,response)
+})
+
+app.get("/crl/:id", function(request,response){
+    const uuid = request.params.id;
+    renderTemplate("CRL",uuid,response)
+})
+
+app.get("/abdominal_pelvic/:id", function(request,response){
+    const uuid = request.params.id;
+    renderTemplate("ABDOMINAL_PELVIC",uuid,response)
 })
 
 app.get("/viewhistory/:id", (request,response) => {
