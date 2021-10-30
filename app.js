@@ -13,6 +13,7 @@ const referer = require("./models/routers/referer");
 const registration = require("./models/registration");
 const session = require ("express-session");
 const events = require("./models/events");
+const authentication = require("./models/sessions/authentication");
 
 
 app.set("view engine","ejs");

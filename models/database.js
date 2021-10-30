@@ -1,6 +1,7 @@
 const mysql = require("mysql");
 
-class SonosoftDatabse {
+
+export default class SonosoftDatabase {
     constructor(host,user,password,database){
        this.host = host;
        this.user= user;
@@ -59,9 +60,9 @@ class SonosoftDatabse {
         const myquery =  `DELETE FROM ${tablename} WHERE ${columnName} = ${userid}`;
         this.createConnection.query(myquery , (err,results,field) => {
             if(err) throw err;
-            return results;
+            return;
         });
-        return ( this.createConnection.query(`SELECT * FROM ${tablename} WHERE ${columnName} = ${userid}`,
+        let confimation =  this.createConnection.query(`SELECT * FROM ${tablename} WHERE ${columnName} = ${userid}`,
         function (err,results,fields){
             if(err) throw err;
             if(results) {
@@ -71,12 +72,22 @@ class SonosoftDatabse {
                     return "deletion failed or ID dosent exist";
                 }
             }
-        }))
+        })
+        return confimation;
+    }
+    idExist = async function (id,columnName,tablename) {
+       if(typeof id != "number" && typeof (columnName) == "string") {
+           return;
+       } 
+       return (new Promise ( function(resolve,reject) {
+           this.createConnection.query(`SELECT * FROM ${tablename} WHERE ${columnName} = ${id}`,
+           function(err,results,fields){
+               if(err) {reject(err)};
+               resolve(results);
+           });
+
+       }))
     }
 }
 
 
-let connection = new SonosoftDatabse("localhost","root","","sonosoft_web_version");
-
-
-module.exports = connection.createConnection;
