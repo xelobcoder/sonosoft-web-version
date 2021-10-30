@@ -118,12 +118,10 @@ app.get("/institutions/:id", function(request,response){
     const deleteID = request.params.id
     const retrieveSingle = function(){
         const sql = `SELECT * FROM INSTITUTIONS WHERE ID = '${deleteID}'`;
-        connection.query(sql,
-            function(err,results,fields){
-                if(err) throw err;
-                response.send(results)
-            }
-        )
+        connection.query(sql,function(err,results,fields){
+            if(err) throw err;
+            response.send(results)
+        })
     }
     retrieveSingle();
 })

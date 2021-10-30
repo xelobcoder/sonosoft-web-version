@@ -1,7 +1,6 @@
 const mysql = require("mysql");
 
-
-export default class SonosoftDatabase {
+class SonosoftDatabase {
     constructor(host,user,password,database){
        this.host = host;
        this.user= user;
@@ -89,5 +88,13 @@ export default class SonosoftDatabase {
        }))
     }
 }
+ 
+
+const Connection = new SonosoftDatabase("localhost","root","","sonosoft_web_version");
+
+
+module.exports = Connection.createConnection;
+
+
 
 

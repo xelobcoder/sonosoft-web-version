@@ -1,5 +1,4 @@
 const bcrypt = require ("bcrypt");
-import SonosoftDatabase  from "../database";
 
 
 /**
@@ -15,13 +14,21 @@ class  Authentication {
         this.rounds = saltrounds;
     }
 
-    validateUsername = async function() {
-       
+    hashUsername = async function() {
+        let salt = await bcrypt.genSalt();
+        let hashed = await bcrypt.hash(this.username,salt);
+        return await hashed;
     }
+
+    hashPassword = async function() {
+        let salt = await bcrypt.gen();
+        let hashed = await bcrypt.hash(this.password,salt);
+        return await hashed;
+    }
+
+    
 }
 
+const connection = new Authentication("username","password",12);
 
-const hashName = new Authentication("username","password",12);
 
-
-console.log(SonosoftDatabase)
