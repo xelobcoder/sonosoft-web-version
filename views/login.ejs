@@ -8,7 +8,7 @@
                     <h4>login</h4>
                 </div>
                 <div class="col">
-                    <button type="button" class="btn text-white"> request for access</button>
+                    <button type="button" class="btn btn-outline-primary text-white"  style="padding: 10px 20px; border-radius: 20px; border: 1px solid lightgray;"> request for access</button>
                 </div>
             </div>
         </div>
@@ -18,17 +18,17 @@
        <div class="container">
            <div class="row">
                <div class="col">
-                   <form action="/login" method="post">
-                        <div class="message">
+                   <form action="/login" method="post" style="margin: 50px 350px 0px 350px; background-color: white; padding: 40px 40px; border: 1px solid lightgray;">
+                        <div class="message" style="display: none;">
                             <div class="alert alert-primary">
                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit quaerat, modi quidem quam nemo ducimus sit debitis maxime numquam dolor.
                             </div>
                         </div>
-                        <label for="">username</label>
+                        <label for="" class="mb-3">username</label>
                         <input type="text" name="username" required autocomplete="username" autofocus id="username" class="form-control">
-                        <label for="">password</label>
+                        <label for="" class="mb-3">password</label>
                         <input type="password" name="passoword" required  id="password" class="form-control">
-                        <button type="button" class="btn">login</button>
+                        <button type="button" class="btn btn-outline-primary" style="margin-top: 20px; padding: 10px 20px; border-radius: 15px;" >login</button>
                    </form>
                </div>
            </div>

@@ -104,3 +104,6 @@ const connection = require("./database");
         )
    }
 
+
+   module.exports = { deleteID, isExist,GetAll,paymentAmount};
+

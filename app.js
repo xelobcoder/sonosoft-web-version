@@ -12,7 +12,7 @@ const scanpanels = require ("./models/routers/scan");
 const referer = require("./models/routers/referer");
 const registration = require("./models/registration");
 const session = require ("express-session");
-// const events = require("./models/events");
+const events = require("./models/events");
 
 
 app.set("view engine","ejs");
@@ -79,7 +79,9 @@ app.get("/institution", function(request,response){
 app.get("/crl", function(request,response){
     response.render("crl")
 })
-
+app.get("/requestaccess", function(request,response){
+    response.render("requestaccess")
+})
 app.get("/scanpanel/:id", function(request,response){
     const deleteID = request.params.id
     const retrieveSingle = function(){

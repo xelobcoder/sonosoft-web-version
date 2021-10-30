@@ -1,0 +1,17 @@
+#requestAccess {
+  margin: 0;
+  padding: 20px 20px;
+}
+
+#requestAccess .form-row {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 20% 80%;
+      grid-template-columns: 20% 80%;
+}
+
+#requestAccess .form-row label {
+  text-transform: capitalize;
+  color: gray;
+}
+/*# sourceMappingURL=request.css.map */

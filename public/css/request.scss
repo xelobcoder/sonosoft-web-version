@@ -1,0 +1,12 @@
+#requestAccess{
+    margin: 0;
+    padding: 20px 20px;
+    .form-row{
+        display: grid;
+        grid-template-columns: 20% 80%;
+        label{
+            text-transform: capitalize;
+            color: gray;
+        }
+    }
+}

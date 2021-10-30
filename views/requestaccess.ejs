@@ -1,0 +1,46 @@
+<%- include ("header.ejs") -%>
+<body style="background-color: white !important;">
+    <!-- header of the page -->
+    <div class="container-fluid bg-primary p-3 text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-10">
+                    <h4>Request access</h4>
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-outline-primary text-white"  style="padding: 10px 20px; border-radius: 20px; border: 1px solid lightgray;">login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <form action="" method="post" id="requestAccess">
+                        <div class="form-row">
+                            <label for="">fullname</label>
+                            <input type="text" name="fullname" id="fullname" class="form-control">
+                        </div>
+                        <div class="form-row">
+                            <label for="">staff id</label>
+                            <input type="number" name="staffid" id="staffid" class="form-control">
+                        </div>
+                        <div class="form-row">
+                            <label for="">role</label>
+                            <input type="text" name="role" id="role" class="form-control">
+                        </div>
+                       <div class="form-row">
+                           <label for="">profession</label>
+                           <input type="text" name="profession" id="profession" class="form-control">
+                       </div>
+                       <div class="form-row">
+                           <button type="button" class="btn btn-primary mt-3">submit</button>
+                       </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
