@@ -1,0 +1,37 @@
+<%- include ("header.ejs") -%>
+<body>
+    <!-- header of the page -->
+    <div class="container-fluid bg-primary p-3 text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-10">
+                    <h4>login</h4>
+                </div>
+                <div class="col">
+                    <button type="button" class="btn text-white"> request for access</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- login section of the page -->
+   <div class="container-fluid">
+       <div class="container">
+           <div class="row">
+               <div class="col">
+                   <form action="/login" method="post">
+                        <div class="message">
+                            <div class="alert alert-primary">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit quaerat, modi quidem quam nemo ducimus sit debitis maxime numquam dolor.
+                            </div>
+                        </div>
+                        <label for="">username</label>
+                        <input type="text" name="username" required autocomplete="username" autofocus id="username" class="form-control">
+                        <label for="">password</label>
+                        <input type="password" name="passoword" required  id="password" class="form-control">
+                        <button type="button" class="btn">login</button>
+                   </form>
+               </div>
+           </div>
+       </div>
+   </div>
+</body>

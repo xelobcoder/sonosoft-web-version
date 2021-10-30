@@ -11,7 +11,7 @@ const connection = require("./models/database");
 const scanpanels = require ("./models/routers/scan");
 const referer = require("./models/routers/referer");
 const registration = require("./models/registration");
-const { Console } = require("console");
+const session = require ("express-session");
 // const events = require("./models/events");
 
 
@@ -190,6 +190,9 @@ app.get("/abdominal_pelvic/:id", function(request,response){
     renderTemplate("ABDOMINAL_PELVIC",uuid,response)
 })
 
+app.get("/login", (req,res) => {
+    res.render("login");
+})
 app.get("/viewhistory/:id", (request,response) => {
     const uuid = request.params.id;
     const query = `SELECT HISTORY FROM REGISTRATION WHERE ID = "${uuid}"`;
