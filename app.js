@@ -194,6 +194,12 @@ app.get("/abdominal_pelvic/:id", function(request,response){
 app.get("/login", (req,res) => {
     res.render("login");
 })
+
+app.get("/addUser", (req,res) => {
+    res.render("adduser");
+})
+
+
 app.get("/viewhistory/:id", (request,response) => {
     const uuid = request.params.id;
     const query = `SELECT HISTORY FROM REGISTRATION WHERE ID = "${uuid}"`;
@@ -203,3 +209,25 @@ app.get("/viewhistory/:id", (request,response) => {
         console.log(results)
     })
 })
+
+
+app.post ("/authenticateUser" , function(request,response){
+    const {username ,password } = request.body;
+    let authenticate = new authentication(username,password);
+    authenticate.hasUsername()
+    .then( (t) =>  {
+        if(t > 1) {
+            authenticate.comparePassword()
+        } else {
+            response.send({message: "No username found", action: "kindly request for access"});
+        }
+    }).catch (error => {throw error})
+
+    authenticate.saveLoginDetails();
+})
+
+app.post("/newusers" , (request,response) => {
+    console.log(request.body)
+})
+
+

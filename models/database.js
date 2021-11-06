@@ -74,6 +74,13 @@ class SonosoftDatabase {
         })
         return confimation;
     }
+    /**
+     * 
+     * @param {id} id id to check if exist
+     * @param {columnName} columnName  name of column to search
+     * @param {tableName} tablename  name of the table to search from
+     * @returns 
+     */
     idExist = async function (id,columnName,tablename) {
        if(typeof id != "number" && typeof (columnName) == "string") {
            return;
