@@ -1,107 +1,119 @@
-const mysql = require("mysql");
+const createConnection = require('./db')
 
 class SonosoftDatabase {
-    constructor(host,user,password,database){
-       this.host = host;
-       this.user= user;
-       this.password = password;
-       this.database = database;
-    }
-
-    createConnection = mysql.createConnection({
-        host: "localhost",
-        user: "root",
-        password: "",
-        database :"sonosoft_web_version"
-    })
-
-    connection = this.createConnection.connect( function(err){
-        if(err) throw err;
-        console.log("connection to database successfull");
-    })
-    
-    addNewColumn = function(columnName, position,tableName, columnDefinition) {
-        let afterquery = `ALTER TABLE ${tableName}
+  constructor() {
+    this.host = 'localhost'
+    this.user = 'root'
+    this.password = ''
+    this.database = 'sonosoft_web_version'
+  }
+  addNewColumn = function (columnName, position, tableName, columnDefinition) {
+    let afterquery = `ALTER TABLE ${tableName}
          ADD COLUMN ${columnName} ${columnDefinition} AFTER ${position};
-        `;
+        `
 
-        let firstquery = `ALTER TABLE ${tableName}
+    let firstquery = `ALTER TABLE ${tableName}
         ADD COLUMN ${columnName} ${columnDefinition} first;
-        `;
+        `
 
-        if(position != null && position != "first") {
-            this.createConnection.query(afterquery,(err,results,fields) => {
-                if(err) throw err;
-                return results;
-            })
-        } else if (position != null && position == "first") {
-            this.createConnection.query ( firstquery, (err,results,field) => {
-                if(err) throw err;
-                return results;
-            })
-        } else {
-            this.createConnection.query(`ALTER TABLE ${tableName}
-            ADD COLUMN ${columnName} ${columnDefinition} `, (err,results,fields) => {
-                if(err) throw err;
-                return results;
-            })
+    if (position != null && position != 'first') {
+      createConnection.query(afterquery, (err, results, fields) => {
+        if (err) throw err
+        return results
+      })
+    } else if (position != null && position == 'first') {
+      createConnection.query(firstquery, (err, results, field) => {
+        if (err) throw err
+        return results
+      })
+    } else {
+      createConnection.query(
+        `ALTER TABLE ${tableName}
+            ADD COLUMN ${columnName} ${columnDefinition} `,
+        (err, results, fields) => {
+          if (err) throw err
+          return results
+        },
+      )
+    }
+  }
+  deleteUserUsingPrimaryID = function (userid, tablename) {
+    const myquery = `DELETE FROM ${tablename} WHERE ID = ${userid}`
+    createConnection.query(myquery, (err, results, field) => {
+      if (err) throw err
+      return results
+    })
+  }
+
+  deleteUserUsingTransactionID = function (userid, tablename, columnName) {
+    const myquery = `DELETE FROM ${tablename} WHERE ${columnName} = ${userid}`
+    createConnection.query(myquery, (err, results, field) => {
+      if (err) throw err
+      return
+    })
+    let confimation = createConnection.query(
+      `SELECT * FROM ${tablename} WHERE ${columnName} = ${userid}`,
+      function (err, results, fields) {
+        if (err) throw err
+        if (results) {
+          if (results.length === 0) {
+            return 'deleted successfully'
+          } else {
+            return 'deletion failed or ID dosent exist'
+          }
         }
+      },
+    )
+    return confimation
+  }
+  /**
+   *
+   * @param {id} id id to check if exist
+   * @param {columnName} columnName  name of column to search
+   * @param {tableName} tablename  name of the table to search from
+   * @returns
+   */
+  idExist = async function (id, columnName, tablename) {
+    if (typeof id != 'number' && typeof columnName == 'string') {
+      return
     }
-    deleteUserUsingPrimaryID= function (userid , tablename) {
-        const myquery =  `DELETE FROM ${tablename} WHERE ID = ${userid}`;
-        this.createConnection.query(myquery , (err,results,field) => {
-            if(err) throw err;
-            return results;
-        })
-    }
+    return new Promise(function (resolve, reject) {
+      createConnection.query(
+        `SELECT * FROM ${tablename} WHERE ${columnName} = ${id}`,
+        function (err, results, fields) {
+          if (err) {
+            reject(err)
+          }
+          resolve(results)
+        },
+      )
+    })
+  }
 
-    deleteUserUsingTransactionID =  function (userid , tablename , columnName) {
-        const myquery =  `DELETE FROM ${tablename} WHERE ${columnName} = ${userid}`;
-        this.createConnection.query(myquery , (err,results,field) => {
-            if(err) throw err;
-            return;
-        });
-        let confimation =  this.createConnection.query(`SELECT * FROM ${tablename} WHERE ${columnName} = ${userid}`,
-        function (err,results,fields){
-            if(err) throw err;
-            if(results) {
-                if(results.length  === 0) {
-                    return "deleted successfully";
-                } else {
-                    return "deletion failed or ID dosent exist";
-                }
-            }
+  /**
+   *
+   * @param {string} columnName name of the column to search for need string match
+   * @param {string} needed  string to match
+   * @param {string} tableName  name of the table to search
+   * @returns a promise of results or throw a rejection error
+   */
+  matchColumnText = async function (columnName, needed, tableName) {
+    if (arguments.length == 3) {
+      let query = `SELECT ${columnName} FROM ${tableName} WHERE ${columnName} = "${needed}"`
+      return new Promise(function (resolve, reject) {
+        createConnection.query(query, function (err, results, fields) {
+          if (err) {
+            reject(err)
+          }
+          if (results) {
+            resolve(results)
+          }
         })
-        return confimation;
+      })
+    } else {
+      return `${arguments.length} should be equal to 3`
     }
-    /**
-     * 
-     * @param {id} id id to check if exist
-     * @param {columnName} columnName  name of column to search
-     * @param {tableName} tablename  name of the table to search from
-     * @returns 
-     */
-    idExist = async function (id,columnName,tablename) {
-       if(typeof id != "number" && typeof (columnName) == "string") {
-           return;
-       } 
-       return (new Promise ( function(resolve,reject) {
-           this.createConnection.query(`SELECT * FROM ${tablename} WHERE ${columnName} = ${id}`,
-           function(err,results,fields){
-               if(err) {reject(err)};
-               resolve(results);
-           });
-
-       }))
-    }
+  }
 }
- 
 
-const Connection = new SonosoftDatabase("localhost","root","","sonosoft_web_version");
-
-
-module.exports = Connection.createConnection;
-
-
-
-
+module.exports = SonosoftDatabase

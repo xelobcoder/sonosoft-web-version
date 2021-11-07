@@ -1,6 +1,7 @@
 const bcrypt = require ("bcrypt");
-const database = require ("../database");
-
+const SonosoftDatabase  = require ("../database");
+const connection = require("../db");
+const database = new SonosoftDatabase();
 
 /**
  * @class  class for authenicating users
@@ -15,6 +16,7 @@ class  Authentication {
         this.rounds = 12;
     }
 
+
     hashUsername = async function() {
         let salt = await bcrypt.genSalt();
         let hashed = await bcrypt.hash(this.username,salt);
@@ -27,18 +29,43 @@ class  Authentication {
         return await hashed;
     }
 
-    saveLoginDetails = async function(data) {
+    landingPage = async function (param,request) {
+        let role = {
+           sonographer : "sonoqueue",
+           customer_service_attendant: "registration",
+           management:"dashboard"
+        }
+
+        if(role.hasOwnProperty(param)) {
+            request.render(`${role[param]}`);
+        } else {
+            return;
+        }
+        
+    }
+
+    saveLoginDetails = async function(data,response) { 
        if(typeof data == "object") {
-           const {access,edit,deleteitem,register} = data;
-           this.hashPassword()
-           .then ( (hash) =>  {
-               database.query(`INSERT INTO STAFFLOGINS (USERNAME,PASSWORD,FULLACCESS,DELETITEM,EDIT,FAILEDATTEMPT,REGISTER)
-               VALUES("${this.username}","${hash}","${access}","${deleteitem}","${edit}","${0}","${register}")`,
-               (err,results,fields) => {
-                   if(err) throw err;
-                   return results;
-               })
-           }).catch( (err) => { throw (err)})
+           const {fullaccess,edit,deleteitem,register,role} = data;
+           database.matchColumnText("USERNAME",this.username,"stafflogins")
+           .then( (res) => {
+               if(res.length == 0) {
+                this.hashPassword()
+                .then ( (hash) =>  {
+                    connection.query(`INSERT INTO STAFFLOGINS (USERNAME,PASSWORD,FULLACCESS,DELETITEM,EDIT,FAILEDATTEMPT,REGISTER,ROLE)
+                    VALUES("${this.username}","${hash}","${fullaccess}","${deleteitem}","${edit}","${0}","${register}","${role}")`,
+                    (err,results,fields) => {
+                        if(err) throw err;
+                        response.send({message: "insertion successful"});
+                    })
+                }).catch( (err) => { throw (err)})
+               } else {
+                   response.send({
+                       message: "username found in database",
+                       action : "try using fullname or call on admin"
+                   })
+               }
+           }).catch ( (err) => {throw err})
        } else {
            return `${data} is not an object`;
        }
@@ -49,7 +76,7 @@ class  Authentication {
     hasUsername =  function() {
         let query = `SELECT * FROM stafflogins WHERE USERNAME = "${this.username}"`;
         return new Promise( function( resolve,reject) {
-            database.query(query, (err,results,fields) => {
+            connection.query(query, (err,results,fields) => {
                 if(err) {
                     reject(err);
                 } else {
@@ -61,14 +88,18 @@ class  Authentication {
     comparePassword = async function() {
         let hashusername = this.hashUsername();
         let queryString = `SELECT PASSWORD FROM STAFFLOGINS WHERE USERNAME = ${hashusername}`;
-        database.query(queryString, (err,results,fields)  => {
-            if(err) throw err;
-            if(results) {
-                let password = results["PASSWORD"];
-                bcrypt.compare(this.password, password, function(err, result) {
-                   console.log(results);
-                });  
-            }
+        return new Promise(function(resolve,reject){
+            connection.query(queryString, (err,results,fields)  => {
+                if(err) {
+                    reject(err)
+                };
+                if(results) {
+                    let password = results["PASSWORD"];
+                    bcrypt.compare(this.password, password, function(err, result) {
+                       resolve(result)
+                    });  
+                }
+            })
         })
      
     }
