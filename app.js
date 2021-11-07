@@ -176,7 +176,7 @@ app.get('/abdominal_pelvic/:id', function (request, response) {
   renderTemplate('ABDOMINAL_PELVIC', uuid, response)
 })
 
-app.get('/login', (req, res) => {
+app.get('/login', (req, res) => {  
   res.render('login')
 })
 
@@ -194,16 +194,29 @@ app.get('/viewhistory/:id', (request, response) => {
   })
 })
 
+
+// depend page to land user depening on the login credentials
+
+
+
 app.post('/authenticateUser', function (request, response) {
   const { username, password } = request.body
   let authenticate = new authentication(username, password)
   authenticate
     .hasUsername()
     .then((t) => {
-      if (t > 1) {
+      if (t = 1) {
         authenticate
-          .comparePassword()
-          .then((d) => {})
+          .comparePassword(password)
+          .then((d) => {
+            if(d == true) {
+              authenticate.roleIdentification(username)
+              .then((v) => {
+                console.log(v)
+                 authenticate.landingPage(v,response)
+              }).catch ((err) => {throw err})
+            }
+          })
           .catch((err) => {
             throw err
           })

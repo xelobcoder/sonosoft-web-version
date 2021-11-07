@@ -28,22 +28,34 @@ class  Authentication {
         let hashed = await bcrypt.hash(this.password,salt);
         return await hashed;
     }
-
-    landingPage = async function (param,request) {
+    
+    roleIdentification = function (username) {
+       let query = `SELECT ROLE FROM STAFFLOGINS WHERE USERNAME = "${username}"`;
+        return new Promise(function(resolve, reject){
+            connection.query (query,function(err,results,fields) {
+                if(err) {
+                    reject (err);
+                }
+                resolve(results[0]["ROLE"])
+            })
+        })
+    }
+    landingPage = async function (param,response) {
         let role = {
-           sonographer : "sonoqueue",
-           customer_service_attendant: "registration",
-           management:"dashboard"
+           sonographer : "/sonoqueue",
+           customer_services_attendant: "/",
+           management:"/finance"
         }
-
+      
         if(role.hasOwnProperty(param)) {
-            request.render(`${role[param]}`);
+            let page = role[`${param}`];
+            response.send({landingpage: page})
         } else {
-            return;
+            console.log(`${param} not found`)
         }
         
-    }
-
+      }
+   
     saveLoginDetails = async function(data,response) { 
        if(typeof data == "object") {
            const {fullaccess,edit,deleteitem,register,role} = data;
@@ -85,19 +97,25 @@ class  Authentication {
             })
         })
     }
-    comparePassword = async function() {
-        let hashusername = this.hashUsername();
-        let queryString = `SELECT PASSWORD FROM STAFFLOGINS WHERE USERNAME = ${hashusername}`;
+    comparePassword = async function(param) {
+        let queryString = `SELECT PASSWORD FROM STAFFLOGINS WHERE USERNAME = "${this.username}"`;
         return new Promise(function(resolve,reject){
             connection.query(queryString, (err,results,fields)  => {
                 if(err) {
                     reject(err)
                 };
-                if(results) {
-                    let password = results["PASSWORD"];
-                    bcrypt.compare(this.password, password, function(err, result) {
-                       resolve(result)
-                    });  
+                if(results.length == 1) {
+                   let comparer = async function (password,hash){
+                    bcrypt.compare(password, hash, function(err, result) {
+                        if(err) throw err;
+                        resolve(result)
+                   }); 
+                   }
+                   setTimeout( function(){
+                    comparer(param,results[0]["PASSWORD"])
+                   },200)
+                } else {
+                   console.log(`password for such username not found`);
                 }
             })
         })

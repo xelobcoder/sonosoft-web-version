@@ -58,12 +58,12 @@ window.onload = (ev) => {
         console.log(username.value, password.value, 'X')
       } else {
         let data = JSON.stringify({ username, password })
-        postRequest('http://localhost:8000/authenticateUser/', data)
+        postRequest('http://localhost:8000/authenticateUser', data)
           .then((response) => {
-            return response
+            return response.json();
           })
           .then((response) => {
-            console.log(response)
+            window.location.href = `http://localhost:8000${response["landingpage"]}`
           })
           .catch((err) => {
             console.log(err)
