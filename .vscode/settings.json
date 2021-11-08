@@ -13,5 +13,8 @@
             "database": "sonosoft_web_version",
             "username": "root"
         }
-    ]
+    ],
+    "files.associations": {
+        "xstring": "cpp"
+    }
 }

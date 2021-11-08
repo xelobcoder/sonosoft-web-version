@@ -160,4 +160,15 @@ th {
   top: 0;
   left: 85%;
 }
+
+.lightred {
+  border: 1px solid red !important;
+  border-radius: 5px !important;
+  color: red !important;
+}
+
+input:invalid {
+  border: 1px solid red;
+  color: red;
+}
 /*# sourceMappingURL=loggers.css.map */

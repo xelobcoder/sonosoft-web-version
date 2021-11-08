@@ -7,26 +7,30 @@
         <div style="display: flex;" class="col-9 p-2">
           <div class="client-id col-4" style="display: flex;">
              <div style="margin-right: 5px;">ClientID:</div>
-             <div class="client-id" style="margin-right: 50px;">
-               <input type="number" name="clientid" id="clientid" class="form-control"  disabled>
+             <div class="clientid" style="margin-right: 50px;">
+               <%= transactionID %> 
             </div>
           </div>
           <div style="display: flex;" class="col-5">
              <div style="margin-right: 5px;">fullname:</div>
              <div class="fullname">
-               <input type="text" name="fullname" id="fullname" class="form-control" disabled> 
+                <%= fullname %> 
              </div>
           </div>
         </div>
          <div class="col p-2" style="display: flex; justify-content: end;">
-          <button type="button" style="padding: 10px 20px; color: black; border: 1px solid lightgray; border-radius: 5px; background: whitesmoke ;">preset</button>
+          <button type="button" class="btn btn-outline-secondary">preset</button>
          </div>
       </div>
     </div>
   </div>
   <section style="display: grid; grid-template-columns: 20% 60% 20%;  background-color: rgba(168, 9, 9, 0.103);">
-     <div class="container-fluid  text-danger">
-      
+     <div class="container-fluid bg-white">
+         <div class="alert alert-warning">
+             <div class="sid-alert-message">
+
+             </div>
+         </div>
      </div>
       <div class="container-fluid">
         <div class="container">
@@ -46,11 +50,11 @@
                    <option value="not yet">not yet</option>
                  </select>
                  <label for="">gsd</label>
-                 <input type="number" name="gsd" id="gsd" class="form-control">
+                 <input type="number" min="10" max="29" step="1" value="10" name="gsd" id="gsd" class="form-control">
                  <label for="">gestational age</label>
                  <div class="d-flex">
-                    <input type="number" name="gs" id="gs" class="form-control mr-5" placeholder="weeks">
-                    <input type="text" name="gs-d" id="gs-d" class="form-control ml-5" placeholder="days">
+                    <input type="number" value="4" max="14" step="1" min="4" name="gs" id="gs" class="form-control mr-5" placeholder="weeks">
+                    <input type="number" value="0" max="6" step="1" min="0" name="gs-d" id="gs-d" class="form-control ml-5" placeholder="days">
                  </div>
                  <label for="">edd</label>
                  <input type="date" name="edd" id="edd" class="form-control">
@@ -68,8 +72,46 @@
           </div>
         </div>
       </div>
-      <div class="container-fluid">
-      
+      <div class="container-fluid bg-white">
+         <div class="sid-wrapper">
+            <div class="list-group">
+              <div class="list-group-item" style="display: grid; grid-template-columns: 90% 10%;">
+                 <div class="title" style="font-size: 13px;">
+                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, corporis.
+                 </div>
+                 <div class="view-btn">
+                    <button type="button" style="padding: 3px 6px;" class="btn btn-primary">fill</button>
+                 </div>
+              </div>
+              <div class="list-group-item" style="display: grid; grid-template-columns: 90% 10%;">
+                <div class="title" style="font-size: 13px;">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, corporis.
+                </div>
+                <div class="view-btn">
+                   <button type="button" style="padding: 3px 6px;" class="btn btn-primary">fill</button>
+                </div>
+             </div>
+             <div class="list-group-item" style="display: grid; grid-template-columns: 90% 10%;">
+              <div class="title" style="font-size: 13px;">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, corporis.
+              </div>
+              <div class="view-btn">
+                 <button type="button" style="padding: 3px 6px;" class="btn btn-primary">fill</button>
+              </div>
+           </div>
+           <div class="list-group-item" style="display: grid; grid-template-columns: 90% 10%;">
+            <div class="title" style="font-size: 13px;">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, corporis.
+            </div>
+            <div class="view-btn">
+               <button type="button" style="padding: 3px 6px;" class="btn btn-primary">fill</button>
+            </div>
+         </div>
+              
+         </div>
+             
+            </div>
+         </div>
       </div>
   </section>
   <script src="/js/msd.js"></script>
