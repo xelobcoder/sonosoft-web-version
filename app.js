@@ -247,8 +247,8 @@ app.get("/workedcases/:id", (request,response) => {
    let scan = request.params.id.slice(1);
    if(scan === "msd") {
      sonosoft.workedCases("MSD",response,100);
-   } else if (scan === "abdominalscan") {
-     sonosoft.workedCases("abdominal",response,300);
+   } else if (scan === "abdominal") {
+     sonosoft.workedCases("abdominalscan",response,300);
    } else if (scan === "abdominalpelvic") {
      sonosoft.workedCases("abdominalpelvic",response,200);
    } else if (scan === "crl") {

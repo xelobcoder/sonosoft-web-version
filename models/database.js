@@ -114,9 +114,16 @@ class SonosoftDatabase {
       return `${arguments.length} should be equal to 3`
     }
   }
+  /**
+   * 
+   * @param {string} tableName name of table in the database
+   * @param {string} response http response
+   * @param {number} limit optional row returned limit
+   * @return {object}  array of sql rows
+   */
   workedCases = async function(tableName,response,limit = 0) {
     let query = `SELECT TRANSACTIONID FROM ${tableName}`;
-    let limitquery = `SELECT TRANSACTIONID FROM ${tableName} ORDER BY ID DESC LIMIT ${limit}  `;
+    let limitquery = `SELECT TRANSACTIONID FROM ${tableName}  LIMIT ${limit}  `;
     if(limit == 0) {
       createConnection.query(query, function(err,results,fields) {
         if(err) {
@@ -131,6 +138,17 @@ class SonosoftDatabase {
       })
     }
   }
+
+  returnArow = async function(tableName,response,id) {
+     createConnection.query(`SELECT * ${tableName} WHERE ID = "${id}"`,
+     function(err,results,fields) {
+       if(err) {
+         throw err;
+       }
+       response.send(results);
+     })
+  }
+
 }
 
 module.exports = SonosoftDatabase
