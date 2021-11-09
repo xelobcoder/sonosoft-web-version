@@ -142,3 +142,11 @@ input:invalid {
     border: 1px solid red !important;
     color: red !important;
 }
+#look{
+    list-style-type: none;
+    li{
+        list-style-type: none;
+        border-bottom: 1px solid lightgray;
+        padding: 5px 5px;
+    }
+}

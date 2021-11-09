@@ -1,5 +1,5 @@
 const express = require ("express");
-const connection = require("../database");
+const connection = require("../db");
 const router = express.Router();
 
 router.use(express.urlencoded({extended: true}))
@@ -23,14 +23,15 @@ router.route("/scanpanels/scan")
 
    let MSD = function(data){
        
-        const {id,location, gsd,ga,edd, ovaries, adnexa,abnormals, impression,yolk_sac} = data;
-        let mysqlQuery = `INSERT INTO MSD WHERE (
-           ID,LOCATION,YOLK_SAC,GSD,GA,EDD,OVARIES,ADNEXA,ABNORMAL_FINDINGS,IMPRESSION
-        ) VALUES ('${id}','${location}','${yolk_sac}','${gsd}','${ga}','${edd}','${ovaries}','${adnexa}','${abnormals}','${impression}')`;
+        const {id,location, ga,edd, ovaries,weeks,days, adnexa,abnormals, impression,yolksac} = data;
+        let mysqlQuery = `INSERT INTO MSD  ( TRANSACTIONID,LOCATION,YOLKSAC,GA,EDD,OVARIES,ADNEXA,ABNORMAL_FINDINGS,IMPRESSION,WEEKS,DAYS
+        ) VALUES ('${id}','${location}','${yolksac}','${ga}','${edd}','${ovaries}','${adnexa}','${abnormals}','${impression}','${weeks}','${days}')`;
 
         connection.query( mysqlQuery, function(err,results,fields){
             if(err) throw err;
-            response.send(results)
+            response.send({
+                message: "insertion successful"
+            })
         })
       
    }
@@ -98,6 +99,9 @@ router.route("/scanpanels/scan")
 
     }
 
+})
+.get( function(request,response) {
+    response.send("Hello am very good");
 })
 
 

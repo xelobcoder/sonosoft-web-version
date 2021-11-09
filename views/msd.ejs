@@ -26,7 +26,18 @@
   </div>
   <section style="display: grid; grid-template-columns: 20% 60% 20%;  background-color: rgba(168, 9, 9, 0.103);">
      <div class="container-fluid bg-white">
-         <div class="alert alert-warning">
+         <div>
+            <div class="search">
+              <input type="number" name="" id="searchid" placeholder="search with client id">
+          </div>
+          <div class="group-list">
+              <ul id="look">
+                  <li >2345678907743</li>
+                  <li>4567890985678</li>
+              </ul>
+          </div>
+         </div>
+         <div class="alert alert-warning d-none">
              <div class="sid-alert-message">
 
              </div>
@@ -36,7 +47,7 @@
         <div class="container">
           <div class="row">
             <div class="col"  style="display: flex; justify-content: center;">
-              <form name="msd-form" action="" method="post" class="crl" style="height: 600px; width: 700px; overflow-y: auto; padding: 10px;">
+              <form name="msd-form" id="msd-form"  action="" method="post"  style="height: 600px; width: 700px; overflow-y: auto; padding: 10px;">
                 <label for="">pregnancy location</label>
                 <select name="pl" id="pl" class="form-control">
                   <option value="intrauterine">intrauterine</option>
@@ -53,8 +64,8 @@
                  <input type="number" min="10" max="29" step="1" value="10" name="gsd" id="gsd" class="form-control">
                  <label for="">gestational age</label>
                  <div class="d-flex">
-                    <input type="number" value="4" max="14" step="1" min="4" name="gs" id="gs" class="form-control mr-5" placeholder="weeks">
-                    <input type="number" value="0" max="6" step="1" min="0" name="gs-d" id="gs-d" class="form-control ml-5" placeholder="days">
+                    <input type="number" value="4" max="14" step="1" min="4" name="gs" id="weeks" class="form-control mr-5" placeholder="weeks">
+                    <input type="number" value="0" max="6" step="1" min="0" name="gs-d" id="days" class="form-control ml-5" placeholder="days">
                  </div>
                  <label for="">edd</label>
                  <input type="date" name="edd" id="edd" class="form-control">

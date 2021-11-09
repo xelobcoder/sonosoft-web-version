@@ -13,7 +13,9 @@ const referer = require('./models/routers/referer')
 const registration = require('./models/registration')
 const session = require('express-session')
 const events = require('./models/events')
-const authentication = require('./models/sessions/authentication')
+const authentication = require('./models/sessions/authentication');
+const Database = require("./models/database");
+const sonosoft = new Database();
 
 app.set('view engine', 'ejs')
 
@@ -238,4 +240,25 @@ app.post('/newusers', (request, response) => {
   const { username, password } = request.body
   let logger = new authentication(username, password)
   logger.saveLoginDetails(request.body, response);
+})
+
+
+app.get("/workedcases/:id", (request,response) => {
+   let scan = request.params.id.slice(1);
+   if(scan === "msd") {
+     sonosoft.workedCases("MSD",response,100);
+   } else if (scan === "abdominalscan") {
+     sonosoft.workedCases("abdominal",response,300);
+   } else if (scan === "abdominalpelvic") {
+     sonosoft.workedCases("abdominalpelvic",response,200);
+   } else if (scan === "crl") {
+     sonosoft.workedCases("crl",response,100);
+   } else if (scan === "pelvic") {
+     sonosoft.workedCases("pelvic",response,200);
+   } else if (scan === "urological") {
+     sonosoft.workedCases("urological",response,100);
+   }
+    else {
+     response.send({message: `${scan} as a table not know`})
+   }
 })

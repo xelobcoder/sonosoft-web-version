@@ -114,6 +114,23 @@ class SonosoftDatabase {
       return `${arguments.length} should be equal to 3`
     }
   }
+  workedCases = async function(tableName,response,limit = 0) {
+    let query = `SELECT TRANSACTIONID FROM ${tableName}`;
+    let limitquery = `SELECT TRANSACTIONID FROM ${tableName} ORDER BY ID DESC LIMIT ${limit}  `;
+    if(limit == 0) {
+      createConnection.query(query, function(err,results,fields) {
+        if(err) {
+          throw err;
+        } 
+        response.send(results)
+      })
+    } else {
+      createConnection.query(limitquery,function(err,results,fields) {
+        if(err) throw err;
+         response.send(results);
+      })
+    }
+  }
 }
 
 module.exports = SonosoftDatabase
