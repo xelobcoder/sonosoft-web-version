@@ -1,5 +1,5 @@
 const express = require("express");
-const connection = require("../database");
+const connection = require("../db");
 const router = express.Router();
 
 router.use(express.json());

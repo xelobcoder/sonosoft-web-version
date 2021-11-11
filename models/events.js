@@ -1,4 +1,4 @@
-const connection = require("./database");
+const connection = require("./db");
 
     /**
      * @param {number} cost  represent the cost of the scan

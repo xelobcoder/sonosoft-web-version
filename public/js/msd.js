@@ -49,13 +49,14 @@ window.onload = (ev) => {
           normallize(textareas[i])
         }
       }
-
-      for (let i = 0; i < inputs.length; i++) {
-        inputs[i].blur = function () {
-          textInputAction(inputs[i])
-        }
-        inputs[i].onfocus = function () {
-          normallize(inputs[i])
+      if(inputs){
+        for (let i = 0; i < inputs.length; i++) {
+          inputs[i].blur = function () {
+            textInputAction(inputs[i])
+          }
+          inputs[i].onfocus = function () {
+            normallize(inputs[i])
+          }
         }
       }
     }
@@ -79,12 +80,12 @@ window.onload = (ev) => {
       return api.json()
     }
   }
-
+  // clear all fields of form
   const resetform = function () {
     let form = document.querySelector('#msd-form')
     return form.reset()
   }
-
+  //  display notice 
   const displayNotice = function (target, message) {
     target.innerHTML = message
     setTimeout(function () {
@@ -92,23 +93,67 @@ window.onload = (ev) => {
       target.parentElement.style.display = 'none'
     }, 3000)
   }
+  
+  // populate input field on clicked transactionid response data
+  const inputFill = async function (data) {
+    const {
+      TRANSACTIONID,
+      PROGRESSREF,
+      OVARIES,
+      ABNORMAL_FINDINGS,
+      GA,
+      GSD,
+      EDD,
+      DATE,
+      WEEKS,
+      DAYS,
+      LOCATION,
+      ADNEXA,
+      YOLKSAC,
+      ID,
+      IMPRESSION
+    } = data;
 
-  const clickEffect = async function () {
-    let ele = document.querySelectorAll('#lookbae')
-    for (let i = 0; i < ele.length; i++) {
-      ele[i].onclick = (ev) => {
-        let id = ev.target.innerHTML.trim()
-        
+    transactionID.innerHTML = TRANSACTIONID;
+    location.value = LOCATION;
+    weeks.value = WEEKS;
+    days.value = DAYS;
+    edd.value = EDD;
+    ovaries.value = OVARIES;
+    adnexa.value = ADNEXA;
+    abnormalFindings.value = ABNORMAL_FINDINGS;
+    impression.value = IMPRESSION;
+    yolk.value = YOLKSAC;
+    ga.value = GA;
+
+  }
+  var TransactionIDevent = async function () {
+    let li = document.querySelectorAll("#lookbae");
+    if(li) {
+      for(let i = 0; i < li.length; i++) {
+        li[i].onclick = function(ev) {
+          const requestData = {
+            scan: "MSD",
+            transactionID : ev.target.getAttribute("uuid")
+          }
+          console.log(requestData.transactionID)
+           postRequest("http://localhost:8000/prefill","POST",requestData)
+           .then ( (response) => {
+               return inputFill(response[0]);
+           }).catch ((err) => {throw err});
+        }
       }
     }
+
   }
+ 
 
   const workedCases = async function () {
     const insertID = (response) => {
       let parent = document.getElementById('look')
       let html = response
         .map((p) => {
-          return ` <li id="lookbae">${p['TRANSACTIONID']}</li>`
+          return ` <li id="lookbae" uuid = ${p['TRANSACTIONID']}>${p['TRANSACTIONID']}</li>`
         })
         .join('')
 
@@ -116,8 +161,8 @@ window.onload = (ev) => {
     }
     postRequest('http://localhost:8000/workedcases/:msd', 'GET')
       .then((response) => {
-        insertID(response)
-        clickEffect()
+        insertID(response);
+        TransactionIDevent();
       })
       .catch((err) => {
         throw err
@@ -141,14 +186,19 @@ window.onload = (ev) => {
       adnexa: adnexa.value,
       abnormals: abnormalFindings.value,
       impression: impression.value,
+      state: "newEntry"
     }
+
+    // click event for each li of userid to fetch data and populate input field
+    
 
     postRequest('http://localhost:8000/scanpanels/scan', 'POST', clientInfo)
       .then((response) => {
         if (response.hasOwnProperty('message')) {
           if (response['message'] === 'insertion successful') {
-            resetform()
-            displayNotice(exceedMesssagebtn, response['message'])
+            resetform();
+            displayNotice(exceedMesssagebtn, response['message']);
+            workedCases();
           }
         } else {
           return

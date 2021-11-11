@@ -31,7 +31,7 @@ window.onload = (ev) => {
 
     const html  = function(element){
         return (`
-        <tr tabindex= "${element.ID}" uuid = "${element.UUID}" client = "${element.FULLNAME}"">
+        <tr tabindex= "${element.ID}" uuid = "${element.TRANSACTIONID}" client = "${element.FULLNAME}"">
             <td>${element.UUID} </td>
             <td>${element.ID}</td>
             <td >${element.FULLNAME}</td>
@@ -140,10 +140,14 @@ window.onload = (ev) => {
                 item.onclick = () => {
                    let id = getid(item);
                    sendID(id).then ( (res) => { 
-                       let history = res[0]["HISTORY"];
-                       openHistoryModal();
-                       showPanel(history);
-                       hideScanSelection();
+                     if(res.length != 0) {
+                        let history = res[0]["HISTORY"];
+                        openHistoryModal();
+                        showPanel(history);
+                        hideScanSelection();
+                     } else {
+                         openHistoryModal();
+                     }
                    })
                    .catch ( (err) =>  {if(err){ throw err}});
                 }

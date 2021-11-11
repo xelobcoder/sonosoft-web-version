@@ -182,4 +182,10 @@ input:invalid {
   padding: 5px 5px;
   display: "block";
 }
+
+#look li:hover {
+  color: blue;
+  border-color: whitesmoke;
+  cursor: pointer;
+}
 /*# sourceMappingURL=loggers.css.map */

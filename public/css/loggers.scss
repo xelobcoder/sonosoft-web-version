@@ -150,4 +150,10 @@ input:invalid {
         padding: 5px 5px;
         display: "block";
     }
+    li:hover{
+        color: blue;
+        border-color: whitesmoke;
+        cursor: pointer;
+    }
+
 }

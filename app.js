@@ -133,7 +133,7 @@ app.get('/msd', function (request, response) {
 //  renders template depending on selected scan on user input
 
 const renderTemplate = (scan, id, response) => {
-  const query = `SELECT * FROM REGISTRATION WHERE UUID = ${id}`
+  const query = `SELECT * FROM REGISTRATION WHERE TRANSACTIONID = ${id}`
 
   const templates = {
     MSD: 'msd',
@@ -150,7 +150,7 @@ const renderTemplate = (scan, id, response) => {
       response.render('customError', { message: 'CUSTOMER ID NOT VALID' })
     } else {
       let result = {
-        transactionID: results[0]['UUID'],
+        transactionID: results[0]['TRANSACTIONID'],
         fullname: results[0]['FULLNAME'],
       }
       response.render(templates[scan], result)
@@ -188,6 +188,7 @@ app.get('/addUser', (req, res) => {
 
 app.get('/viewhistory/:id', (request, response) => {
   const uuid = request.params.id
+  console.log(uuid)
   const query = `SELECT HISTORY FROM REGISTRATION WHERE ID = "${uuid}"`
   connection.query(query, function (err, results, fields) {
     if (err) throw err
@@ -261,4 +262,10 @@ app.get("/workedcases/:id", (request,response) => {
     else {
      response.send({message: `${scan} as a table not know`})
    }
+})
+
+app.post("/prefill", (request,response) => {
+   const {scan, transactionID } = request.body;
+   console.log(transactionID)
+   sonosoft.returnArow(scan,response,transactionID);
 })

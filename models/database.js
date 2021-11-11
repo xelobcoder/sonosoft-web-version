@@ -140,7 +140,7 @@ class SonosoftDatabase {
   }
 
   returnArow = async function(tableName,response,id) {
-     createConnection.query(`SELECT * ${tableName} WHERE ID = "${id}"`,
+     createConnection.query(`SELECT * FROM ${tableName} WHERE TRANSACTIONID = "${id}"`,
      function(err,results,fields) {
        if(err) {
          throw err;
