@@ -195,9 +195,13 @@ input:invalid {
   text-transform: capitalize;
 }
 
-#msd-preset select, #msd-preset input {
+#msd-preset select {
   height: 40px;
   border: 1px solid brown;
+}
+
+#msd-preset input {
+  height: 30px !important;
 }
 
 #msd-preset textarea {

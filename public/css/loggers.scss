@@ -162,9 +162,12 @@ input:invalid {
        font-size: 14px;
        text-transform: capitalize;
    }
-   select,input{
+   select{
        height: 40px;
        border: 1px solid brown;
+   }
+   input{
+       height: 30px !important;
    }
    textarea{
        border-radius: 5px !important;

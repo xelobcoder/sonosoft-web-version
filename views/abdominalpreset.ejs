@@ -1,0 +1,81 @@
+<%- include('header.ejs') %>
+<%- include('top.ejs') %>
+<body style="height: 600px; overflow: auto;">
+<div style="display: grid; grid-template-columns: 70% 30%; margin: 20px 20px;">
+    <section style="margin: 0px 40px 0px 40px; height: 650px; overflow: auto; padding: 20px 20px;">
+        <form action="/abdominal">
+            <div class="form-row">
+                <label for="">liver</label>
+                <textarea id="liver" class="form-control" name="liver"> </textarea>
+            </div>
+            <div class="form-row">
+                <label for="">kidneys</label>
+                <textarea id="kidneys" class="form-control" name="kidneys"> </textarea>
+            </div>
+            <div class="form-row">
+                <label for="">spleen</label>
+                <textarea id="spleen" class="form-control" name="spleen" cols="30" rows="3"> </textarea>
+            </div>
+            <div class="form-row">
+                <label for="">pancreas</label>
+                <textarea id="pancreas" class="form-control" name="pancreas" cols="30" rows="3"> </textarea>
+            </div>
+            <div class="form-row">
+                <label for="">abdominal cavity</label>
+                <textarea id="cavity" class="form-control" name="cavity" cols="30" rows="3"> </textarea>
+            </div>
+            <div class="form-row">
+                <label for="">other findings</label>
+                <textarea id="ofindings" class="form-control" name="ofindings" cols="30" rows="3"> </textarea>
+            </div>
+            <hr>
+            <div class="form-row">
+                <label for="">impression</label>
+                <textarea id="impression" class="form-control" name="impression" cols="30" rows="3"> </textarea>
+            </div>
+            <div class="form-row">
+                <button class="btn btn-outline-success mt-3">save</button>
+            </div>
+        </form>
+    </section>
+    <section>
+        <div>
+            <label for="">title</label>
+            <input type="text" name="title" id="title" class="form-control">
+        </div>
+        <div class="grouper">
+            <label for="">liver</label>
+            <div>
+                <input class="short-input" placeholder="length" type="number" name="len" id="liverlen">
+                <input class="short-input" placeholder="width" type="number" name="width" id="liverwidth">
+            </div>
+        </div>
+        <div class="grouper">
+            <label for="">spleen</label>
+            <div>
+                <input class="short-input" placeholder="length" type="number" name="len" id="spleenlen">
+                <input class="short-input" placeholder="width" type="number" name="width" id="spleenwidth">
+            </div>
+        </div>
+        <div class="grouper">
+            <label for="">kidneys</label>
+            <div style="display: flex;">
+                <div class="grouper">
+                    <label for="">Right</label>
+                    <div>
+                        <input class="short-input-2" placeholder="length" type="number" name="len" id="rtkidneylen">
+                        <input class="short-input-2" placeholder="width" type="number" name="width" id="rtkidneywidth">
+                    </div>
+                </div>
+                <div class="grouper">
+                    <label for="">Left</label>
+                    <div>
+                        <input class="short-input-2" placeholder="length" type="number" name="len" id="ltkidneylen">
+                        <input class="short-input-2" placeholder="width" type="number" name="width" id="ltkidneywidth">
+                    </div>
+                </div>
+            </div>
+        </div>
+       </section>
+</div>
+</body>

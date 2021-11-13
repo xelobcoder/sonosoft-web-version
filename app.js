@@ -264,6 +264,12 @@ app.get("/workedcases/:id", (request,response) => {
    }
 })
 
+// render abdominal scan preset form
+
+app.get("/abdominalpreset", function(request,response) {
+  response.render("abdominalpreset")
+})
+
 app.post("/prefill", (request,response) => {
    const {scan, transactionID } = request.body;
    console.log(transactionID)
