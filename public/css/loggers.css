@@ -188,4 +188,20 @@ input:invalid {
   border-color: whitesmoke;
   cursor: pointer;
 }
+
+#msd-preset label {
+  color: gray;
+  font-size: 14px;
+  text-transform: capitalize;
+}
+
+#msd-preset select, #msd-preset input {
+  height: 40px;
+  border: 1px solid brown;
+}
+
+#msd-preset textarea {
+  border-radius: 5px !important;
+  border: 1px solid brown !important;
+}
 /*# sourceMappingURL=loggers.css.map */

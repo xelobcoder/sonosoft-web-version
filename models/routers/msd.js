@@ -1,5 +1,7 @@
 const express = require ("express");
 const connection = require("../db");
+const Database = require ("../database");
+const sonosoft = new Database();
 const router = express.Router();
 
 router.use(express.urlencoded({extended: true}))
@@ -18,22 +20,39 @@ router.route("/scanpanels/scan")
     response.statusMessage = "All";
     next();
 })
+
 .post( function(request,response){ 
    let clientInfo  = request.body;
 
-   let MSD = function(data){
-       
+   let MSD = function(data){    
         const {id,location, ga,edd, ovaries,weeks,days, adnexa,abnormals, impression,yolksac} = data;
-        let mysqlQuery = `INSERT INTO MSD  ( TRANSACTIONID,LOCATION,YOLKSAC,GA,EDD,OVARIES,ADNEXA,ABNORMAL_FINDINGS,IMPRESSION,WEEKS,DAYS
-        ) VALUES ('${id}','${location}','${yolksac}','${ga}','${edd}','${ovaries}','${adnexa}','${abnormals}','${impression}','${weeks}','${days}')`;
+        sonosoft.idExist(id,"TRANSACTIONID","MSD")
+        .then ( (databaseResults) =>  {
+            if(databaseResults) {
+                if(databaseResults.length == 0) {
+                let mysqlQuery = 
+                `INSERT INTO MSD  
+                ( TRANSACTIONID,LOCATION,YOLKSAC,GA,EDD,OVARIES,ADNEXA,ABNORMAL_FINDINGS,IMPRESSION,WEEKS,DAYS
+                        )
+                VALUES 
+                ('${id}','${location}','${yolksac}','${ga}','${edd}',
+                '${ovaries}','${adnexa}','${abnormals}','${impression}',
+                '${weeks}','${days}')`;
 
-        connection.query( mysqlQuery, function(err,results,fields){
-            if(err) throw err;
-            response.send({
-                message: "insertion successful"
-            })
-        })
-      
+                connection.query( mysqlQuery, function(err,results,fields){
+                    if(err) throw err;
+                    response.send({
+                        message: "insertion successful"
+                    })
+                }) 
+            } else {
+                response.send({
+                    message: "client registered with such transactionid",
+                    action : "consider updating client information"
+                })
+            }
+            }
+        }) 
    }
 
    let ABDOMINAL = function(data){
@@ -102,6 +121,59 @@ router.route("/scanpanels/scan")
 })
 .get( function(request,response) {
     response.send("Hello am very good");
+})
+.put( function(request,response) {
+    let clientInfo = request.body;
+
+    let MSD = function() {
+         const {id,location, ga,edd, ovaries,weeks,days, adnexa,abnormals, impression,yolksac} = clientInfo;
+         let query =   `
+            UPDATE MSD 
+            SET LOCATION = "${location}",
+                GA = "${ga}",
+                EDD = "${edd}",
+                OVARIES = "${ovaries}",
+                WEEKS = "${weeks}",
+                DAYS = "${days}",
+                ADNEXA = "${adnexa}",
+                ABNORMAL_FINDINGS = "${abnormals}",
+                IMPRESSION = "${impression}",
+                YOLKSAC = "${yolksac}"
+                WHERE 
+                TRANSACTIONID = "${id}"
+         `;
+
+         connection.query (query, function(err,results,fields) {
+             if(err) {
+                 throw err;
+             }
+             response.send({
+                 prognosis: "success",
+                 message: "client info successfully update"
+             })
+         })
+    }
+     if(clientInfo.hasOwnProperty("scan")){
+        const scan = clientInfo["scan"];
+        switch (scan) {
+            case "MSD" :
+                MSD(request.body);
+                break;
+            case "ABDOMINAL":
+                ABDOMINAL();
+                break;
+            case "ABDO_PEL":
+                ABD_PEL();
+                break;
+            case "CRL":
+                CRL();
+                break;
+            default:
+                response.send("unknown scan type");
+
+        }
+
+    }
 })
 
 

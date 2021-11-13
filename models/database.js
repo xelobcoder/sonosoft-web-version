@@ -74,11 +74,11 @@ class SonosoftDatabase {
    * @returns
    */
   idExist = async function (id, columnName, tablename) {
-    if (typeof id != 'number' && typeof columnName == 'string') {
+    if (typeof id != 'number' && typeof columnName != 'string') {
       return
-    }
-    return new Promise(function (resolve, reject) {
-      createConnection.query(
+    } else  {
+       return new Promise(function (resolve, reject) {
+       createConnection.query(
         `SELECT * FROM ${tablename} WHERE ${columnName} = ${id}`,
         function (err, results, fields) {
           if (err) {
@@ -88,6 +88,7 @@ class SonosoftDatabase {
         },
       )
     })
+    }
   }
 
   /**

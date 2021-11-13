@@ -155,5 +155,19 @@ input:invalid {
         border-color: whitesmoke;
         cursor: pointer;
     }
-
+}
+#msd-preset{
+   label{
+       color: gray;
+       font-size: 14px;
+       text-transform: capitalize;
+   }
+   select,input{
+       height: 40px;
+       border: 1px solid brown;
+   }
+   textarea{
+       border-radius: 5px !important;
+       border: 1px solid brown !important;
+   }
 }

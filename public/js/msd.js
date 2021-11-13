@@ -12,6 +12,9 @@ window.onload = (ev) => {
   let abnormalFindings = document.querySelector('#ab')
   let impression = document.querySelector('#impression')
 
+  let form = document.querySelector("#msd-form");
+
+
   const submitButton = document.querySelector('#save')
 
   const lightRed = function (target) {
@@ -87,11 +90,27 @@ window.onload = (ev) => {
   }
   //  display notice 
   const displayNotice = function (target, message) {
-    target.innerHTML = message
+    let search  = document.querySelector(".search");
+    let list = document.querySelector(".group-list");
+    let parent = target.parentElement;
+    let css = target.parentElement.getAttribute("class");
+    if(css) {
+      if(css.includes("d-none")) {
+        parent.classList.remove("d-none");
+        parent.classList.add("d-block");
+        list.style.display = "none";
+        search.style.display = "none";
+      } 
+    }
+    target.innerHTML += message;
     setTimeout(function () {
-      target.innerHTML = ''
-      target.parentElement.style.display = 'none'
-    }, 3000)
+      target.innerHTML = '';
+       parent.classList.remove("d-block");
+        parent.classList.add("d-none");
+        list.style.display = "block";
+        search.style.display = "block";
+
+    }, 6000)
   }
   
   // populate input field on clicked transactionid response data
@@ -127,6 +146,8 @@ window.onload = (ev) => {
     ga.value = GA;
 
   }
+  // listen to click event of transaction ids and return data from database table
+  // click event for each li of userid to fetch data and populate input field
   var TransactionIDevent = async function () {
     let li = document.querySelectorAll("#lookbae");
     if(li) {
@@ -139,13 +160,17 @@ window.onload = (ev) => {
           console.log(requestData.transactionID)
            postRequest("http://localhost:8000/prefill","POST",requestData)
            .then ( (response) => {
-               return inputFill(response[0]);
+               inputFill(response[0]);
+              //  set the state of form to update
+              form.setAttribute("state","update");
            }).catch ((err) => {throw err});
         }
       }
     }
 
   }
+
+
  
 
   const workedCases = async function () {
@@ -153,7 +178,7 @@ window.onload = (ev) => {
       let parent = document.getElementById('look')
       let html = response
         .map((p) => {
-          return ` <li id="lookbae" uuid = ${p['TRANSACTIONID']}>${p['TRANSACTIONID']}</li>`
+          return `<li id="lookbae" uuid = ${p['TRANSACTIONID']}>${p['TRANSACTIONID']}</li>`
         })
         .join('')
 
@@ -171,7 +196,26 @@ window.onload = (ev) => {
 
   workedCases()
 
+   // this would hide the transactional ids momentarily and display alert log usind display function;
+
+  const  alertActionlog = async function( data) {
+    let danger = document.querySelectorAll(".sid-alert-message")[0];
+    let info = document.querySelectorAll(".sid-alert-message")[1];
+
+    const {message,action} = data;
+
+    console.log(data)
+
+     displayNotice(danger,message);
+     displayNotice(info,action);
+  }
+    
+
+
   submitButton.onclick = function (ev) {
+    
+  let STATE = form.getAttribute("state");
+
     const clientInfo = {
       scan: 'MSD',
       fullname: fullname.innerHTML.trim(),
@@ -188,24 +232,33 @@ window.onload = (ev) => {
       impression: impression.value,
       state: "newEntry"
     }
-
-    // click event for each li of userid to fetch data and populate input field
     
-
-    postRequest('http://localhost:8000/scanpanels/scan', 'POST', clientInfo)
+    if(STATE === "new") {
+       postRequest('http://localhost:8000/scanpanels/scan', 'POST', clientInfo)
       .then((response) => {
-        if (response.hasOwnProperty('message')) {
-          if (response['message'] === 'insertion successful') {
+        if(response) {
+           if(response.hasOwnProperty("message")) {
+             if (response['message'] === 'insertion successful') {
             resetform();
             displayNotice(exceedMesssagebtn, response['message']);
             workedCases();
+          } else {
+            alertActionlog(response);
           }
-        } else {
-          return
+           }
         }
       })
       .catch((err) => {
         throw err
       })
+    } else {
+      clientInfo["state"] = "update";
+      postRequest("http://localhost:8000/scanpanels/scan","PUT",clientInfo)
+      .then( (response) => {
+        if(response) {
+           console.log(response)
+        }
+      })
+    }
   }
 }

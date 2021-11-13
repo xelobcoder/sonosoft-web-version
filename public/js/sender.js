@@ -32,8 +32,8 @@ window.onload = (ev) => {
     const html  = function(element){
         return (`
         <tr tabindex= "${element.ID}" uuid = "${element.TRANSACTIONID}" client = "${element.FULLNAME}"">
-            <td>${element.UUID} </td>
-            <td>${element.ID}</td>
+            <td>${element.ID} </td>
+            <td>${element.TRANSACTIONID}</td>
             <td >${element.FULLNAME}</td>
             <td>${element.GENDER}</td>
             <td>${element.SCAN}</td>
@@ -64,7 +64,6 @@ window.onload = (ev) => {
                   hidePanel();
                   showScanSelection();
                   selectScan(data);
-                //   let direct =  window.location.href = `http://localhost:8000/abdominal/${data.UUID}`;
                });
             }
         )
