@@ -203,5 +203,7 @@ input:invalid {
 #msd-preset textarea {
   border-radius: 5px !important;
   border: 1px solid brown !important;
+  resize: none;
+  font-size: 14px;
 }
 /*# sourceMappingURL=loggers.css.map */
