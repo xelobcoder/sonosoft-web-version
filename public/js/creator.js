@@ -23,7 +23,7 @@ window.onload = (ev) => {
            return (` 
            <tr dbid=${item.ID}>
                 <td>${item.ID}</td>
-                <td>${item.UUID}</td>
+                <td>${item.TRANSACTIONID}</td>
                 <td>${item.FULLNAME}</td>
                 <td>${item.GENDER}</td>
                 <td>${item.AGE}</td>

@@ -22,8 +22,13 @@ body{
             grid-template-columns: 15% auto;
             padding: 10px 20px;
             svg{
-                color: blue;
+                color: yellow;
                 margin-top: 5px;
+            }
+            div{
+                a{
+                    text-decoration: none;
+                }
             }
         }
         li:hover{
@@ -37,6 +42,7 @@ body{
         li:hover~svg{
             color: white !important;
         }
+        
     }
     
 }

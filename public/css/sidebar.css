@@ -32,8 +32,12 @@ body {
 }
 
 #sidebar ul li svg {
-  color: blue;
+  color: yellow;
   margin-top: 5px;
+}
+
+#sidebar ul li div a {
+  text-decoration: none;
 }
 
 #sidebar ul li:hover {
