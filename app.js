@@ -275,3 +275,17 @@ app.post("/prefill", (request,response) => {
    console.log(transactionID)
    sonosoft.returnArow(scan,response,transactionID);
 })
+
+
+app.post("/api/filterid" , (request,response) => {
+   const { transactionID, tablename} = request.body;
+   console.log(request.body)
+   if(transactionID) {
+     const myquery = `SELECT * FROM ${tablename} WHERE TRANSACTIONID LIKE "${transactionID}%" LIMIT  100`;
+     connection.query (myquery, function(err,results,fields) {
+       if(err) throw err;
+       console.log(results)
+       response.send(results);
+     })
+   }
+})

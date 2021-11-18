@@ -13,6 +13,17 @@ window.onload = (ev) => {
   let impression = document.querySelector('#impression')
 
   let form = document.querySelector("#msd-form");
+  //  INSERT TRANSACTIONAL IDS OF WPRKED CASES
+  const insertID = (response) => {
+    let parent = document.getElementById('look')
+    let html = response
+      .map((p) => {
+        return `<li id="lookbae" uuid = ${p['TRANSACTIONID']}>${p['TRANSACTIONID']}</li>`
+      })
+      .join('')
+
+    return (parent.innerHTML = html)
+  }
 
 
   const submitButton = document.querySelector('#save')
@@ -66,7 +77,8 @@ window.onload = (ev) => {
   }
 
   isEmpty()
-
+  
+ 
   const postRequest = async function (url, method, data) {
     if (method === 'GET') {
       let api = await fetch(url)
@@ -174,16 +186,7 @@ window.onload = (ev) => {
  
 
   const workedCases = async function () {
-    const insertID = (response) => {
-      let parent = document.getElementById('look')
-      let html = response
-        .map((p) => {
-          return `<li id="lookbae" uuid = ${p['TRANSACTIONID']}>${p['TRANSACTIONID']}</li>`
-        })
-        .join('')
-
-      return (parent.innerHTML = html)
-    }
+ 
     postRequest('http://localhost:8000/workedcases/:msd', 'GET')
       .then((response) => {
         insertID(response);
@@ -210,7 +213,39 @@ window.onload = (ev) => {
      displayNotice(info,action);
   }
     
+    // filter transactionID 
 
+    const searchID = document.querySelector("#searchid");
+      if(searchID) {
+        const filterTransactionID = function(data) {
+          postRequest("http://localhost:8000/api/filterid","POST",data)
+          .then( (response) => {
+             if(response.length === 0) {
+               return ;
+             } else {
+                insertID(response)
+             }
+          }).catch ((err) =>  {
+             throw err;
+          })
+       }
+   
+       searchID.addEventListener("keyup" ,function(ev) {
+        let parent = document.getElementById('look');
+        parent.innerHTML = "" ;
+         const transactionID = ev.target.value;
+         if(transactionID != "") {
+          const table = "MSD";
+          const data = {transactionID,tablename: table};
+          filterTransactionID(data);
+         } else {
+          //  called if search field is empty;
+          // poplulate area with worked cases ID
+           workedCases()
+         }
+       })
+      }
+  //  end
 
   submitButton.onclick = function (ev) {
     
@@ -259,6 +294,40 @@ window.onload = (ev) => {
            console.log(response)
         }
       })
+    }
+  }
+
+  const presetButton = document.querySelector("#presetbtn");
+  const deleteButton = document.querySelector("#deletebtn");
+  if(presetButton) {
+    const title = document.querySelector("#title-preset");
+    const location = document.querySelector("#location-preset");
+    const yolksac = document.querySelector("#yolk-preset");
+    const ovaries = document.querySelector("#ovaries-preset");
+    const adnexa = document.querySelector("#adnexa-preset");
+    const abnormals = document.querySelector("#abnormal-preset");
+    const impression = document.querySelector("#impression-preset");
+    const save = document.querySelector("#savepreset");
+    presetButton.onclick = (ev) => {
+       const presetFields = document.querySelector("#msd-preset");
+       const preseted = document.querySelector(".sid-wrapper > .list-group");
+       let parent = presetFields.parentElement;
+       parent.classList.toggle("d-none");
+       preseted.classList.toggle("d-none");
+       if(save) {
+          save.onclick = (ev) => {
+            const data = {
+              title: title.value,
+              location : location.value,
+              yolksac : yolksac.value,
+              ovaries : ovaries.value,
+              adnexa : adnexa.value,
+              abnormals : abnormals.value,
+              impression : impression.value
+            }
+           
+           }
+       }
     }
   }
 }

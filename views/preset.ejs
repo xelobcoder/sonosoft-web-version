@@ -2,8 +2,8 @@
     <div class="sid-wrapper">
          <input type="search" class ="form-control mb-3" placeholder="search preset here" style="width:100%; display:flex; justify-content:center; " />
     </div>
-    <div class="sid-wrapper d-none">
-        <form style="overflow: auto; height: 500px;" id="msd-preset" scan="msd" state="preset"  >
+    <div class="sid-wrapper d-none p-2">
+        <form class="p-2" style="overflow: auto; height: 500px;" id="msd-preset" scan="msd" state="preset"   >
              <label for="">title</label>
              <input type="text" class="form-control" id="title-preset">
             <label for="">location</label>
@@ -26,7 +26,8 @@
             <textarea name="abnormal-preset" id="abnormal-preset" cols="30" rows="4" placeholder="type something..."></textarea>
             <label for="">impression</label>
             <textarea name="impression-preset" id="impression-preset" cols="30" rows="4" placeholder="type something..."></textarea>
-            <button type="button" class="btn btn-outline-primary">save</button>
+            <button type="button" class="btn btn-outline-primary" id="savepreset">save</button>
+            <button type="button" class="btn btn-outline-info">clear</button>
          </form>
     </div>
     <div class="sid-wrapper ">
