@@ -1,5 +1,5 @@
 <%- include ("header.ejs") -%>
-<body>
+<body style="background-color: whitesmoke;">
     <!-- header of the page -->
     <div class="container-fluid bg-primary p-3 text-white">
         <div class="container">
@@ -8,20 +8,21 @@
                     <h4>login</h4>
                 </div>
                 <div class="col">
-                    <button type="button" class="btn btn-outline-primary text-white"  style="padding: 10px 20px; border-radius: 20px; border: 1px solid lightgray;"> request for access</button>
+                    <button type="button" class="btn btn-outline-primary text-white"  style="padding: 10px 20px; border-radius: 20px; border: 1px solid lightgray;"> <a href="/requestaccess" style="color: white; text-decoration: none !important;">request for access</a></button>
                 </div>
             </div>
         </div>
     </div>
     <!-- login section of the page -->
-   <div class="container-fluid">
+   <div class="container-fluid" >
        <div class="container">
            <div class="row">
                <div class="col">
                    <form action="/login" method="post" style="margin: 50px 350px 0px 350px; background-color: white; padding: 40px 40px; border: 1px solid lightgray;">
                         <div class="message" style="display: none;">
-                            <div class="alert alert-primary">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit quaerat, modi quidem quam nemo ducimus sit debitis maxime numquam dolor.
+                            <div class="alert alert-danger">
+                                <div class="messagel">MESSAGE:  </div>
+                                <div class="actionl">ACTION:  </div>
                             </div>
                         </div>
                         <label for="" class="mb-3">username</label>

@@ -48,6 +48,25 @@ window.onload = (ev) => {
     element.appendChild(div)
   }
 
+  const warningMessage = (data) => {
+     if(typeof(data) === "object") {
+       const {action,message}  = data;
+       const messageele = document.querySelector(".messagel");
+       const actionele = document.querySelector(".actionl");
+       let parent = document.querySelector(".message");
+       if(messageele && actionele) {
+         parent.style.display = "block";
+         messageele.innerHTML += message;
+         actionele.innerHTML += action;
+       }
+       setTimeout( function() {
+         parent.style.display = "none";
+         actionele.innerHTML = "action: ".toUpperCase();
+         messageele.innerHTML = "message: ".toUpperCase();
+       },10000)
+     }
+  }
+
   const submitbutton = document.querySelector('#authenticateBtn')
 
   if (submitbutton) {
@@ -55,7 +74,7 @@ window.onload = (ev) => {
       let username = document.getElementById('username').value
       let password = document.getElementById('password').value
       if (username == '' || password == '') {
-        console.log(username.value, password.value, 'X')
+        ev.preventDefault();
       } else {
         let data = JSON.stringify({ username, password })
         postRequest('http://localhost:8000/authenticateUser', data)
@@ -63,7 +82,12 @@ window.onload = (ev) => {
             return response.json();
           })
           .then((response) => {
-            window.location.href = `http://localhost:8000${response["landingpage"]}`
+            if(response.hasOwnProperty("action")) {
+              warningMessage(response);
+            } else {
+              window.location.href = `http://localhost:8000${response["landingpage"]}`
+            }
+           console.log(response)
           })
           .catch((err) => {
             console.log(err)
@@ -85,7 +109,7 @@ window.onload = (ev) => {
       let contact = document.getElementById('contact').value
       let fullaccess = document.getElementById('access').value
       if (username.value == '' || contact.value == '' || password.value == '') {
-        ev.preventDefault()
+        ev.preventDefault();
       } else {
         let data = JSON.stringify({
           username,

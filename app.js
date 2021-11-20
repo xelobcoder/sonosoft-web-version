@@ -11,7 +11,8 @@ const connection = require('./models/db')
 const scanpanels = require('./models/routers/scan')
 const referer = require('./models/routers/referer')
 const registration = require('./models/registration')
-const session = require('express-session')
+const session = require('express-session');
+const session_router = require("./models/sessions/session")
 const events = require('./models/events')
 const authentication = require('./models/sessions/authentication');
 const Database = require("./models/database");
@@ -27,7 +28,8 @@ app.use(institutions)
 app.use(scanpanels)
 app.use(scanPanels)
 app.use(referer)
-app.use(registration)
+app.use(registration);
+app.use(session_router)
 
 server.listen(port, function (err) {
   if (err) {
@@ -40,7 +42,7 @@ io.on('connection', function (socket) {
   console.log(`socket connected by user ${socket.id}`)
 })
 
-app.get('/', function (req, res, next) {
+app.get('/index', function (req, res, next) {
   res.render('index')
 })
 app.get('/settings', function (request, res, next) {
@@ -208,7 +210,7 @@ app.post('/authenticateUser', function (request, response) {
   authenticate
     .hasUsername()
     .then((t) => {
-      if (t = 1) {
+      if (t != 0) {
         authenticate
           .comparePassword(password)
           .then((d) => {
@@ -216,8 +218,15 @@ app.post('/authenticateUser', function (request, response) {
               authenticate.roleIdentification(username)
               .then((v) => {
                 console.log(v)
-                 authenticate.landingPage(v,response)
+                 authenticate.landingPage(v,response);
+                 let session = request.session;
+                 session.USER = username;
               }).catch ((err) => {throw err})
+            } else {
+               response.send ({
+                 message: "login credentials wrong",
+                 action: "try again with new credentials or contact admin"
+               })
             }
           })
           .catch((err) => {

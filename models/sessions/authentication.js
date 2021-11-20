@@ -43,7 +43,7 @@ class  Authentication {
     landingPage = async function (param,response) {
         let role = {
            sonographer : "/sonoqueue",
-           customer_services_attendant: "/",
+           customer_services_attendant: "/index",
            management:"/finance"
         }
       
@@ -120,6 +120,15 @@ class  Authentication {
             })
         })
      
+    }
+
+    // send all privileges of signed in individual to front end to determine action
+    performAction = async (response,username,tablename) => {  
+        const query = `SELECT * from ${tablename} WHERE USERNAME = "${username}"`;
+        connection.query( query, function(err,results,fields) {
+            if(err) throw err;
+            response.send(results);
+        })
     }
 
 
