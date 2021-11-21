@@ -12,24 +12,42 @@ const scanpanels = require('./models/routers/scan')
 const referer = require('./models/routers/referer')
 const registration = require('./models/registration')
 const session = require('express-session');
-const session_router = require("./models/sessions/session")
 const events = require('./models/events')
 const authentication = require('./models/sessions/authentication');
 const Database = require("./models/database");
 const sonosoft = new Database();
+var cookieParser = require('cookie-parser')
 
 app.set('view engine', 'ejs')
 
-const port = 8000 || process.env.PORT
+const port = 8000 || process.env.PORT;
+
 app.use(express.static(path.join(__dirname, 'public')))
 app.use('/js', express.static(path.join(__dirname, 'public')))
 app.use('/css', express.static(path.join(__dirname, 'public')))
+app.use('/assert', express.static(path.join(__dirname, 'public')))
 app.use(institutions)
 app.use(scanpanels)
 app.use(scanPanels)
 app.use(referer)
 app.use(registration);
-app.use(session_router)
+app.use(cookieParser())
+
+
+
+const config = {
+  SECRET : "BLOWCATJONESONOSOFTVERSION0.0.1PRODUCTIONBYTIIFUHAMZA",
+  SECURE: false,
+}
+
+app.use(session({
+  secret :config.SECRET,
+  resave: false,
+  saveUninitialized : false,
+  cookie : {
+      secure: config.SECURE
+  }
+}))
 
 server.listen(port, function (err) {
   if (err) {
@@ -40,6 +58,17 @@ server.listen(port, function (err) {
 
 io.on('connection', function (socket) {
   console.log(`socket connected by user ${socket.id}`)
+})
+
+app.get("/" , (req,res,next) => {
+   let User = req.session.USER;
+   console.log("success");
+   if(User) {
+     res.render("index")
+   } else {
+     res.render("login")
+   }
+   next()
 })
 
 app.get('/index', function (req, res, next) {
@@ -219,8 +248,6 @@ app.post('/authenticateUser', function (request, response) {
               .then((v) => {
                 console.log(v)
                  authenticate.landingPage(v,response);
-                 let session = request.session;
-                 session.USER = username;
               }).catch ((err) => {throw err})
             } else {
                response.send ({

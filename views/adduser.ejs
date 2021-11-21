@@ -1,5 +1,5 @@
 <%- include ("header.ejs") -%>
-<body>
+<body style="background-image: url('/asserts/background.jpg'); background-color: whitesmoke;">
     <!-- header of the page -->
     <div class="container-fluid bg-primary p-3 text-white">
         <div class="container">
@@ -12,11 +12,11 @@
         </div>
     </div>
     <!-- login section of the page -->
-   <div class="container-fluid">
+   <div class="container-fluid" >
        <div class="container">
            <div class="row">
-               <div class="col">
-                   <form action="/newUser" method="post" style="margin: 50px 350px 0px 350px; background-color: white; padding: 40px 40px; border: 1px solid lightgray;">
+               <div class="col" >
+                   <form action="/newUser" method="post" style="margin: 0px 350px 0px 350px; background-color: white; padding: 40px 40px; border: 1px solid lightgray; overflow-y: auto; ">
                         <div class="message" style="display: none;">
                             <div class="alert alert-primary">
                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit quaerat, modi quidem quam nemo ducimus sit debitis maxime numquam dolor.
@@ -55,7 +55,7 @@
                             <option value="management">management</option>
                           </select>
                          <label for="">contact</label>
-                         <input type="tel" name="contact" id="contact" class="form-control">
+                         <input type="tel" name="contact" maxlength="10" minlength="10" size="10" placeholder="0249434803"  id="contact" class="form-control">
                         <button type="button" class="btn btn-outline-primary" id="addUserBtn" style="margin-top: 20px; padding: 10px 20px; border-radius: 15px;" >Add User</button>
                    </form>
                </div>
