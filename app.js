@@ -61,14 +61,14 @@ io.on('connection', function (socket) {
 })
 
 app.get("/" , (req,res,next) => {
-   let User = req.session.USER;
+   let User = req.cookies;
    console.log("success");
    if(User) {
      res.render("index")
    } else {
      res.render("login")
    }
-   next()
+   
 })
 
 app.get('/index', function (req, res, next) {

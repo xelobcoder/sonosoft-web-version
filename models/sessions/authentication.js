@@ -3,6 +3,11 @@ const SonosoftDatabase  = require ("../database");
 const connection = require("../db");
 const database = new SonosoftDatabase();
 
+const config = {
+    SECRET : "BLOWCATJONESONOSOFTVERSION0.0.1PRODUCTIONBYTIIFUHAMZA",
+    SECURE: false,
+  }
+
 /**
  * @class  class for authenicating users
  * @param {username} username username to be hashed
@@ -49,6 +54,7 @@ class  Authentication {
       
         if(role.hasOwnProperty(param)) {
             let page = role[`${param}`];
+            response.cookie("connectid",config.SECRET)
             response.send({landingpage: page})
         } else {
             console.log(`${param} not found`)
