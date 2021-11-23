@@ -24,9 +24,10 @@ main #registration form .split .form-row {
 }
 
 main #registration form .split input, main #registration form .split select, main #registration form .split textarea {
-  height: 60px;
-  border: 1px solid lightgray;
+  height: 40px;
+  border: 1px solid black !important;
   background-color: white;
+  border-radius: 0px !important;
 }
 
 main #registration form .split input:required:before {

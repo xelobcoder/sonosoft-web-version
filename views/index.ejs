@@ -23,6 +23,19 @@
                           </select>
                        </div>
                        <div class="form-row">
+                           <label for="">date of birth
+                               
+                           </label>
+                            <input type="date" class="form-control" >
+                       </div>
+                       <div class="form-row">
+                        <label for="">Client type</label>
+                           <select name="scanroll" id="scanroll">
+                               <option value="runtime">runtime</option>
+                               <option value="membership">membership</option>
+                           </select>
+                    </div>
+                       <div class="form-row">
                           <label  for="age">age</label>
                           <div class="split">
                             <input  required type="number" class="form-control" id="age">
@@ -58,7 +71,7 @@
                          </div>
                          <div class="form-row">
                             <label for="">cost</label>
-                            <input type="number" name="cost" disabled id="cost" class="form-control">
+                            <input type="number" name="cost"  id="cost" class="form-control">
                         </div>
                          <div class="form-row">
                             <label for="amount-paid">amount paid</label>
@@ -81,6 +94,8 @@
                                  <option value="in pains">in pains</option>
                                  <option value="empty bladder">empty bladder</option>
                                  <option value="null">null</option>
+                                 <option value="unconscious">unconscious</option>
+                                 <option value="disoriented">disoriented</option>
                              </select>
                          </div>
                          <div class="form-row"  id="transac-parent">
@@ -91,6 +106,7 @@
                              <label for="">history</label>
                              <textarea name="history" id="history" cols="30" rows="10"></textarea>
                          </div>
+                       
                     </div>
                  <div class="form-row mt-3">
                      <button type="button" class="btn btn-outline-primary" id="saveButton">save</button>

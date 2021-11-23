@@ -149,6 +149,25 @@ class SonosoftDatabase {
        response.send(results);
      })
   }
+  presetMsd = async function(tablename,response,request) {
+    const {title,location,yolksac,ovaries,adnexa,abnormals,impression} = request.body;
+
+    let query = `INSERT INTO ${tablename} (
+       TITLE,LOCATION,YOLKSAC,OVARIES,ADNEXA,ABNORMALS,IMPRESSION
+    ) VALUES ( "${title}","${location}", "${yolksac}","${ovaries}","${adnexa}","${abnormals}","${impression}")`;
+
+    createConnection.query( query, (err,results,fields) => {
+      if(err) {
+        throw err;
+      }
+      if(results) {
+        response.send({
+          message: "insertion succesfull",
+          tip: "click on preset to toggle between form fields and saved prests"
+        })
+      }
+    })
+  }
 
 }
 

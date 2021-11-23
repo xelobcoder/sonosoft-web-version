@@ -16,7 +16,8 @@ const events = require('./models/events')
 const authentication = require('./models/sessions/authentication');
 const Database = require("./models/database");
 const sonosoft = new Database();
-var cookieParser = require('cookie-parser')
+var cookieParser = require('cookie-parser');
+const presetRouter = require("./models/routers/preset");
 
 app.set('view engine', 'ejs')
 
@@ -27,6 +28,7 @@ app.use('/js', express.static(path.join(__dirname, 'public')))
 app.use('/css', express.static(path.join(__dirname, 'public')))
 app.use('/assert', express.static(path.join(__dirname, 'public')))
 app.use(institutions)
+app.use(presetRouter);
 app.use(scanpanels)
 app.use(scanPanels)
 app.use(referer)

@@ -314,9 +314,28 @@ window.onload = (ev) => {
        let parent = presetFields.parentElement;
        parent.classList.toggle("d-none");
        preseted.classList.toggle("d-none");
+       const presetInfo = async function(object) {
+         let m = document.querySelector("#pm");
+         let t = document.querySelector("#pt");
+         let area = document.querySelector("#preset-message");
+            if(object.hasOwnProperty("message")){
+              area.classList.remove("d-none");
+               let message = object["message"];
+               let tip = object["tip"];
+               m.innerHTML += message;
+               t.innerHTML += tip;
+               setTimeout( () =>{
+                area.classList.add("d-none");
+                m.innerHTML = "message: ";
+                t.innerHTML = "tip: ";
+              },4000)
+            
+            }
+       }
        if(save) {
           save.onclick = (ev) => {
             const data = {
+              scantype: "MSD",
               title: title.value,
               location : location.value,
               yolksac : yolksac.value,
@@ -325,8 +344,15 @@ window.onload = (ev) => {
               abnormals : abnormals.value,
               impression : impression.value
             }
+
+            postRequest("http://localhost:8000/api/preset","POST",data)
+            .then( (res) =>  {
+              console.log(res)
+               presetInfo(res); 
+            }).catch ( (e) => {console.log(e)})
            
            }
+
        }
     }
   }
