@@ -207,6 +207,105 @@ window.onload = (ev) => {
     displayNotice(info, action)
   }
 
+  // display titles presetted inputs
+
+  const displayPreset = async () => {
+    const html = function(p) {
+      return (
+        `
+        <div class="list-group-item"  style="display: grid; grid-template-columns: 90% 10%;">
+          <div class="title" style="font-size: 13px;" dataid = ${p['ID']}}>
+            ${p["TITLE"]}
+          </div>
+          <div class="view-btn">
+            <button type="button" id="p-fill" style="padding: 3px 6px;" class="btn btn-primary">fill</button>
+          </div> 
+        </div> 
+      `
+      )
+    };
+
+    const dataInsertion = async  (t) => {
+      let i = t.map( (v) => {
+        return html(v)
+      }).join("");
+
+      let parent = document.querySelector("#preset-group");
+       parent.innerHTML = i;
+    }
+  //  display titles if search is null or display searched titles
+    const searchShake = async  (res) =>{
+       let search = document.querySelector("#preset_search");
+       if(search.value == "") {
+         dataInsertion(res);
+       } 
+
+       search.addEventListener("keypress" , (ev) => {
+          let filter = ev.target.value;
+          let filtered = res.filter( (v) => {
+             return v["TITLE"].startsWith(filter)
+          })
+          dataInsertion(filtered);
+       })
+
+      search.addEventListener("focusout", (ev)=> {
+        if(ev.target.value == "") {
+          dataInsertion(res);
+        }
+      })
+    }
+
+    
+    //  fill data into input fields
+    
+    const populateData = async function (data) {
+      const {ABNORMALS,ADNEXA,GSD,ID,IMPRESSION,OVARIES,TITLE,YOLKSAC} = data[0];
+      ga.value = GSD;
+      impression.value = IMPRESSION;
+      adnexa.value = ADNEXA;
+      ovaries.value = OVARIES;
+      abnormalFindings.value = ABNORMALS;
+      yolk.value = YOLKSAC;
+    }
+    
+    // fill collect data for filing
+    const prefillData = async function() {
+       const button = document.querySelectorAll("#p-fill");
+       const sendData = async (id,preset) =>  {
+         postRequest("http://localhost:8000/api/v1/presetspecific","POST",{id :id,preset:preset})
+         .then ( (res) => {
+             if(res) {
+               populateData(res);
+             }
+         }).catch ( (err) => {
+            throw err;
+         })
+       }
+
+       button.forEach ( (t) => {
+         t.addEventListener("click", (ev)=> {
+           let element = ev.target;
+           let parent = element.parentElement;
+           let sibling = parent.previousElementSibling;
+           let id = sibling.getAttribute("dataid");
+           sendData(id,"msd_preset");
+         })
+       })
+    }
+
+    postRequest("http://localhost:8000/api/v1/presetTitles","POST",{scan:"MSD"})
+    .then ( (res) => {
+       searchShake(res);
+       prefillData()
+    }).catch ( (err) =>{
+      console.log(err)
+    })
+  }
+
+  displayPreset();
+
+  // end here for preset 
+
   // filter transactionID
 
   const searchID = document.querySelector('#searchid')
@@ -294,6 +393,16 @@ window.onload = (ev) => {
     }
   }
 
+  const clearInput = async function() {
+     const clearbutton = document.querySelector("#clearpreset");
+     clearbutton.addEventListener("click",(ev) => {
+      const form = document.querySelector("#msd-preset");
+      form.reset();
+   }) 
+  }
+
+  clearInput();
+
   const presetButton = document.querySelector('#presetbtn')
   const deleteButton = document.querySelector('#deletebtn')
   if (presetButton) {
@@ -344,7 +453,7 @@ window.onload = (ev) => {
           postRequest('http://localhost:8000/api/preset', 'POST', data)
             .then((res) => {
               console.log(res)
-              presetInfo(res)
+              presetInfo(res);
             })
             .catch((e) => {
               console.log(e)

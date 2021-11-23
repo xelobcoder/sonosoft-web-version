@@ -76,18 +76,18 @@ class SonosoftDatabase {
   idExist = async function (id, columnName, tablename) {
     if (typeof id != 'number' && typeof columnName != 'string') {
       return
-    } else  {
-       return new Promise(function (resolve, reject) {
-       createConnection.query(
-        `SELECT * FROM ${tablename} WHERE ${columnName} = ${id}`,
-        function (err, results, fields) {
-          if (err) {
-            reject(err)
-          }
-          resolve(results)
-        },
-      )
-    })
+    } else {
+      return new Promise(function (resolve, reject) {
+        createConnection.query(
+          `SELECT * FROM ${tablename} WHERE ${columnName} = ${id}`,
+          function (err, results, fields) {
+            if (err) {
+              reject(err)
+            }
+            resolve(results)
+          },
+        )
+      })
     }
   }
 
@@ -116,59 +116,88 @@ class SonosoftDatabase {
     }
   }
   /**
-   * 
+   *
    * @param {string} tableName name of table in the database
    * @param {string} response http response
    * @param {number} limit optional row returned limit
    * @return {object}  array of sql rows
    */
-  workedCases = async function(tableName,response,limit = 0) {
-    let query = `SELECT TRANSACTIONID FROM ${tableName}`;
-    let limitquery = `SELECT TRANSACTIONID FROM ${tableName}  LIMIT ${limit}  `;
-    if(limit == 0) {
-      createConnection.query(query, function(err,results,fields) {
-        if(err) {
-          throw err;
-        } 
+  workedCases = async function (tableName, response, limit = 0) {
+    let query = `SELECT TRANSACTIONID FROM ${tableName}`
+    let limitquery = `SELECT TRANSACTIONID FROM ${tableName}  LIMIT ${limit}  `
+    if (limit == 0) {
+      createConnection.query(query, function (err, results, fields) {
+        if (err) {
+          throw err
+        }
         response.send(results)
       })
     } else {
-      createConnection.query(limitquery,function(err,results,fields) {
-        if(err) throw err;
-         response.send(results);
+      createConnection.query(limitquery, function (err, results, fields) {
+        if (err) throw err
+        response.send(results)
       })
     }
   }
 
-  returnArow = async function(tableName,response,id) {
-     createConnection.query(`SELECT * FROM ${tableName} WHERE TRANSACTIONID = "${id}"`,
-     function(err,results,fields) {
-       if(err) {
-         throw err;
-       }
-       response.send(results);
-     })
+  returnArowUsingTransactionID = async function (tableName, response, id) {
+    createConnection.query(
+      `SELECT * FROM ${tableName} WHERE TRANSACTIONID = "${id}"`,
+      function (err, results, fields) {
+        if (err) {
+          throw err
+        }
+        response.send(results)
+      },
+    )
   }
-  presetMsd = async function(tablename,response,request) {
-    const {title,location,yolksac,ovaries,adnexa,abnormals,impression} = request.body;
+  presetMsd = async function (tablename, response, request) {
+    const {
+      title,
+      location,
+      yolksac,
+      ovaries,
+      adnexa,
+      abnormals,
+      impression,
+    } = request.body
 
     let query = `INSERT INTO ${tablename} (
        TITLE,LOCATION,YOLKSAC,OVARIES,ADNEXA,ABNORMALS,IMPRESSION
-    ) VALUES ( "${title}","${location}", "${yolksac}","${ovaries}","${adnexa}","${abnormals}","${impression}")`;
+    ) VALUES ( "${title}","${location}", "${yolksac}","${ovaries}","${adnexa}","${abnormals}","${impression}")`
 
-    createConnection.query( query, (err,results,fields) => {
-      if(err) {
-        throw err;
+    createConnection.query(query, (err, results, fields) => {
+      if (err) {
+        throw err
       }
-      if(results) {
+      if (results) {
         response.send({
-          message: "insertion succesfull",
-          tip: "click on preset to toggle between form fields and saved prests"
+          message: 'insertion succesfull',
+          tip: 'click on preset to toggle between form fields and saved prests',
         })
       }
     })
   }
 
+  presetCRL = async function () {}
+
+  presetitles = async function (tablename, response) {
+    let query = `SELECT ID, TITLE FROM ${tablename}`
+    createConnection.query(query, (err, results, fields) => {
+      if (err) throw err
+      response.send(results)
+    })
+  }
+
+  sendUserUsingID = async function (tablename, id, response) {
+    let query = `SELECT * FROM ${tablename} WHERE ID = "${id}"`
+    createConnection.query(query, (err, results, field) => {
+      if (err) {
+        throw err
+      }
+      response.send(results)
+    })
+  }
 }
 
 module.exports = SonosoftDatabase

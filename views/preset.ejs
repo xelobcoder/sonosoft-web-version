@@ -1,6 +1,6 @@
 <div class="container-fluid bg-white">
     <div class="sid-wrapper">
-         <input type="search" class ="form-control mb-3" placeholder="search preset here" style="width:100%; display:flex; justify-content:center; " />
+         <input type="search" class ="form-control mb-3" id="preset_search" placeholder="search preset here" style="width:100%; display:flex; justify-content:center; " />
     </div>
     <div class="d-none d-block" id="preset-message">
        <div class="alert alert-info" style="font-size: 12px;">
@@ -33,46 +33,13 @@
             <label for="">impression</label>
             <textarea name="impression-preset" id="impression-preset" cols="30" rows="4" placeholder="type something..."></textarea>
             <button type="button" class="btn btn-outline-primary" id="savepreset">save</button>
-            <button type="button" class="btn btn-outline-info">clear</button>
+            <button type="button" class="btn btn-outline-info" id="clearpreset">clear</button>
          </form>
     </div>
     <div class="sid-wrapper ">
-       <div class="list-group">
-         <div class="list-group-item" style="display: grid; grid-template-columns: 90% 10%;">
-            <div class="title" style="font-size: 13px;">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, corporis.
-            </div>
-            <div class="view-btn">
-               <button type="button" style="padding: 3px 6px;" class="btn btn-primary">fill</button>
-            </div>
-         </div>
-         <div class="list-group-item" style="display: grid; grid-template-columns: 90% 10%;">
-           <div class="title" style="font-size: 13px;">
-             Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, corporis.
-           </div>
-           <div class="view-btn">
-              <button type="button" style="padding: 3px 6px;" class="btn btn-primary">fill</button>
-           </div>
-        </div>
-        <div class="list-group-item" style="display: grid; grid-template-columns: 90% 10%;">
-         <div class="title" style="font-size: 13px;">
-           Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, corporis.
-         </div>
-         <div class="view-btn">
-            <button type="button" style="padding: 3px 6px;" class="btn btn-primary">fill</button>
-         </div>
-      </div>
-      <div class="list-group-item" style="display: grid; grid-template-columns: 90% 10%;">
-       <div class="title" style="font-size: 13px;">
-         Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, corporis.
-       </div>
-       <div class="view-btn">
-          <button type="button" style="padding: 3px 6px;" class="btn btn-primary">fill</button>
-       </div>
-    </div>
+       <div class="list-group" id="preset-group">
          
        </div>
-        
        </div>
     </div>
 

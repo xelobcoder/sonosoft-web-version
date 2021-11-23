@@ -11,45 +11,47 @@ const connection = require('./models/db')
 const scanpanels = require('./models/routers/scan')
 const referer = require('./models/routers/referer')
 const registration = require('./models/registration')
-const session = require('express-session');
+const session = require('express-session')
 const events = require('./models/events')
-const authentication = require('./models/sessions/authentication');
-const Database = require("./models/database");
-const sonosoft = new Database();
-var cookieParser = require('cookie-parser');
-const presetRouter = require("./models/routers/preset");
+const authentication = require('./models/sessions/authentication')
+const Database = require('./models/database')
+const sonosoft = new Database()
+var cookieParser = require('cookie-parser')
+const presetRouter = require('./models/routers/preset')
+const { report } = require('process')
+const { response } = require('express')
 
 app.set('view engine', 'ejs')
 
-const port = 8000 || process.env.PORT;
+const port = 8000 || process.env.PORT
 
 app.use(express.static(path.join(__dirname, 'public')))
 app.use('/js', express.static(path.join(__dirname, 'public')))
 app.use('/css', express.static(path.join(__dirname, 'public')))
 app.use('/assert', express.static(path.join(__dirname, 'public')))
 app.use(institutions)
-app.use(presetRouter);
+app.use(presetRouter)
 app.use(scanpanels)
 app.use(scanPanels)
 app.use(referer)
-app.use(registration);
+app.use(registration)
 app.use(cookieParser())
 
-
-
 const config = {
-  SECRET : "BLOWCATJONESONOSOFTVERSION0.0.1PRODUCTIONBYTIIFUHAMZA",
+  SECRET: 'BLOWCATJONESONOSOFTVERSION0.0.1PRODUCTIONBYTIIFUHAMZA',
   SECURE: false,
 }
 
-app.use(session({
-  secret :config.SECRET,
-  resave: false,
-  saveUninitialized : false,
-  cookie : {
-      secure: config.SECURE
-  }
-}))
+app.use(
+  session({
+    secret: config.SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: config.SECURE,
+    },
+  }),
+)
 
 server.listen(port, function (err) {
   if (err) {
@@ -62,15 +64,14 @@ io.on('connection', function (socket) {
   console.log(`socket connected by user ${socket.id}`)
 })
 
-app.get("/" , (req,res,next) => {
-   let User = req.cookies;
-   console.log("success");
-   if(User) {
-     res.render("index")
-   } else {
-     res.render("login")
-   }
-   
+app.get('/', (req, res, next) => {
+  let User = req.cookies
+  console.log('success')
+  if (User) {
+    res.render('index')
+  } else {
+    res.render('login')
+  }
 })
 
 app.get('/index', function (req, res, next) {
@@ -211,7 +212,7 @@ app.get('/abdominal_pelvic/:id', function (request, response) {
   renderTemplate('ABDOMINAL_PELVIC', uuid, response)
 })
 
-app.get('/login', (req, res) => {  
+app.get('/login', (req, res) => {
   res.render('login')
 })
 
@@ -230,10 +231,7 @@ app.get('/viewhistory/:id', (request, response) => {
   })
 })
 
-
 // depend page to land user depening on the login credentials
-
-
 
 app.post('/authenticateUser', function (request, response) {
   const { username, password } = request.body
@@ -245,17 +243,21 @@ app.post('/authenticateUser', function (request, response) {
         authenticate
           .comparePassword(password)
           .then((d) => {
-            if(d == true) {
-              authenticate.roleIdentification(username)
-              .then((v) => {
-                console.log(v)
-                 authenticate.landingPage(v,response);
-              }).catch ((err) => {throw err})
+            if (d == true) {
+              authenticate
+                .roleIdentification(username)
+                .then((v) => {
+                  console.log(v)
+                  authenticate.landingPage(v, response)
+                })
+                .catch((err) => {
+                  throw err
+                })
             } else {
-               response.send ({
-                 message: "login credentials wrong",
-                 action: "try again with new credentials or contact admin"
-               })
+              response.send({
+                message: 'login credentials wrong',
+                action: 'try again with new credentials or contact admin',
+              })
             }
           })
           .catch((err) => {
@@ -278,52 +280,83 @@ app.post('/authenticateUser', function (request, response) {
 app.post('/newusers', (request, response) => {
   const { username, password } = request.body
   let logger = new authentication(username, password)
-  logger.saveLoginDetails(request.body, response);
+  logger.saveLoginDetails(request.body, response)
 })
 
-
-app.get("/workedcases/:id", (request,response) => {
-   let scan = request.params.id.slice(1);
-   if(scan === "msd") {
-     sonosoft.workedCases("MSD",response,100);
-   } else if (scan === "abdominal") {
-     sonosoft.workedCases("abdominalscan",response,300);
-   } else if (scan === "abdominalpelvic") {
-     sonosoft.workedCases("abdominalpelvic",response,200);
-   } else if (scan === "crl") {
-     sonosoft.workedCases("crl",response,100);
-   } else if (scan === "pelvic") {
-     sonosoft.workedCases("pelvic",response,200);
-   } else if (scan === "urological") {
-     sonosoft.workedCases("urological",response,100);
-   }
-    else {
-     response.send({message: `${scan} as a table not know`})
-   }
+app.get('/workedcases/:id', (request, response) => {
+  let scan = request.params.id.slice(1)
+  if (scan === 'msd') {
+    sonosoft.workedCases('MSD', response, 100)
+  } else if (scan === 'abdominal') {
+    sonosoft.workedCases('abdominalscan', response, 300)
+  } else if (scan === 'abdominalpelvic') {
+    sonosoft.workedCases('abdominalpelvic', response, 200)
+  } else if (scan === 'crl') {
+    sonosoft.workedCases('crl', response, 100)
+  } else if (scan === 'pelvic') {
+    sonosoft.workedCases('pelvic', response, 200)
+  } else if (scan === 'urological') {
+    sonosoft.workedCases('urological', response, 100)
+  } else {
+    response.send({ message: `${scan} as a table not know` })
+  }
 })
 
 // render abdominal scan preset form
 
-app.get("/abdominalpreset", function(request,response) {
-  response.render("abdominalpreset")
+app.get('/abdominalpreset', function (request, response) {
+  response.render('abdominalpreset')
 })
 
-app.post("/prefill", (request,response) => {
-   const {scan, transactionID } = request.body;
-   console.log(transactionID)
-   sonosoft.returnArow(scan,response,transactionID);
+app.post('/prefill', (request, response) => {
+  const { scan, transactionID } = request.body
+  console.log(transactionID)
+  sonosoft.returnArowUsingTransactionID(scan, response, transactionID)
 })
 
+app.post('/api/filterid', (request, response) => {
+  const { transactionID, tablename } = request.body
+  console.log(request.body)
+  if (transactionID) {
+    const myquery = `SELECT * FROM ${tablename} WHERE TRANSACTIONID LIKE "${transactionID}%" LIMIT  100`
+    connection.query(myquery, function (err, results, fields) {
+      if (err) throw err
+      console.log(results)
+      response.send(results)
+    })
+  }
+})
 
-app.post("/api/filterid" , (request,response) => {
-   const { transactionID, tablename} = request.body;
-   console.log(request.body)
-   if(transactionID) {
-     const myquery = `SELECT * FROM ${tablename} WHERE TRANSACTIONID LIKE "${transactionID}%" LIMIT  100`;
-     connection.query (myquery, function(err,results,fields) {
-       if(err) throw err;
-       console.log(results)
-       response.send(results);
+app.post('/api/v1/presetTitles', (request, response) => {
+  const { scan } = request.body
+  if (scan) {
+    switch (scan) {
+      case 'MSD':
+        sonosoft.presetitles('msd_preset', response)
+        break
+      case 'MSD':
+        break
+      case 'MSD':
+        break
+      case 'MSD':
+        break
+      case 'MSD':
+        break
+      case 'MSD':
+        break
+      default:
+        response.send('not seem')
+    }
+  }
+})
+
+app.post('/api/v1/presetspecific', (request,response) => {
+   const {id,preset} = request.body;
+   if(id && preset) {
+      sonosoft.sendUserUsingID(preset,id,response);
+   } else {
+     response.send({
+       message: "ERROR"
      })
    }
 })
