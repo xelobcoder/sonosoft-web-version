@@ -12,7 +12,7 @@ window.onload = (ev) => {
   let abnormalFindings = document.querySelector('#ab')
   let impression = document.querySelector('#impression')
 
-  let form = document.querySelector("#msd-form");
+  let form = document.querySelector('#msd-form')
   //  INSERT TRANSACTIONAL IDS OF WPRKED CASES
   const insertID = (response) => {
     let parent = document.getElementById('look')
@@ -24,7 +24,6 @@ window.onload = (ev) => {
 
     return (parent.innerHTML = html)
   }
-
 
   const submitButton = document.querySelector('#save')
 
@@ -63,7 +62,7 @@ window.onload = (ev) => {
           normallize(textareas[i])
         }
       }
-      if(inputs){
+      if (inputs) {
         for (let i = 0; i < inputs.length; i++) {
           inputs[i].blur = function () {
             textInputAction(inputs[i])
@@ -77,8 +76,7 @@ window.onload = (ev) => {
   }
 
   isEmpty()
-  
- 
+
   const postRequest = async function (url, method, data) {
     if (method === 'GET') {
       let api = await fetch(url)
@@ -100,31 +98,30 @@ window.onload = (ev) => {
     let form = document.querySelector('#msd-form')
     return form.reset()
   }
-  //  display notice 
+  //  display notice
   const displayNotice = function (target, message) {
-    let search  = document.querySelector(".search");
-    let list = document.querySelector(".group-list");
-    let parent = target.parentElement;
-    let css = target.parentElement.getAttribute("class");
-    if(css) {
-      if(css.includes("d-none")) {
-        parent.classList.remove("d-none");
-        parent.classList.add("d-block");
-        list.style.display = "none";
-        search.style.display = "none";
-      } 
+    let search = document.querySelector('.search')
+    let list = document.querySelector('.group-list')
+    let parent = target.parentElement
+    let css = target.parentElement.getAttribute('class')
+    if (css) {
+      if (css.includes('d-none')) {
+        parent.classList.remove('d-none')
+        parent.classList.add('d-block')
+        list.style.display = 'none'
+        search.style.display = 'none'
+      }
     }
-    target.innerHTML += message;
+    target.innerHTML += message
     setTimeout(function () {
-      target.innerHTML = '';
-       parent.classList.remove("d-block");
-        parent.classList.add("d-none");
-        list.style.display = "block";
-        search.style.display = "block";
-
+      target.innerHTML = ''
+      parent.classList.remove('d-block')
+      parent.classList.add('d-none')
+      list.style.display = 'block'
+      search.style.display = 'block'
     }, 6000)
   }
-  
+
   // populate input field on clicked transactionid response data
   const inputFill = async function (data) {
     const {
@@ -142,55 +139,52 @@ window.onload = (ev) => {
       ADNEXA,
       YOLKSAC,
       ID,
-      IMPRESSION
-    } = data;
+      IMPRESSION,
+    } = data
 
-    transactionID.innerHTML = TRANSACTIONID;
-    location.value = LOCATION;
-    weeks.value = WEEKS;
-    days.value = DAYS;
-    edd.value = EDD;
-    ovaries.value = OVARIES;
-    adnexa.value = ADNEXA;
-    abnormalFindings.value = ABNORMAL_FINDINGS;
-    impression.value = IMPRESSION;
-    yolk.value = YOLKSAC;
-    ga.value = GA;
-
+    transactionID.innerHTML = TRANSACTIONID
+    location.value = LOCATION
+    weeks.value = WEEKS
+    days.value = DAYS
+    edd.value = EDD
+    ovaries.value = OVARIES
+    adnexa.value = ADNEXA
+    abnormalFindings.value = ABNORMAL_FINDINGS
+    impression.value = IMPRESSION
+    yolk.value = YOLKSAC
+    ga.value = GA
   }
   // listen to click event of transaction ids and return data from database table
   // click event for each li of userid to fetch data and populate input field
   var TransactionIDevent = async function () {
-    let li = document.querySelectorAll("#lookbae");
-    if(li) {
-      for(let i = 0; i < li.length; i++) {
-        li[i].onclick = function(ev) {
+    let li = document.querySelectorAll('#lookbae')
+    if (li) {
+      for (let i = 0; i < li.length; i++) {
+        li[i].onclick = function (ev) {
           const requestData = {
-            scan: "MSD",
-            transactionID : ev.target.getAttribute("uuid")
+            scan: 'MSD',
+            transactionID: ev.target.getAttribute('uuid'),
           }
           console.log(requestData.transactionID)
-           postRequest("http://localhost:8000/prefill","POST",requestData)
-           .then ( (response) => {
-               inputFill(response[0]);
+          postRequest('http://localhost:8000/prefill', 'POST', requestData)
+            .then((response) => {
+              inputFill(response[0])
               //  set the state of form to update
-              form.setAttribute("state","update");
-           }).catch ((err) => {throw err});
+              form.setAttribute('state', 'update')
+            })
+            .catch((err) => {
+              throw err
+            })
         }
       }
     }
-
   }
 
-
- 
-
   const workedCases = async function () {
- 
     postRequest('http://localhost:8000/workedcases/:msd', 'GET')
       .then((response) => {
-        insertID(response);
-        TransactionIDevent();
+        insertID(response)
+        TransactionIDevent()
       })
       .catch((err) => {
         throw err
@@ -199,57 +193,57 @@ window.onload = (ev) => {
 
   workedCases()
 
-   // this would hide the transactional ids momentarily and display alert log usind display function;
+  // this would hide the transactional ids momentarily and display alert log usind display function;
 
-  const  alertActionlog = async function( data) {
-    let danger = document.querySelectorAll(".sid-alert-message")[0];
-    let info = document.querySelectorAll(".sid-alert-message")[1];
+  const alertActionlog = async function (data) {
+    let danger = document.querySelectorAll('.sid-alert-message')[0]
+    let info = document.querySelectorAll('.sid-alert-message')[1]
 
-    const {message,action} = data;
+    const { message, action } = data
 
     console.log(data)
 
-     displayNotice(danger,message);
-     displayNotice(info,action);
+    displayNotice(danger, message)
+    displayNotice(info, action)
   }
-    
-    // filter transactionID 
 
-    const searchID = document.querySelector("#searchid");
-      if(searchID) {
-        const filterTransactionID = function(data) {
-          postRequest("http://localhost:8000/api/filterid","POST",data)
-          .then( (response) => {
-             if(response.length === 0) {
-               return ;
-             } else {
-                insertID(response)
-             }
-          }).catch ((err) =>  {
-             throw err;
-          })
-       }
-   
-       searchID.addEventListener("keyup" ,function(ev) {
-        let parent = document.getElementById('look');
-        parent.innerHTML = "" ;
-         const transactionID = ev.target.value;
-         if(transactionID != "") {
-          const table = "MSD";
-          const data = {transactionID,tablename: table};
-          filterTransactionID(data);
-         } else {
-          //  called if search field is empty;
-          // poplulate area with worked cases ID
-           workedCases()
-         }
-       })
+  // filter transactionID
+
+  const searchID = document.querySelector('#searchid')
+  if (searchID) {
+    const filterTransactionID = function (data) {
+      postRequest('http://localhost:8000/api/filterid', 'POST', data)
+        .then((response) => {
+          if (response.length === 0) {
+            return
+          } else {
+            insertID(response)
+          }
+        })
+        .catch((err) => {
+          throw err
+        })
+    }
+
+    searchID.addEventListener('keyup', function (ev) {
+      let parent = document.getElementById('look')
+      parent.innerHTML = ''
+      const transactionID = ev.target.value
+      if (transactionID != '') {
+        const table = 'MSD'
+        const data = { transactionID, tablename: table }
+        filterTransactionID(data)
+      } else {
+        //  called if search field is empty;
+        // poplulate area with worked cases ID
+        workedCases()
       }
+    })
+  }
   //  end
 
   submitButton.onclick = function (ev) {
-    
-  let STATE = form.getAttribute("state");
+    let STATE = form.getAttribute('state')
 
     const clientInfo = {
       scan: 'MSD',
@@ -265,96 +259,98 @@ window.onload = (ev) => {
       adnexa: adnexa.value,
       abnormals: abnormalFindings.value,
       impression: impression.value,
-      state: "newEntry"
+      state: 'newEntry',
     }
-    
-    if(STATE === "new") {
-       postRequest('http://localhost:8000/scanpanels/scan', 'POST', clientInfo)
-      .then((response) => {
-        if(response) {
-           if(response.hasOwnProperty("message")) {
-             if (response['message'] === 'insertion successful') {
-            resetform();
-            displayNotice(exceedMesssagebtn, response['message']);
-            workedCases();
-          } else {
-            alertActionlog(response);
+
+    if (STATE === 'new') {
+      postRequest('http://localhost:8000/scanpanels/scan', 'POST', clientInfo)
+        .then((response) => {
+          if (response) {
+            if (response.hasOwnProperty('message')) {
+              if (response['message'] === 'insertion successful') {
+                resetform()
+                displayNotice(exceedMesssagebtn, response['message'])
+                workedCases()
+              } else {
+                alertActionlog(response)
+              }
+            }
           }
-           }
-        }
-      })
-      .catch((err) => {
-        throw err
-      })
+        })
+        .catch((err) => {
+          throw err
+        })
     } else {
-      clientInfo["state"] = "update";
-      postRequest("http://localhost:8000/scanpanels/scan","PUT",clientInfo)
-      .then( (response) => {
-        if(response) {
-           console.log(response)
+      clientInfo['state'] = 'update'
+      postRequest(
+        'http://localhost:8000/scanpanels/scan',
+        'PUT',
+        clientInfo,
+      ).then((response) => {
+        if (response) {
+          console.log(response)
         }
       })
     }
   }
 
-  const presetButton = document.querySelector("#presetbtn");
-  const deleteButton = document.querySelector("#deletebtn");
-  if(presetButton) {
-    const title = document.querySelector("#title-preset");
-    const location = document.querySelector("#location-preset");
-    const yolksac = document.querySelector("#yolk-preset");
-    const ovaries = document.querySelector("#ovaries-preset");
-    const adnexa = document.querySelector("#adnexa-preset");
-    const abnormals = document.querySelector("#abnormal-preset");
-    const impression = document.querySelector("#impression-preset");
-    const save = document.querySelector("#savepreset");
+  const presetButton = document.querySelector('#presetbtn')
+  const deleteButton = document.querySelector('#deletebtn')
+  if (presetButton) {
+    const title = document.querySelector('#title-preset')
+    const location = document.querySelector('#location-preset')
+    const yolksac = document.querySelector('#yolk-preset')
+    const ovaries = document.querySelector('#ovaries-preset')
+    const adnexa = document.querySelector('#adnexa-preset')
+    const abnormals = document.querySelector('#abnormal-preset')
+    const impression = document.querySelector('#impression-preset')
+    const save = document.querySelector('#savepreset')
     presetButton.onclick = (ev) => {
-       const presetFields = document.querySelector("#msd-preset");
-       const preseted = document.querySelector(".sid-wrapper > .list-group");
-       let parent = presetFields.parentElement;
-       parent.classList.toggle("d-none");
-       preseted.classList.toggle("d-none");
-       const presetInfo = async function(object) {
-         let m = document.querySelector("#pm");
-         let t = document.querySelector("#pt");
-         let area = document.querySelector("#preset-message");
-            if(object.hasOwnProperty("message")){
-              area.classList.remove("d-none");
-               let message = object["message"];
-               let tip = object["tip"];
-               m.innerHTML += message;
-               t.innerHTML += tip;
-               setTimeout( () =>{
-                area.classList.add("d-none");
-                m.innerHTML = "message: ";
-                t.innerHTML = "tip: ";
-              },4000)
-            
-            }
-       }
-       if(save) {
-          save.onclick = (ev) => {
-            const data = {
-              scantype: "MSD",
-              title: title.value,
-              location : location.value,
-              yolksac : yolksac.value,
-              ovaries : ovaries.value,
-              adnexa : adnexa.value,
-              abnormals : abnormals.value,
-              impression : impression.value
-            }
+      const presetFields = document.querySelector('#msd-preset')
+      const preseted = document.querySelector('.sid-wrapper > .list-group')
+      let parent = presetFields.parentElement
+      parent.classList.toggle('d-none')
+      preseted.classList.toggle('d-none')
+      const presetInfo = async function (object) {
+        let m = document.querySelector('#pm')
+        let t = document.querySelector('#pt')
+        let area = document.querySelector('#preset-message')
+        if (object.hasOwnProperty('message')) {
+          area.classList.remove('d-none')
+          let message = object['message']
+          let tip = object['tip']
+          m.innerHTML += message
+          t.innerHTML += tip
+          setTimeout(() => {
+            area.classList.add('d-none')
+            m.innerHTML = 'message: '
+            t.innerHTML = 'tip: '
+          }, 4000)
+        }
+      }
+      if (save) {
+        save.onclick = (ev) => {
+          const data = {
+            scantype: 'MSD',
+            title: title.value,
+            location: location.value,
+            yolksac: yolksac.value,
+            ovaries: ovaries.value,
+            adnexa: adnexa.value,
+            abnormals: abnormals.value,
+            impression: impression.value,
+          }
 
-            postRequest("http://localhost:8000/api/preset","POST",data)
-            .then( (res) =>  {
+          postRequest('http://localhost:8000/api/preset', 'POST', data)
+            .then((res) => {
               console.log(res)
-               presetInfo(res); 
-            }).catch ( (e) => {console.log(e)})
-           
-           }
-
-       }
+              presetInfo(res)
+            })
+            .catch((e) => {
+              console.log(e)
+            })
+        }
+      }
     }
   }
 }
-
