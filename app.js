@@ -307,6 +307,11 @@ app.get('/workedcases/:id', (request, response) => {
 app.get('/abdominalpreset', function (request, response) {
   response.render('abdominalpreset')
 })
+app.get('/abdomopelvicpreset', function (request, response) {
+  response.render('abdomopelvicpreset')
+})
+
+// end
 
 app.post('/prefill', (request, response) => {
   const { scan, transactionID } = request.body
@@ -350,13 +355,16 @@ app.post('/api/v1/presetTitles', (request, response) => {
   }
 })
 
-app.post('/api/v1/presetspecific', (request,response) => {
-   const {id,preset} = request.body;
-   if(id && preset) {
-      sonosoft.sendUserUsingID(preset,id,response);
-   } else {
-     response.send({
-       message: "ERROR"
-     })
-   }
+app.post('/api/v1/presetspecific', (request, response) => {
+  const { id, preset } = request.body
+  if (id && preset) {
+    sonosoft.sendUserUsingID(preset, id, response)
+  } else {
+    response.send({
+      message: 'ERROR',
+    })
+  }
+})
+app.get('/presetopts', function (request, response) {
+  response.render('presetopts')
 })

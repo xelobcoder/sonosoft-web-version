@@ -1,0 +1,106 @@
+<%- include('header.ejs') %>
+<%- include('top.ejs') %>
+<style>
+    label{
+        color:gray;
+        text-transform: capitalize;
+        margin-bottom: 10px;
+        margin-top:10px;
+    }
+    .button-flow > button {
+        width: 120px;
+        display: flex;
+    }
+    .button-flow > button > svg{
+        margin-top: 5px;
+        margin-right:20px ;
+    }
+</style>
+<body>
+    <div class="container-fluid mt-3" style="display: grid; grid-template-columns: 70% auto;">
+        <div>
+            <div class="col-12">
+                <input type="search" name="search-preset" id="search-preset" class="form-control">
+            </div>
+        </div>
+         <div class="button-flow" style="display: flex; justify-content: space-around;">
+             <button class="btn btn-outline-danger" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+              </svg><div class="text ml-2">delete</div></button>
+             <button class="btn btn-outline-info" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+              </svg><div class="text ml-2">edit</div></button>
+             <button class="btn btn-outline-primary" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square-fill" viewBox="0 0 16 16">
+                <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z"/>
+              </svg><div class="text ml-2">new</div></button>
+         </div>
+    </div>
+    <hr style="color: lightgray;">
+    <div class="container-fluid mt-4" style="display: grid; grid-template-columns: 20% auto;">
+        <section style="border-right: 1px solid lightgray; padding-right: 10px;">
+            <div>
+                <div class="list-group mt-4">
+                    <div class="list-group-item text-white bg-primary">
+                        Lorem ipsum dolor sit amet.
+                    </div>
+                    <div class="list-group-item">
+                        Lorem ipsum dolor sit amet.
+                    </div>
+                    <div class="list-group-item">
+                        Lorem ipsum dolor sit amet.
+                    </div>
+                    <div class="list-group-item">
+                        Lorem ipsum dolor sit amet.
+                    </div>
+                    <div class="list-group-item">
+                        Lorem ipsum dolor sit amet.
+                    </div>
+                </div>
+            </div> 
+        </section>
+        <section style="height:600px; overflow-y: auto; padding: 20px 100px;">
+            <form action="/abdominalpelvic">
+                <div class="form-row">
+                    <label for="">liver</label>
+                    <textarea id="liver" class="form-control" name="liver"> </textarea>
+                </div>
+                <div class="form-row">
+                    <label for="">kidneys</label>
+                    <textarea id="kidneys" class="form-control" name="kidneys"> </textarea>
+                </div>
+                <div class="form-row">
+                    <label for="">spleen</label>
+                    <textarea id="spleen" class="form-control" name="spleen" cols="30" rows="3"> </textarea>
+                </div>
+                <div class="form-row">
+                    <label for="">pancreas</label>
+                    <textarea id="pancreas" class="form-control" name="pancreas" cols="30" rows="3"> </textarea>
+                </div>
+                <div class="form-row">
+                    <label for="">other findings</label>
+                    <textarea id="ofindings" class="form-control" name="ofindings" cols="30" rows="3"> </textarea>
+                </div>
+                <div class="form-row">
+                    <label for="">uterus</label>
+                    <textarea id="uterus" class="form-control" name="uterus" cols="30" rows="3"> </textarea>
+                </div>
+                <div class="form-row">
+                    <label for="">ovaries</label>
+                    <textarea id="ovaries" class="form-control" name="ovaries" cols="30" rows="3"> </textarea>
+                </div>
+                <div class="form-row">
+                    <label for="">adnexa</label>
+                    <textarea id="adnexa" class="form-control" name="adnexa" cols="30" rows="3"> </textarea>
+                </div>
+                <div class="form-row">
+                    <label for="">impression</label>
+                    <textarea id="impression" class="form-control" name="impression" cols="30" rows="3"> </textarea>
+                </div>
+                <div class="form-row">
+                    <button class="btn btn-outline-success mt-3">save</button>
+                </div>
+            </form>
+        </section>
+
+    </div>
+</body>
