@@ -56,19 +56,13 @@ router.route("/scanpanels/scan")
    }
 
    let ABDOMINAL = function(data){
-       if(isArray(data)){
-           const {liver,kidneys,spleen,pancreas,abdominalcavity} = data;
-           let query = `INSERT INTO ABDOMINAL WHERE(
-
-           ) VALUES (
-
-           )`;
+           const {liver,spleen,kidneys,pancreas,ofindings,transactionalID, abdominalCavity,impression,right_kidney,left_kidney,spleen_size,liver_size} = data;
+           let query = `INSERT INTO ABDOMINALSCAN WHERE(LIVER,SPLEEN,KIDNEYS,PANCREAS,ABDOMINAL_CAVITY,IMPRESSION,LEFT_KIDNEY_SIZE,RIGHT_KIDNEY_SIZE,SPLEEN_SIZE,LIVER_SIZE,TRANSACTIONID,OTHERFINDINGS)VALUES ("${liver}","${spleen}","${kidneys}","${pancreas}","${abdominalCavity}","${impression}","${right_kidney}","${left_kidney}","${spleen_size}","${liver_size}","${transactionalID}","${ofindings}")`;
 
            connection.query( query, function(err,results,fields){
                if(err) throw err;
                response.send(results);
-           })
-       }
+        })
    }
 
     let ABD_PEL = function(data){
@@ -103,7 +97,7 @@ router.route("/scanpanels/scan")
                 MSD(request.body);
                 break;
             case "ABDOMINAL":
-                ABDOMINAL();
+                ABDOMINAL(request.body);
                 break;
             case "ABDO_PEL":
                 ABD_PEL();
@@ -160,7 +154,7 @@ router.route("/scanpanels/scan")
                 MSD(request.body);
                 break;
             case "ABDOMINAL":
-                ABDOMINAL();
+                ABDOMINAL(request.body);
                 break;
             case "ABDO_PEL":
                 ABD_PEL();

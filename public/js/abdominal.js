@@ -7,7 +7,7 @@ window.onload = (ev) =>  {
             width : width.value + " cm"
         }
     }
-    const spleenSize = async function() {
+    const spleenSize = function() {
         let length = document.getElementById("spleenlen");
         let width = document.getElementById("spleenwidth");
         return {
@@ -16,7 +16,7 @@ window.onload = (ev) =>  {
         }
     }
 
-    const getKidneySize = async function() {
+    const getKidneySize = function() {
         let rk= document.getElementById("rtkidneylen");
         let rkw = document.getElementById("rtkidneywidth");
         let lk = document.getElementById("ltkidneylen");
@@ -40,6 +40,7 @@ window.onload = (ev) =>  {
     let pancreas = document.getElementById("pancreas");
     let Ofindings = document.getElementById("ofindings");
     let impression = document.getElementById("impression");
+    const transactionalID = document.getElementById("clientid").value;
 
     const postRequest = async function (url, method, data) {
         if (method === 'GET') {
@@ -58,26 +59,57 @@ window.onload = (ev) =>  {
         }
       }
 
-    let SCANDATA = async function () {
+    let SCANDATA = function () {
         return {
+            transactionalID,
+            scan: "ABDOMINAL",
             abdominalCavity: abdominalCavity.value,
             spleen: spleen.value,
             liver: liver.value,
             kidneys : kidneys.value,
             pancreas : pancreas.value,
             ofindings : Ofindings.value,
-            impression : impression.value
+            impression : impression.value,
+            right_kidney:  getKidneySize().right.length + "x" + getKidneySize().right.width,
+            left_kidney: getKidneySize().left.length + "x" + getKidneySize().left.width,
+            spleen_size: spleenSize().length + " x " + spleenSize().width,
+            liver_size : liverSize().length + " x " + liverSize().width
+        }
+    }
+    // redify all empty textarea
+    const allTextarea = document.querySelectorAll("textarea");
+
+    const redify = async function() {
+        for(let i = 0; i < allTextarea.length; i++) {
+            console.log(allTextarea[i])
+            if(allTextarea[i].value == " "){
+                allTextarea[i].classList.add("border-primary");
+                allTextarea[i].style.placeholder = "Required";
+                allTextarea[i].style.color = "red";
+            }
         }
     }
 
-
+    // save button
     const saveButton = document.getElementById("saveBtn");
 
-    if(saveButton) {
-        saveButton.addEventListener("click", (ev) => {
-            
-        })
-    }
+    // onclick event
 
-    
+    saveButton.onclick = function (ev) {
+       let results = SCANDATA();
+       console.log(results)
+       for (const [key,value] of Object.entries(results)) {
+           if(value == " ") {
+               console.log(key + ":" + value);
+               redify()
+           } else {
+               postRequest("http://localhost:8000/scanpanels/scan","POST",results)
+               .then(response =>  {
+                   console.log(response);
+               }).catch ( err => {throw err;})
+           }
+       }
+
+    }
+ 
 }

@@ -1,5 +1,0 @@
-#Saving preset to msd preset table
-#list of all preset
-#delete of one customer
-#search of a preset
-#
