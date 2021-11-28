@@ -57,18 +57,23 @@ router.route("/scanpanels/scan")
 
    let ABDOMINAL = function(data){
            const {liver,spleen,kidneys,pancreas,ofindings,transactionalID, abdominalCavity,impression,right_kidney,left_kidney,spleen_size,liver_size} = data;
-           let query = `INSERT INTO ABDOMINALSCAN WHERE(LIVER,SPLEEN,KIDNEYS,PANCREAS,ABDOMINAL_CAVITY,IMPRESSION,LEFT_KIDNEY_SIZE,RIGHT_KIDNEY_SIZE,SPLEEN_SIZE,LIVER_SIZE,TRANSACTIONID,OTHERFINDINGS)VALUES ("${liver}","${spleen}","${kidneys}","${pancreas}","${abdominalCavity}","${impression}","${right_kidney}","${left_kidney}","${spleen_size}","${liver_size}","${transactionalID}","${ofindings}")`;
+           let query = `INSERT INTO ABDOMINALSCAN (LIVER,SPLEEN,KIDNEYS,PANCREAS,ABDOMINAL_CAVITY,IMPRESSION,LT_KIDNEY_SIZE,RT_KIDNEY_SIZE,SPLEEN_SIZE,LIVER_SIZE,TRANSACTIONID,OTHERFINDINGS)VALUES ("${liver}","${spleen}","${kidneys}","${pancreas}","${abdominalCavity}","${impression}","${right_kidney}","${left_kidney}","${spleen_size}","${liver_size}","${transactionalID}","${ofindings}")`;
 
            connection.query( query, function(err,results,fields){
                if(err) throw err;
-               response.send(results);
+               if(results) {
+                   response.send( {
+                       message: "insertion success",
+                       action: "page refresh"
+                   })
+               }
         })
    }
 
     let ABD_PEL = function(data){
        if(isArray(data)){
            const {liver,kidneys,spleen,pancreas,abdominalcavity} = data;
-           let query = `INSERT INTO ABDOMINAL WHERE(
+           let query = `INSERT INTO ABDOMINAL (
 
            ) VALUES (
 
