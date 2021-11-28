@@ -339,9 +339,10 @@ app.post('/api/v1/presetTitles', (request, response) => {
       case 'MSD':
         sonosoft.presetitles('msd_preset', response)
         break
-      case 'MSD':
+      case "abdominalscan":
+        sonosoft.presetitles("abdomen_preset",response)
         break
-      case 'MSD':
+      case 'ABD_PELVIC':
         break
       case 'MSD':
         break

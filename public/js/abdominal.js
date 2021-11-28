@@ -60,7 +60,7 @@ window.onload = (ev) =>  {
       }
 
     let SCANDATA = function () {
-        return {
+        return { 
             transactionalID,
             scan: "ABDOMINAL",
             abdominalCavity: abdominalCavity.value,
@@ -135,7 +135,15 @@ window.onload = (ev) =>  {
                 }
             }).catch ( err => {throw err;})
          } else {
-
+              postRequest(
+                'http://localhost:8000/scanpanels/scan',
+                'PUT',
+                SCANDATA(),
+              ).then((response) => {
+                if (response) {
+                  console.log(response)
+                }
+              })
          }
        }
 
@@ -203,14 +211,14 @@ window.onload = (ev) =>  {
     impression.value = IMPRESSION;
     pancreas.value = PANCREAS;
     abdominalCavity.value = ABDOMINAL_CAVITY;
-    liverLength.value = LIVER_SIZE.slice(0,2);
-    liverwidth.value = LIVER_SIZE.slice(9,12).trim();
-    left_kidney_len.value = LT_KIDNEY_SIZE.split("cm x ")[0].trim();
-    left_kidney_width.value = LT_KIDNEY_SIZE.split("cm x ")[1].split("cm")[0];
-    right_kidney_len.value = RT_KIDNEY_SIZE.split("cm x ")[0].trim();
-    right_kidney_width.value = RT_KIDNEY_SIZE.split("cm x ")[1].split("cm")[0];
-    spleenLength.value = SPLEEN_SIZE.split("cm x ")[0].trim();
-    spleenWidth.value = SPLEEN_SIZE.split("cm x ")[1].split("cm")[0].trim();
+    liverLength.value = parseFloat(LIVER_SIZE.slice(0,2));
+    liverwidth.value = parseFloat(LIVER_SIZE.slice(9,12).trim());
+    left_kidney_len.value = parseFloat(LT_KIDNEY_SIZE.split("cm x ")[0].trim());
+    left_kidney_width.value = parseFloat(LT_KIDNEY_SIZE.split("cm x ")[1].split("cm")[0]);
+    right_kidney_len.value = parseFloat(RT_KIDNEY_SIZE.split("cm x ")[0].trim());
+    right_kidney_width.value = parseFloat(RT_KIDNEY_SIZE.split("cm x ")[1].split("cm")[0]);
+    spleenLength.value = parseFloat(SPLEEN_SIZE.split("cm x ")[0].trim());
+    spleenWidth.value = parseFloat(SPLEEN_SIZE.split("cm x ")[1].split("cm")[0].trim());
   }
 
   //  INSERT TRANSACTIONAL IDS OF WPRKED CASES
@@ -250,6 +258,24 @@ window.onload = (ev) =>  {
         }
       }
 
+      const autoSizeTextarea = async () => {
+        const al = document.querySelectorAll("textarea");
+        
+        function autoResize() {
+            this.style.height = 'auto';
+            this.style.height = this.scrollHeight + 'px';
+        }
+        al.forEach(element => {
+           element.addEventListener("input",autoResize)
+        });
+      }
+
+      autoSizeTextarea();
+
+      // filter transactionID
+
+  
+
     const workedCases = async function () {
         postRequest('http://localhost:8000/workedcases/:abdominal', 'GET')
           .then((response) => {
@@ -263,5 +289,135 @@ window.onload = (ev) =>  {
       }
     
       workedCases()
+
+       const searchID = document.querySelector('#searchid')
+  if (searchID) {
+    const filterTransactionID = function (data) {
+      postRequest('http://localhost:8000/api/filterid', 'POST', data)
+        .then((response) => {
+          if (response.length === 0) {
+            return
+          } else {
+            insertID(response)
+          }
+        })
+        .catch((err) => {
+          throw err
+        })
+    }
+
+    searchID.addEventListener('keyup', function (ev) {
+      let parent = document.getElementById('look')
+      parent.innerHTML = ''
+      const transactionID = ev.target.value
+      if (transactionID != '') {
+        const table = 'abdominalscan'
+        const data = { transactionID, tablename: table }
+        filterTransactionID(data)
+      } else {
+        //  called if search field is empty;
+        // poplulate area with worked cases ID
+        workedCases()
+      }
+    })
+  }
+
+
+  // preset
+
+const presetButton = document.querySelector('#presetbtn');
+
+
+ const displayPreset = async () => {
+    const html = function(p) {
+      return (
+        `
+        <div class="list-group-item"  style="display: grid; grid-template-columns: 90% 10%;">
+          <div class="title" style="font-size: 13px;" dataid = ${p['ID']}}>
+            ${p["TITLE"]}
+          </div>
+          <div class="view-btn">
+            <button type="button" id="p-fill" style="padding: 3px 6px;" class="btn btn-primary">fill</button>
+          </div> 
+        </div> 
+      `
+      )
+    };
+
+    const dataInsertion = async  (t) => {
+      let i = t.map( (v) => {
+        return html(v)
+      }).join("");
+
+      let parent = document.querySelector("#presetUL");
+       parent.innerHTML = i;
+    }
+  //  display titles if search is null or display searched titles
+    const searchShake = async  (res) =>{
+       let search = document.querySelector("#preset_search");
+       if(search.value == "") {
+         dataInsertion(res);
+       } 
+
+       search.addEventListener("keypress" , (ev) => {
+          let filter = ev.target.value;
+          console.log(res)
+          let filtered = res.filter( (v) => {
+             return v["TITLE"].toLowerCase().startsWith(filter.toLowerCase())
+          })
+          dataInsertion(filtered);
+       })
+
+      search.addEventListener("focusout", (ev)=> {
+        if(ev.target.value == "") {
+          dataInsertion(res);
+        }
+      })
+    }
+
+    
+    //  fill data into input fields
+    
+    const populateData = async function (data) {
+     
+    }
+    
+    // fill collect data for filing
+    const prefillData = async function() {
+       const button = document.querySelectorAll("#p-fill");
+       const sendData = async (id,preset) =>  {
+         postRequest("http://localhost:8000/api/v1/presetspecific","POST",{id :id,preset:preset})
+         .then ( (res) => {
+             if(res) {
+               populateData(res);
+             }
+         }).catch ( (err) => {
+            throw err;
+         })
+       }
+
+       button.forEach ( (t) => {
+         t.addEventListener("click", (ev)=> {
+           let element = ev.target;
+           let parent = element.parentElement;
+           let sibling = parent.previousElementSibling;
+           let id = sibling.getAttribute("dataid");
+           sendData(id,"msd_preset");
+         })
+       })
+    }
+
+    postRequest("http://localhost:8000/api/v1/presetTitles","POST",{scan:"abdominalscan"})
+    .then ( (res) => {
+       searchShake(res);
+      //  prefillData()
+    }).catch ( (err) =>{
+      console.log(err)
+    })
+  }
+
+  displayPreset()
+
+  
  
 }

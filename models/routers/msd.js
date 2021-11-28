@@ -152,6 +152,33 @@ router.route("/scanpanels/scan")
              })
          })
     }
+
+    let ABDOMINAL = function(data) {
+        const {liver,spleen,kidneys,pancreas,ofindings,transactionalID, abdominalCavity,impression,right_kidney,left_kidney,spleen_size,liver_size} = data;
+
+        const query = `UPDATE ABDOMINALSCAN
+         SET LIVER = "${liver}",
+             SPLEEN = "${spleen}",
+             KIDNEYS = "${kidneys}",
+             PANCREAS = "${pancreas}",
+             OTHERFINDINGS = "${ofindings}",
+             ABDOMINAL_CAVITY = "${abdominalCavity}",
+             IMPRESSION = "${impression}",
+             LT_KIDNEY_SIZE = "${left_kidney}",
+             RT_KIDNEY_SIZE = "${right_kidney}",
+             SPLEEN_SIZE = "${spleen_size}",
+             LIVER_SIZE = "${liver_size}"
+        WHERE 
+             TRANSACTIONID = ${transactionalID}
+         `;
+
+         connection.query( query, (err,results,fields) => {
+             if(err) throw err;
+             response.send({
+                 message: "update successfull"
+             })
+         })
+    }
      if(clientInfo.hasOwnProperty("scan")){
         const scan = clientInfo["scan"];
         switch (scan) {
@@ -174,6 +201,8 @@ router.route("/scanpanels/scan")
 
     }
 })
+
+
 
 
 module.exports = router;
