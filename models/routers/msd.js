@@ -181,11 +181,13 @@ router.route("/scanpanels/scan")
     }
      if(clientInfo.hasOwnProperty("scan")){
         const scan = clientInfo["scan"];
+        console.log(scan)
         switch (scan) {
             case "MSD" :
                 MSD(request.body);
                 break;
             case "ABDOMINAL":
+                console.log(request.body)
                 ABDOMINAL(request.body);
                 break;
             case "ABDO_PEL":

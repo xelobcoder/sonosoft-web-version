@@ -2,8 +2,7 @@ const express = require("express");
 const router = express.Router();
 const connection = require("./db");
 
-router.use(express.urlencoded({extented: true}));
-router.use(express.json())
+
 
 router.route("/registration")
 .all(function(request,response,next){

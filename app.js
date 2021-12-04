@@ -369,3 +369,15 @@ app.post('/api/v1/presetspecific', (request, response) => {
 app.get('/presetopts', function (request, response) {
   response.render('presetopts')
 })
+
+// returns client information from the registration table in db
+
+app.post("/api/client", function(request,response) {
+  const {id} = request.body;
+  sonosoft.sendUserUsingTransactionID("REGISTRATION",id,response); 
+})
+
+app.get("/second&&third", function(request,response){
+  response.render("obstetrics(second)");
+})
+

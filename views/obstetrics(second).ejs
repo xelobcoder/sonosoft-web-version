@@ -1,0 +1,258 @@
+<%- include('header.ejs') %>
+<%- include('top.ejs') %>
+<style>
+    fieldset{
+        margin-top: 30px;
+        border: 1px solid lightblue;
+        padding: 20px 20px;
+        border-radius: 5px;
+    }
+    legend{
+        margin-top: -40px;
+        background-color: white;
+        border: 1px solid lightgray;
+        width: 100px;
+        border-radius: 5px;
+        font-size: 20px;
+        color: blue;
+        text-transform: capitalize;
+        display: flex;
+        justify-content: center;
+        padding: 5px 10px;
+    }
+    label{
+        text-transform: uppercase;
+        margin: 10px 0px 10px 0px;
+    }
+    .b-s{
+        width: 80px;
+        margin-left: 10px;
+    }
+</style>
+<body>
+    <div class="container-fluid bg-white">
+        <div class="container">
+            <div class="row">
+                <div class="col mt-2 mb-2" style="display: grid; grid-template-columns: 30% 60% 10%;">
+                    <div style="display: grid; grid-template-columns: 35% auto;">
+                        <label for="">TransactionID: </label>
+                        <input type="number" style="border-radius: 0px;" class="form-control" name="clientid" id="clientid" class="form-control" disabled>
+                    </div>
+                    <div style="display: grid; grid-template-columns:15% auto;margin-right: 20px; margin-left: 20px;">
+                        <label for="">fullname:</label>
+                        <input style="border-radius: 0px;" type="text" id="fullname" name="fullname" class="form-control" disabled>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-outline-primary">anomaly</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-divider p-0" style="display: grid; grid-template-columns: 25% 25% 25% 25%;">
+        <section class="panell">
+           <div>
+            <div class="grouper-sidebar">
+                <div class="search">
+                    <input type="number" name="" id="searchid" placeholder="search with client id">
+                </div>
+                <div class="group-list">
+                     <ul id="look">
+                         
+                     </ul>
+                </div>
+            </div>
+            <div class="form-row">
+                <label for="">method</label>
+                <select name="method" id="method" class="form-control">
+                    <option value="transabdominal">transabdominal</option>
+                    <option value="transvaginal">transvaginal</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <label for="">frequency</label>
+                 <input type="number" id="frequency" class="form-control" value="3.5" min="2.5" max="7.5" size="0.5">
+            </div>
+           </div>
+        </section>
+        <section class="panell" style="height: 650px; overflow-y: auto;">
+            <div class="form-row">
+                <label for="">number of foetus</label>
+                <select name="foestus" id="foestus" class="form-control">
+                    <option value="single">single</option>
+                    <option value="twins">twins</option>
+                    <option value="triplets">triplets</option>
+                </select>
+            </div>
+            <fieldset>
+                <legend>placenta</legend>
+                <div class="form-row">
+                    <label for="">placenta</label>
+                    <select name="placenta" id="placenta" class="form-control">
+                        <option value="anterior">anterior</option>
+                        <option value="posterior">posterior-low</option>
+                        <option value="anterior-high">anterior-high</option>
+                        <option value="posterior-high">posterior-high</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label for="">placenta appearance</label>
+                    <textarea type="text" class="form-control" value="" id="pa"></textarea>
+                </div>
+                <div class="form-row">
+                   <label for="">placenta grade</label>
+                   <select name="grade" id="grade" class="form-control">
+                       <option value="grade i">grade I</option>
+                       <option value="grade II">grade II</option>
+                       <option value="grade III">grade III</option>
+                       <option value="grade IV">grade IV</option>
+                   </select>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>amniotic fluid</legend>
+                <div class="form-row">
+                    <label for="">assessment type</label>
+                    <select name="am" id="am" class="form-control" required>
+                        <option value="AFI">Ammniotic Fluid Index</option>
+                        <option value="DVP">Deepest Pocket</option>
+                        <option value="Subjective">Subjective</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label for="">volume</label>
+                    <input type="text" class="form-control" id="am-v">
+                </div>
+                <div class="form-row">
+                    <div class="mt-2" id="flag">flag:</div>
+                </div>
+            </fieldset>
+        </section>
+        <section class="panell p-2" style="height: 650px; overflow-y: auto;">
+            <fieldset>
+                <legend>fetal biometry</legend>
+                <div class="form-row d-flex mt-2 mb-2">
+                    <div class="b-s">FL:</div> 
+                    <input type="number" value="0"  id="fl-v" class="b-s form-control">
+                    <input type="number" value="" id="fl-w" min="14" max="41" size="1" placeholder="weeks" class="b-s form-control" >
+                    <input type="number" value="" id="fl-d" min="0" max="6" size="1" placeholder="days" class="b-s form-control">
+                </div>
+                <div class="form-row d-flex mt-2 mb-2">
+                    <div class="b-s" style="margin-left: 0px;">BPD:</div> 
+                    <input type="number" value="0"  id="bpd-v" class="b-s form-control">
+                    <input type="number" value="" id="bpd-w" min="14" max="41" size="1" placeholder="weeks" class="b-s form-control" >
+                    <input type="number" value="" id="bpd-d" min="0" max="6" size="1" placeholder="days" class="b-s form-control">
+                </div>
+                <div class="form-row d-flex mt-2 mb-2">
+                    <div class="b-s">AC:</div> 
+                    <input type="number" value="0"  id="ac-v" class="b-s form-control">
+                    <input type="number" value="" id="ac-w" min="14" max="41" size="1" placeholder="weeks" class="b-s form-control" >
+                    <input type="number" value="" id="ac-d"  min="0" max="6" size="1" placeholder="days" class="b-s form-control">
+                </div>
+                <div class="form-row d-flex mt-2 mb-2">
+                    <div class="b-s">HC:</div> 
+                    <input type="number" value="0"  id="hc-v" class="b-s form-control">
+                    <input type="number" value="" id="hc-w" min="14" max="41" size="1" placeholder="weeks" class="b-s form-control" >
+                    <input type="number" value="" id="hc-d"  min="0" max="6" size="1" placeholder="days" class="b-s form-control">
+                </div>
+                <div class="form-row" style="display: grid; grid-template-columns: 50% auto;">
+                    <label>Ultrasound Age</label>
+                    <div class="d-flex">
+                        <input type="number" class="form-control" id="ga-w">
+                        <input type="number" class="form-control" id="ga-d" >
+                    </div>
+                </div>
+                <div class="form-row mt-2" style="display: grid; grid-template-columns: 50% auto; ">
+                    <label>Estimated Delivery Date</label>
+                    <input type="date" class="form-control" id="edd">
+                </div>
+            </fieldset>
+            <fieldset class="d-none">
+                <legend>fB(twin B)</legend>
+                <div class="form-row d-flex mt-2 mb-2">
+                    <div class="b-s">FL:</div> 
+                    <input type="number" value="0"  id="fl-v" class="b-s form-control">
+                    <input type="number" value="" id="fl-w" min="14" max="41" size="1" placeholder="weeks" class="b-s form-control" >
+                    <input type="number" value="" id="fl-d" min="0" max="6" size="1" placeholder="days" class="b-s form-control">
+                </div>
+                <div class="form-row d-flex mt-2 mb-2">
+                    <div class="b-s" style="margin-left: 0px;">BPD:</div> 
+                    <input type="number" value="0"  id="bpd-v" class="b-s form-control">
+                    <input type="number" value="" id="bpd-w" min="14" max="41" size="1" placeholder="weeks" class="b-s form-control" >
+                    <input type="number" value="" id="bpd-d" min="0" max="6" size="1" placeholder="days" class="b-s form-control">
+                </div>
+                <div class="form-row d-flex mt-2 mb-2">
+                    <div class="b-s">AC:</div> 
+                    <input type="number" value="0"  id="ac-v" class="b-s form-control">
+                    <input type="number" value="" id="ac-w" min="14" max="41" size="1" placeholder="weeks" class="b-s form-control" >
+                    <input type="number" value="" id="ac-d"  min="0" max="6" size="1" placeholder="days" class="b-s form-control">
+                </div>
+                <div class="form-row d-flex mt-2 mb-2">
+                    <div class="b-s">HC:</div> 
+                    <input type="number" value="0"  id="hc-v" class="b-s form-control">
+                    <input type="number" value="" id="hc-w" min="14" max="41" size="1" placeholder="weeks" class="b-s form-control" >
+                    <input type="number" value="" id="hc-d"  min="0" max="6" size="1" placeholder="days" class="b-s form-control">
+                </div>
+                <div class="form-row" style="display: grid; grid-template-columns: 50% auto;">
+                    <label>Ultrasound Age</label>
+                    <div class="d-flex">
+                        <input type="number" class="form-control" id="ga-w">
+                        <input type="number" class="form-control" id="ga-d" >
+                    </div>
+                </div>
+                <div class="form-row mt-2" style="display: grid; grid-template-columns: 50% auto; ">
+                    <label>Estimated Delivery Date</label>
+                    <input type="date" class="form-control" id="edd">
+                </div>
+            </fieldset>
+            <div class="form-row">
+                <label for="">presentation</label>
+                <select name="presentation" id="presentation" class="form-control">
+                    <option value="breech">breech</option>
+                    <option value="cephalic">cephalic</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <label for="">cardiac activity</label>
+                <select name="ca" id="ca" class="form-control">
+                    <option value="Positive">Positive</option>
+                    <option value="Negative">Negative</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <label for="">fetal heart rate</label>
+                <input type="number" name="fhr" id="fhr" class="form-control mb-5">
+            </div>
+           
+        </section>
+        <section class="panell">
+            <div class="form-row">
+                <label for="">estimated fetal weight(EFW)</label>
+                <input type="number" name="efw" id="efw" class="form-control">
+            </div>
+            <div class="form-row">
+                <label for="">cervix length</label>
+               <div class="d-flex">
+                <input type="number" name="cl" id="cl" class="form-control">
+                 <select name="clo" id="clo"class="form-control" >
+                     <option value="open">open</option>
+                     <option value="closed">closed</option>
+                 </select>
+               </div>
+            </div>
+            <div class="form-row">
+                <label for="">other findings</label>
+                <textarea name="" class="form-control" id="of" cols="30" rows="10"></textarea>
+            </div>
+            <div class="form-row">
+                <label for="">impression</label>
+                <textarea name="imp" id="imp" cols="30" rows="10" class="form-control"></textarea>
+            </div>
+            <div class="form-row" style="display: flex; justify-content: flex-end;">
+                <button type="button" class="btn btn-outline-primary  btn-block mt-3 pl-3 pr-3" style="border-radius: 0px; width: 150px;">save</button>
+            </div>
+
+        </section>
+    </div>
+    <script src="/js/second.js"></script>
+</body>

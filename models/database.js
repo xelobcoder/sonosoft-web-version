@@ -195,7 +195,17 @@ class SonosoftDatabase {
       if (err) {
         throw err
       }
-      response.send(results)
+      response.send(results);
+    })
+  }
+
+  sendUserUsingTransactionID = async function (tablename, id, response) {
+    let query = `SELECT * FROM ${tablename} WHERE TRANSACTIONID = "${id}"`
+    createConnection.query(query, (err, results, field) => {
+      if (err) {
+        throw err
+      }
+      response.send(results);
     })
   }
 }
