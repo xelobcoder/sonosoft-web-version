@@ -20,6 +20,7 @@ window.onload = (ev) => {
   const fullname = document.getElementById('fullname')
   const method = document.getElementById('method')
   const frequency = document.getElementById('frequency')
+  const cardiacActivity = document.getElementById("ca");
   const number = document.getElementById('foestus')
   const placenta = document.getElementById('placenta')
   const placentaAppearance = document.getElementById('pa')
@@ -45,7 +46,8 @@ window.onload = (ev) => {
   const cervix = document.getElementById("clo");
   const cervicalLength = document.getElementById("cl");
   const otherfindings = document.getElementById("of");
-  const impression = document.getElementById("impression");
+  const impression = document.getElementById("imp");
+  const fhr = document.getElementById("fhr");
 
   volume.addEventListener("focusout",(ev) => {
     let value = ev.target.value;
@@ -82,9 +84,83 @@ window.onload = (ev) => {
     }
   })
 
+
+  const insertResults = function () {
+    return {
+      scan: "SECOND",
+      transactionalID: transactionalID.value,
+      method: method.value,
+      frequency: frequency.value,
+      number: number.value,
+      placenta: placenta.value,
+      placentaAppearance: placentaAppearance.value,
+      placentaGrade: placentaGrade.value,
+      cardiacActivity: cardiacActivity.value,
+      ammniotic : amnioticAssessment.value,
+      volume : volume.value,
+      FLM :FLM.value,
+      FLW: FLW.value,
+      FLD: FLD.value,
+      ACM :ALM.value,
+      ACW: ALW.value,
+      ACD: ALD.value,
+      BPDM :BLM.value,
+      BPDW: BLW.value,
+      BPDD: BLD.value,
+      HCM :HLM.value,
+      HCW: HLW.value,
+      HCD: HLD.value,
+      presentation : presentation.value,
+      cervix : cervix.length,
+      cervicalLength : cervicalLength.value,
+      otherfindings :  otherfindings.value,
+      impression : impression.value,
+      edd: edd.value,
+      efw : efw.value,
+      fhr : fhr.value
+    }
+  }
+
+  // FHR stay in focus if value is null or ""
+
+  fhr.addEventListener("focusout", (ev) => {
+    const BRADY = 110;
+    const TACHY = 160;
+    let flag = document.getElementById("flag-h");
+    flag.innerHTML ="Flag: ";
+    flag.style.color ="black";
+    if(ev.target.value == "") {
+      ev.target.focus();
+    }
+    let value = ev.target.value;
+    if(value > TACHY){
+        flag.innerHTML += "Fetal Tachycardia";
+        flag.style.color ="red";
+    } else if (value < BRADY) {
+      flag.innerHTML += "Fetal Bradycardia";
+      flag.style.color ="red";
+    } else {
+      flag.innerHTML += "Normal fetal heart rate";
+      flag.style.color ="blue";
+    }
+
+  })
+
+  const saveButton = document.getElementById("save-button");
+
+  saveButton.addEventListener("click", function(ev) {
+     let results = insertResults();
+     let form = document.getElementById("second_trimester");
+     let state = form.getAttribute("state");
+     if(state === "new") {
+       postRequest("http://localhost:8000/scanpanels/scan","POST",results)
+       .then( (res) => {
+          console.log(res);
+       }).catch ((err) => { console.log(err)})
+     } else {
+        
+     }
+  })
   
-
-
-
 
 }

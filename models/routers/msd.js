@@ -95,6 +95,115 @@ router.route("/scanpanels/scan")
        }
    }
 
+   let SECOND = function(data) {
+      const {
+         transactionalID,
+         method,
+         frequency,
+         number,
+         placenta,
+         placentaAppearance,
+         placentaGrade,
+         volume,
+         FLM,
+         ammniotic,
+         FLW,
+         FLD,
+         ACM,
+         ACW,
+         ACD,
+         BPDM,
+         BPDD,
+         BPDW,
+         HCM,
+         HCW,
+         HCD,
+         cardiacActivity,
+         presentation,
+         cervix,
+         cervicalLength,
+         otherfindings,
+         impression,
+         edd,
+         efw,
+         fhr
+      } = data;
+      
+      let query = `INSERT INTO SECOND_THIRD (
+          TRANSACTIONID,
+          METHOD,
+          FREQUENCY,
+          FOESTUS,
+          PLACENTA_LOCATION,
+          PLACENTA_APPEAR,
+          PLACENTA_GRADE,
+          AMNIOTIC_ASSESMENT,
+          AMNIOTIC_VOLUME,
+          FL,
+          FLW,
+          FLD,
+          ACM,
+          ACW,
+          ACD,
+          BPDM,
+          BPDD,
+          BPDW,
+          HCM,
+          HCW,
+          HCD,
+          PRESENTATION,
+          CARDIAC_ACTIVITY,
+          FHR,
+          EDD,
+          EFW,
+          CERVICAL_LENGTH,
+          CERVIX,
+          OTHER_FINDINGS,
+          IMPRESSION
+      ) VALUES (
+          "${transactionalID}",
+          "${method}",
+          "${frequency}",
+          "${number}",
+          "${placenta}",
+          "${placentaAppearance}",
+          "${placentaGrade}",
+          "${ammniotic}",
+          "${volume}",
+          "${FLM}",
+          "${FLW}",
+          "${FLD}",
+          "${ACM}",
+          "${ACW}",
+          "${ACD}",
+          "${BPDM}",
+          "${BPDW}",
+          "${BPDD}",
+          "${HCM}",
+          "${HCW}",
+          "${HCD}",
+          "${presentation}",
+          "${cardiacActivity}",
+          "${fhr}",
+          "${edd}",
+          "${efw}",
+          "${cervicalLength}",
+          "${cervix}",
+          "${otherfindings}",
+          "${impression}"  
+      )`;
+
+      connection.query(query, (err,results,fields)=> {
+          if(err) throw err;
+          if(results) {
+              response.send({
+                  message: "Data inserted successfully"
+              })
+              console.log(results)
+          }
+      })
+   }
+
     if(clientInfo.hasOwnProperty("scan")){
         const scan = clientInfo["scan"];
         switch (scan) {
@@ -109,6 +218,9 @@ router.route("/scanpanels/scan")
                 break;
             case "CRL":
                 CRL();
+                break;
+            case "SECOND":
+                SECOND(request.body);
                 break;
             default:
                 response.send("unknown scan type");
@@ -181,13 +293,11 @@ router.route("/scanpanels/scan")
     }
      if(clientInfo.hasOwnProperty("scan")){
         const scan = clientInfo["scan"];
-        console.log(scan)
         switch (scan) {
             case "MSD" :
                 MSD(request.body);
                 break;
             case "ABDOMINAL":
-                console.log(request.body)
                 ABDOMINAL(request.body);
                 break;
             case "ABDO_PEL":
