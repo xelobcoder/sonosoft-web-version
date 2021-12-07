@@ -183,6 +183,9 @@ const reloadPage =  (data,scan) => {
         case "MSD": 
             window.location.href= `http://localhost:8000/msd/${UUID}`;
         break;
+        case "SECOND":
+            window.location.href = `http://localhost:8000/second&&third/${UUID}`;
+            break;
         case "ABDOMINAL":
             window.location.href = `http://localhost:8000/abdominal/${UUID}`;
         break;

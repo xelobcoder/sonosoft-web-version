@@ -176,6 +176,7 @@ const renderTemplate = (scan, id, response) => {
     ABDOMINAL_PELVIC: 'abdominalpelvic',
     UROLOGY: 'urology',
     BREAST: 'breast',
+    SECOND: "obstetrics(second)"
   }
   connection.query(query, function (err, results, fields) {
     if (err) throw err
@@ -210,6 +211,11 @@ app.get('/crl/:id', function (request, response) {
 app.get('/abdominal_pelvic/:id', function (request, response) {
   const uuid = request.params.id
   renderTemplate('ABDOMINAL_PELVIC', uuid, response)
+})
+
+app.get('/second&&third/:id', function (request, response) {
+  const uuid = request.params.id
+  renderTemplate('SECOND', uuid, response)
 })
 
 app.get('/login', (req, res) => {
@@ -380,4 +386,3 @@ app.post("/api/client", function(request,response) {
 app.get("/second&&third", function(request,response){
   response.render("obstetrics(second)");
 })
-

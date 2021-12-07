@@ -291,6 +291,83 @@ router.route("/scanpanels/scan")
              })
          })
     }
+
+    let SECOND = (data) => {
+        const {
+            transactionalID,
+            method,
+            frequency,
+            number,
+            placenta,
+            placentaAppearance,
+            placentaGrade,
+            volume,
+            FLM,
+            ammniotic,
+            FLW,
+            FLD,
+            ACM,
+            ACW,
+            ACD,
+            BPDM,
+            BPDD,
+            BPDW,
+            HCM,
+            HCW,
+            HCD,
+            cardiacActivity,
+            presentation,
+            cervix,
+            cervicalLength,
+            otherfindings,
+            impression,
+            edd,
+            efw,
+            fhr
+         } = data;
+
+         const query = `UPDATE SECOND_THIRD
+                SET METHOD =  "${method}",
+                    FREQUENCY = "${frequency}",
+                    FOESTUS = "${number}",
+                    PLACENTA_LOCATION = "${placenta}",
+                    PLACENTA_APPEAR = "${placentaAppearance}",
+                    PLACENTA_GRADE = "${placentaGrade}",
+                    AMNIOTIC_ASSESMENT = "${ammniotic}",
+                    AMNIOTIC_VOLUME = "${volume}",
+                    FL = "${FLM}",
+                    FLW = "${FLW}",
+                    FLD = "${FLD}",
+                    ACM = "${ACM}",
+                    ACW = "${ACW}",
+                    ACD = "${ACD}",
+                    BPDM = "${BPDM}",
+                    BPDW = "${BPDW}",
+                    BPDD = "${BPDD}",
+                    HCM = "${HCM}",
+                    HCW = "${HCW}",
+                    HCD = "${HCD}",
+                    PRESENTATION = "${presentation}",
+                    CARDIAC_ACTIVITY = "${cardiacActivity}",
+                    FHR = "${fhr}",
+                    EDD = "${edd}",
+                    EFW = "${efw}",
+                    CERVICAL_LENGTH = "${cervicalLength}",
+                    CERVIX = "${cervix}",
+                    OTHER_FINDINGS = "${otherfindings}",
+                    IMPRESSION = "${impression}"  
+            WHERE TRANSACTIONID =  "${transactionalID}"
+         `;
+
+         connection.query( (query , (err,results,fields) => {
+             if(err) throw err;
+             response.send({
+                 message: "update succesfull"
+             })
+         }))
+
+
+    }
      if(clientInfo.hasOwnProperty("scan")){
         const scan = clientInfo["scan"];
         switch (scan) {
@@ -303,8 +380,11 @@ router.route("/scanpanels/scan")
             case "ABDO_PEL":
                 ABD_PEL();
                 break;
+            case "SECOND":
+                SECOND(request.body);
+                break;
             case "CRL":
-                CRL();
+                CRL(request.body);
                 break;
             default:
                 response.send("unknown scan type");

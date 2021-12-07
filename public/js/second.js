@@ -158,9 +158,56 @@ window.onload = (ev) => {
           console.log(res);
        }).catch ((err) => { console.log(err)})
      } else {
-        
+        postRequest("http://localhost:8000/scanpanels/scan","PUT",results)
+        .then ( (res) =>  {
+           console.log(res);
+        }).catch ( (err) => {
+          console.log(err)
+        })
      }
   })
+
+
+  // list of worked cases
+
+  var TransactionIDevent = async function () {
+    let li = document.querySelectorAll('#lookbae')
+    if (li) {
+      for (let i = 0; i < li.length; i++) {
+        li[i].onclick = function (ev) {
+          const requestData = {
+            scan: 'MSD',
+            transactionID: ev.target.getAttribute('uuid'),
+          }
+          console.log(requestData.transactionID)
+          postRequest('http://localhost:8000/prefill', 'POST', requestData)
+            .then((response) => {
+              inputFill(response[0])
+              //  set the state of form to update
+              form.setAttribute('state', 'update')
+            })
+            .catch((err) => {
+              throw err
+            })
+        }
+      }
+    }
+  }
+
+  const workedCases = async function () {
+    postRequest('http://localhost:8000/workedcases/:second', 'GET')
+      .then((response) => {
+        insertID(response)
+        TransactionIDevent()
+      })
+      .catch((err) => {
+        throw err
+      })
+  }
+
+  workedCases()
+
+
   
 
 }
