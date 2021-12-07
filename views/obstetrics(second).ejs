@@ -36,11 +36,11 @@
                 <div class="col mt-2 mb-2" style="display: grid; grid-template-columns: 30% 60% 10%;">
                     <div style="display: grid; grid-template-columns: 35% auto;">
                         <label for="">TransactionID: </label>
-                        <input type="number" value="1235465398634" style="border-radius: 0px;" class="form-control" name="clientid" id="clientid" class="form-control" disabled>
+                        <input type="number" value=<%=transactionID%>  style="border-radius: 0px;" class="form-control" name="clientid" id="clientid" class="form-control" disabled>
                     </div>
                     <div style="display: grid; grid-template-columns:15% auto;margin-right: 20px; margin-left: 20px;">
                         <label for="">fullname:</label>
-                        <input style="border-radius: 0px;" type="text" id="fullname" name="fullname" class="form-control" disabled>
+                        <input style="border-radius: 0px;" type="text" value="<%=fullname%> "id="fullname" name="fullname" class="form-control" disabled>
                     </div>
                     <div>
                         <button type="button" class="btn btn-outline-primary">anomaly</button>
