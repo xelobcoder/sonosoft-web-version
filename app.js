@@ -317,6 +317,10 @@ app.get('/abdomopelvicpreset', function (request, response) {
   response.render('abdomopelvicpreset')
 })
 
+app.get("/pelvicpreset",function(request,response){
+  response.render("pelvicpreset")
+})
+
 // end
 
 app.post('/prefill', (request, response) => {
@@ -349,12 +353,14 @@ app.post('/api/v1/presetTitles', (request, response) => {
         sonosoft.presetitles("abdomen_preset",response)
         break
       case 'ABD_PELVIC':
+        sonosoft.presetitles("abdominalpelvic_preset",response)
         break
-      case 'MSD':
+      case 'UROLOGY':
         break
-      case 'MSD':
+      case 'PELVIC':
+        sonosoft.presetitles("pelvic_preset",response)
         break
-      case 'MSD':
+      case 'BREAST':
         break
       default:
         response.send('not seem')
@@ -385,4 +391,19 @@ app.post("/api/client", function(request,response) {
 
 app.get("/second&&third", function(request,response){
   response.render("obstetrics(second)");
+})
+
+app.post('/abdomopelvicpreset', function (request, response) {
+  const information = request.body;
+  sonosoft.presetAbdominal(information,response);
+})
+
+app.post("/pelvicpreset", function(request,response){
+  const information = request.body;
+  sonosoft.presetPelvic(information,response);
+})
+
+app.post("/v1/api/deletepreset", (request,response) => {
+  const {id , tablename} = request.body;
+  sonosoft.deleteUserUsingPrimaryID(id,tablename,response);
 })

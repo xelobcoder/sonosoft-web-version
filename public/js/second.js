@@ -152,6 +152,7 @@ window.onload = (ev) => {
      let results = insertResults();
      let form = document.getElementById("second_trimester");
      let state = form.getAttribute("state");
+     console.log(state)
      if(state === "new") {
        postRequest("http://localhost:8000/scanpanels/scan","POST",results)
        .then( (res) => {
@@ -170,42 +171,42 @@ window.onload = (ev) => {
 
   // list of worked cases
 
-  var TransactionIDevent = async function () {
-    let li = document.querySelectorAll('#lookbae')
-    if (li) {
-      for (let i = 0; i < li.length; i++) {
-        li[i].onclick = function (ev) {
-          const requestData = {
-            scan: 'MSD',
-            transactionID: ev.target.getAttribute('uuid'),
-          }
-          console.log(requestData.transactionID)
-          postRequest('http://localhost:8000/prefill', 'POST', requestData)
-            .then((response) => {
-              inputFill(response[0])
-              //  set the state of form to update
-              form.setAttribute('state', 'update')
-            })
-            .catch((err) => {
-              throw err
-            })
-        }
-      }
-    }
-  }
+  // var TransactionIDevent = async function () {
+  //   let li = document.querySelectorAll('#lookbae')
+  //   if (li) {
+  //     for (let i = 0; i < li.length; i++) {
+  //       li[i].onclick = function (ev) {
+  //         const requestData = {
+  //           scan: 'MSD',
+  //           transactionID: ev.target.getAttribute('uuid'),
+  //         }
+  //         console.log(requestData.transactionID)
+  //         postRequest('http://localhost:8000/prefill', 'POST', requestData)
+  //           .then((response) => {
+  //             inputFill(response[0])
+  //             //  set the state of form to update
+  //             form.setAttribute('state', 'update')
+  //           })
+  //           .catch((err) => {
+  //             throw err
+  //           })
+  //       }
+  //     }
+  //   }
+  // }
 
-  const workedCases = async function () {
-    postRequest('http://localhost:8000/workedcases/:second', 'GET')
-      .then((response) => {
-        insertID(response)
-        TransactionIDevent()
-      })
-      .catch((err) => {
-        throw err
-      })
-  }
+  // const workedCases = async function () {
+  //   postRequest('http://localhost:8000/workedcases/:second', 'GET')
+  //     .then((response) => {
+  //       insertID(response)
+  //       TransactionIDevent()
+  //     })
+  //     .catch((err) => {
+  //       throw err
+  //     })
+  // }
 
-  workedCases()
+  // workedCases()
 
 
   

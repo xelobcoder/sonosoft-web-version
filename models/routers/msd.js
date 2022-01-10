@@ -128,7 +128,7 @@ router.route("/scanpanels/scan")
          efw,
          fhr
       } = data;
-      
+
       let query = `INSERT INTO SECOND_THIRD (
           TRANSACTIONID,
           METHOD,
@@ -229,10 +229,13 @@ router.route("/scanpanels/scan")
 
     }
 
+    console.log(clientInfo)
+
 })
 .get( function(request,response) {
     response.send("Hello am very good");
 })
+
 .put( function(request,response) {
     let clientInfo = request.body;
 

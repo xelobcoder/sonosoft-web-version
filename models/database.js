@@ -1,3 +1,4 @@
+const { response } = require('express')
 const createConnection = require('./db')
 
 class SonosoftDatabase {
@@ -37,11 +38,15 @@ class SonosoftDatabase {
       )
     }
   }
-  deleteUserUsingPrimaryID = function (userid, tablename) {
+  deleteUserUsingPrimaryID = function (userid, tablename,response) {
     const myquery = `DELETE FROM ${tablename} WHERE ID = ${userid}`
     createConnection.query(myquery, (err, results, field) => {
       if (err) throw err
-      return results
+      if(results) {
+        response.send( {
+          message: "preset deleted successfully"
+        })
+      }
     })
   }
 
@@ -179,7 +184,41 @@ class SonosoftDatabase {
     })
   }
 
+
   presetCRL = async function () {}
+
+  presetAbdominal = async function (data,response) {
+    const {title, liver ,spleen , kidneys , pancreas, gallbladder , abdominalCavity} = data;
+
+    let query = `INSERT INTO abdomen_preset (
+      TITLE , LIVER, SPLEEN, GALLBLADDER, ABDOMINAL_CAVITY,KIDNEY,PANCREAS
+    ) VALUES ( "${title}", "${liver}","${spleen}","${gallbladder}","${abdominalCavity}","${kidneys}","${pancreas}")`;
+
+    createConnection.query( query, (err,results,fields) => {
+      if(err) throw err;
+      if(results) {
+        response.send({
+          message: 'insertion succesfull'
+        })
+      }
+    })
+  }
+
+  presetPelvic = async function (data,response) {
+    const {uterus,endometrium,title, ovaries,adnexa,pod,impression,otherfindings} = data;
+    let query = `INSERT INTO pelvic_preset (
+      TITLE , UTERUS, ENDOMETRIUM, OVARIES, POD,ADNEXA,OTHERS,IMPRESSION
+    ) VALUES ( "${title}", "${uterus}","${endometrium}","${ovaries}","${pod}","${adnexa}","${otherfindings}","${impression}")`;
+
+    createConnection.query( query, (err,results,fields) => {
+      if(err) throw err;
+      if(results) {
+        response.send( {
+          message : "insertion succesful"
+        })
+      }
+    })
+  }
 
   presetitles = async function (tablename, response) {
     let query = `SELECT ID, TITLE FROM ${tablename}`
