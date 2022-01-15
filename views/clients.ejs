@@ -1,4 +1,18 @@
 <%- include('header.ejs') %>
+<style>
+  .split{
+    display: grid;
+    grid-template-columns: 50% 50%;
+  }
+  .form-row{
+    margin-right: 20px;
+  }
+  .edit-section{
+    background-color: white;
+    padding: 20px 100px;
+  }
+ 
+</style>
 <body>
   <%- include('top.ejs') %>
   <section style="display: grid; grid-template-columns: 15% auto;">
@@ -6,7 +20,109 @@
          <%- include('sidebar.ejs') %>
       </aside>
       <main>
-        <%- include('queryboard.ejs') %>
+       
+        <%- include('queryboard.ejs')  %>
+        <div class="edit-section" style="display: none;">
+          <form action="" id="editform">
+            <div class="split">
+                <div class="form-row">
+                    <label for="fullname">fullname</label>
+                    <input type="text" required autofocus class="form-control" id="fullname">
+                 </div>
+                 <div class="form-row">
+                  <label for="gender">gender</label>
+                  <select required name="gender" id="gender" class="form-control">
+                      <option value="female">female</option>
+                      <option value="male">male</option>
+                      <option value="other">other</option>
+                  </select>
+               </div>
+               <div class="form-row">
+                <label for="">Client type</label>
+                   <select name="scanroll" id="scanroll" class="form-control">
+                       <option value="runtime">runtime</option>
+                       <option value="membership">membership</option>
+                   </select>
+            </div>
+               <div class="form-row">
+                  <label  for="age">age</label>
+                  <div style="width: 100%;" class="split">
+                    <input  required type="number" class="form-control" id="age">
+                    <select name="years" id="years" class="form-control">
+                        <option value="years">years</option>
+                        <option value="months">months</option>
+                        <option value="day">day</option>
+                    </select>
+                  </div>
+               </div>
+               <div class="form-row">
+                  <label for="scan">scan</label>
+                  <input type="text" required class="form-control" id="scan" list ="scanlist" multiple>
+                  <datalist name="scan" id="scanlist">
+  
+                  </datalist>
+               </div>
+               <div class="form-row">
+                <label for="institution">institution</label>
+                <input required name="institution" id="institution" class="form-control" list="institutionlist">
+                <datalist  required id="institutionlist" name="institution">
+                  
+                </datalist>
+             </div>
+            </div>
+           
+            <div class="split">
+              <div class="form-row">
+                <label for="referer">referer</label>
+                 <input required  class="form-control" id="referer" list="refererlist">
+                <datalist required name="referer" id="refererlist">
+                    
+                </datalist>
+             </div>
+                 <div class="form-row">
+                    <label for="">cost</label>
+                    <input type="number" name="cost"  id="cost" class="form-control">
+                </div>
+                 <div class="form-row">
+                    <label for="amount-paid">amount paid</label>
+                    <input  required type="number" class="form-control" id="amount-paid">
+                 </div>
+                 <div class="form-row">
+                    <label for="discount">discount</label>
+                    <input type="discount" class="form-control" id="discount">
+                 </div>
+                  <div class="form-row">
+                    <label for="payment-mode">payment mode</label>
+                    <select name="payment-mode" id="paymentMode" class="form-control">
+                        <option value="cash">cash</option>
+                        <option value="momo">momo</option>
+                    </select>
+                 </div>
+                 <div class="form-row">
+                     <label for="state">state</label>
+                     <select name="state" id="state" class="form-control">
+                         <option value="in pains">in pains</option>
+                         <option value="empty bladder">empty bladder</option>
+                         <option value="null">null</option>
+                         <option value="unconscious">unconscious</option>
+                         <option value="disoriented">disoriented</option>
+                     </select>
+                 </div>
+                 <div class="form-row"  id="transac-parent">
+                    <label for="transaction">transaction id</label>
+                    <input type="number" class="form-control" id="transaction">
+                 </div>
+                 <div class="form-row">
+                     <label for="">history</label>
+                     <textarea name="history" class="form-control" id="history" cols="20" rows="4"></textarea>
+                 </div>
+               
+            </div>
+         <div class="form-row mt-3">
+             <button type="button" class="btn btn-outline-primary" id="saveButton">save</button>
+         </div>
+       </form>
+      </div>
         <div class="list-section">
            <div class="wrapper">
               <table class="table">
@@ -35,8 +151,9 @@
                  </tfoot>
               </table>
            </div>
-        </div>
+           
       </main>
+      </div>
   </section>
 </body>
 <script src="js/clients.js"></script>

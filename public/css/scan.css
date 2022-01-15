@@ -135,4 +135,19 @@ body {
   background-color: white;
   cursor: pointer;
 }
+
+#scan {
+  color: seagreen;
+  font-weight: 600;
+}
+
+#insti {
+  color: black;
+  font-weight: 700;
+}
+
+td:first-child {
+  background-color: cadetblue;
+  color: white;
+}
 /*# sourceMappingURL=scan.css.map */

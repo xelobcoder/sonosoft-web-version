@@ -66,6 +66,49 @@ router.route("/registration")
              })
          })
 })
+.put(function(request,response) {
+    const{
+        fullname,
+        age,
+        gender,
+        institution,
+        referer,
+        history,
+        state,
+        amountpaid,
+        discount,
+        cost,
+        momoID,
+        ageCategory,
+        scan,
+        paymentmode,
+        transactionid
+
+    } = request.body;
+
+    let query = `UPDATE REGISTRATION
+    SET FULLNAME = "${fullname}",
+        AGE = "${age}",
+        GENDER = "${gender}",
+        INSTITUTION = "${institution}",
+        REFERER = "${referer}",
+        HISTORY = "${history}",
+        STATE = "${state}",
+        AMOUNT_PAID = "${amountpaid}",
+        DISCOUNT = "${discount}",
+        COST = "${cost}",
+        AGE_CATEGORY = "${ageCategory}",
+        SCAN = "${scan}",
+        PAYMENT_MODE = "${paymentmode}"
+        WHERE 
+        TRANSACTIONID = "${transactionid}"
+    `;
+
+    connection.query(query, (err,results,fields) => {
+        if(err) throw err;
+        response.send(results);
+    })
+})
 
 
 module.exports = router;

@@ -20,6 +20,7 @@ var cookieParser = require('cookie-parser')
 const presetRouter = require('./models/routers/preset')
 const { report } = require('process')
 const { response } = require('express')
+const SonosoftDatabase = require('./models/database')
 
 app.set('view engine', 'ejs')
 
@@ -406,4 +407,13 @@ app.post("/pelvicpreset", function(request,response){
 app.post("/v1/api/deletepreset", (request,response) => {
   const {id , tablename} = request.body;
   sonosoft.deleteUserUsingPrimaryID(id,tablename,response);
+})
+
+app.post("/v1/api/delete/client", (request,response)=> {
+  const {id} = request.body;
+  sonosoft.deleteUserUsingPrimaryID(id,"registration",response);
+})
+app.post("/v1/api/registration/edit", (request,response) => {
+  const {id} = request.body;
+  sonosoft.sendUserUsingID("registration",id,response);
 })
