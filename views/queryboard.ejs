@@ -1,11 +1,17 @@
-<section id="top-section">
+<section id="top-section" style="display: grid; grid-template-columns: 50% auto;">
     <div>
         <div style="display: none;" class="alert alert-primary" id="messagesDx">
 
         </div>
     </div>
-      <div id="search-query">
-        <input type="number" id="sharp-search" class="form-control" style="display: flex; justify-content: flex-end; width: 200px;">
-        <button type="button" class="btn btn-primary" style="padding: 10px 30px; border-radius: 30px;">search</button>
+      <div id="search-query" style="display: grid; grid-template-columns: 40% 40% auto;">
+        <select name="filterer" id="filterer" class="form-control">
+          <option value="FULLNAME">customer Name</option>
+          <option value="REFERER">referer</option>
+          <option value="SCAN">scan type</option>
+          <option value="TRANSACTIONID">transactionid</option>
+        </select>
+        <input type="text" id="sharp-search" class="form-control ml-2" style="display: flex; justify-content: flex-end; width: 200px;">
+        <button type="button" class="btn btn-primary" style="padding: 10px 30px; border-radius: 30px;" id="sButton">search</button>
       </div>
 </section>

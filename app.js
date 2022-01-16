@@ -417,3 +417,9 @@ app.post("/v1/api/registration/edit", (request,response) => {
   const {id} = request.body;
   sonosoft.sendUserUsingID("registration",id,response);
 })
+
+app.post("/v1/api/registration/filterlist", (request,response) => {
+  const {search,filter} = request.body;
+  console.log(request.body)
+  sonosoft.matchColumnText(filter,search,"registration",response);
+})

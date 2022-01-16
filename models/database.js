@@ -103,22 +103,16 @@ class SonosoftDatabase {
    * @param {string} tableName  name of the table to search
    * @returns a promise of results or throw a rejection error
    */
-  matchColumnText = async function (columnName, needed, tableName) {
-    if (arguments.length == 3) {
-      let query = `SELECT ${columnName} FROM ${tableName} WHERE ${columnName} = "${needed}"`
-      return new Promise(function (resolve, reject) {
-        createConnection.query(query, function (err, results, fields) {
-          if (err) {
-            reject(err)
-          }
-          if (results) {
-            resolve(results)
-          }
-        })
+  matchColumnText = async function (columnName, needed, tableName,response) {
+    let query = `SELECT * FROM ${tableName} WHERE ${columnName} = "${needed}"`;
+      createConnection.query(query, function (err, results, fields) {
+        if (err) {
+          response.send(err)
+        }
+        if (results) {
+          response.send(results)
+        }
       })
-    } else {
-      return `${arguments.length} should be equal to 3`
-    }
   }
   /**
    *
@@ -247,6 +241,7 @@ class SonosoftDatabase {
       response.send(results);
     })
   }
+  filteranyColumn
 }
 
 module.exports = SonosoftDatabase

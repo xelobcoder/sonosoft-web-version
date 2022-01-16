@@ -46,6 +46,7 @@ window.onload = (ev) => {
          </tr>
            `);
        }
+       
        const displaydata= function(){
             let tbody = document.querySelector("tbody");
             let clients =  array.map((item)=>{
@@ -55,10 +56,40 @@ window.onload = (ev) => {
        }
 
        if(isArray){
-         displaydata();
-         deleteFxn();
-         editFxn();
+        if(array.length > 0) {
+            displaydata();
+            deleteFxn();
+            editFxn();
+        } else {
+            let tbody = document.querySelector("tbody");
+            tbody.innerHTML = "No data available";   
+        }
        }
+    }
+
+    const filterList = function () {
+        const search = document.querySelector("#sharp-search");
+        const searchButton = document.getElementById("sButton");
+        const ReactFxn = function(r,u){
+            deliverPost("/v1/api/registration/filterlist","POST",{search:r,filter: u})
+            .then ( (res) => {
+                return res.json();
+            }).then ( (t) => {
+            if(t.length == 0) {
+                let tbody = document.querySelector("tbody");
+                tbody.innerHTML = "No data Available";
+            } else {
+                renderHtml(t)
+            }
+            }).catch (  (err) =>  {
+                throw err;
+            })
+        }
+        searchButton.addEventListener("click", (ev) => {
+            let filtered = search.value;
+            let column = document.querySelector("#filterer").value;
+            ReactFxn(filtered,column);
+        })
     }
 
     const render_ClientList =  function(){
@@ -67,9 +98,10 @@ window.onload = (ev) => {
             return response.json();
         })
         .then( (response) => {
-            console.log(renderHtml(response));
-           
-        }).catch( (err) => {console.log(err)})
+            renderHtml(response);
+            filterList();
+        })
+        .catch( (err) => {throw err;})
     }
 
     render_ClientList();
