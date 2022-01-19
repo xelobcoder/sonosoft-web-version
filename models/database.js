@@ -241,7 +241,31 @@ class SonosoftDatabase {
       response.send(results);
     })
   }
-  filteranyColumn
+  validateREF = function(ref,response) {
+    let query = `SELECT * FROM MEMBERSHIP WHERE REFID = "${ref}"`;
+    createConnection.query(query, (err,results,fields) => {
+      if(err) {
+        throw err;
+      }
+      response.send(results);
+    })
+  }
+
+  updateREF = function (ref,response) {
+    let date = new Date();
+    let query = `UPDATE MEMBERSHIP
+      SET SERVICE = "ACTIVATED", 
+           SERVICED_AT = "${date}"
+           WHERE REFID = "${ref}"
+    `;
+    createConnection.query(query,(err,results,fields) => {
+      if(err) throw err;
+      if(results) {
+        this.validateREF(ref,response);
+      }
+    })
+  }
+
 }
 
 module.exports = SonosoftDatabase

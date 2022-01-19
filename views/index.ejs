@@ -1,4 +1,9 @@
 <%- include('header.ejs') %>
+<style>
+    .activation-list{
+        margin: 10px 70px;
+    }
+</style>
 <body>
     <%- include('top.ejs') %>
    <section style="display: grid; grid-template-columns: 15% auto;">
@@ -6,7 +11,55 @@
         <%- include('sidebar.ejs') %>
        </aside>
        <main>
-           <section id="registration">
+           <section>
+               <div class="alert" id="accessMessage" style="display: none;">
+                   
+               </div>
+           </section>
+          <section id="regchoice">
+              <div class="wrapper mt-4" style="display: grid; grid-template-columns: 50% auto;">
+                  <div class="flip" style="display: flex; justify-content: center; align-items: center;">
+                      <button class="btn btn-outline-primary p-5" id="rc" style="width: 50%;">
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-bootstrap-reboot" viewBox="0 0 16 16">
+                                <path d="M1.161 8a6.84 6.84 0 1 0 6.842-6.84.58.58 0 1 1 0-1.16 8 8 0 1 1-6.556 3.412l-.663-.577a.58.58 0 0 1 .227-.997l2.52-.69a.58.58 0 0 1 .728.633l-.332 2.592a.58.58 0 0 1-.956.364l-.643-.56A6.812 6.812 0 0 0 1.16 8z"/>
+                                <path d="M6.641 11.671V8.843h1.57l1.498 2.828h1.314L9.377 8.665c.897-.3 1.427-1.106 1.427-2.1 0-1.37-.943-2.246-2.456-2.246H5.5v7.352h1.141zm0-3.75V5.277h1.57c.881 0 1.416.499 1.416 1.32 0 .84-.504 1.324-1.386 1.324h-1.6z"/>
+                              </svg>
+                        </div>
+                        <div class="flip-text">
+                           one time registration
+                        </div>
+                      </button>
+                  </div>
+                  <div class="flip" style="display: flex; justify-content: center; align-items: center;">
+                    <button class="btn btn-outline-success p-5" id="rc" style="width: 50%;" >
+                      <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-boxes" viewBox="0 0 16 16">
+                            <path d="M7.752.066a.5.5 0 0 1 .496 0l3.75 2.143a.5.5 0 0 1 .252.434v3.995l3.498 2A.5.5 0 0 1 16 9.07v4.286a.5.5 0 0 1-.252.434l-3.75 2.143a.5.5 0 0 1-.496 0l-3.502-2-3.502 2.001a.5.5 0 0 1-.496 0l-3.75-2.143A.5.5 0 0 1 0 13.357V9.071a.5.5 0 0 1 .252-.434L3.75 6.638V2.643a.5.5 0 0 1 .252-.434L7.752.066ZM4.25 7.504 1.508 9.071l2.742 1.567 2.742-1.567L4.25 7.504ZM7.5 9.933l-2.75 1.571v3.134l2.75-1.571V9.933Zm1 3.134 2.75 1.571v-3.134L8.5 9.933v3.134Zm.508-3.996 2.742 1.567 2.742-1.567-2.742-1.567-2.742 1.567Zm2.242-2.433V3.504L8.5 5.076V8.21l2.75-1.572ZM7.5 8.21V5.076L4.75 3.504v3.134L7.5 8.21ZM5.258 2.643 8 4.21l2.742-1.567L8 1.076 5.258 2.643ZM15 9.933l-2.75 1.571v3.134L15 13.067V9.933ZM3.75 14.638v-3.134L1 9.933v3.134l2.75 1.571Z"/>
+                          </svg>
+                      </div>
+                      <div class="flip-text">
+                         Membership activation
+                      </div>
+                    </button>
+                </div>
+              </div>
+          </section>
+          <section id="activation-search-area" style="display: none;">
+              <div class="wrapper mt-3" style="display: grid; grid-template-columns: 50% auto;">
+                  <div style="display: flex; justify-content: center;">
+                    <input type="text" style="width:80%;" name="" id="searchref" class="form-control" placeholder="search membership id here">
+                  </div>
+                 <div style="display: flex; justify-content: left;"> 
+                    <button id="sb" class="btn btn-outline-primary" style="width: 20%;">search</button>
+                 </div>
+              </div>
+              <div class="activation-list" id="activation-list" style="display: none;">
+                 <div id="ac-d"></div>
+                 <div><button class="btn btn-outline-danger p-1 mt-2" id="acbtn">activate</button></div>
+              </div>
+          </section>
+           <section id="registration" style="display: none;">
                <form action="" id="registration-form">
                     <div class="split">
                         <div class="form-row">
@@ -30,7 +83,7 @@
                        <div class="form-row">
                         <label for="">Client type</label>
                            <select name="scanroll" id="scanroll">
-                               <option value="runtime">runtime</option>
+                               <option value="onetime">one time</option>
                                <option value="membership">membership</option>
                            </select>
                     </div>
@@ -110,14 +163,89 @@
                  <div class="form-row mt-3">
                      <button type="button" class="btn btn-outline-primary" id="saveButton">save</button>
                      <button type="button" class="btn btn-outline-info" id="cancelButton">cancel</button>
-                     <button type="button" class="btn btn-outline-danger">delete</button>
                  </div>
                </form>
            </section>
            <section itemid="client-list">
                
            </section>
+           <section id="activation-continue" style="display: none;">
+            <div class="wrapper" style="display: grid; grid-template-columns: 50% auto;" id="options">
+             <div class="form-check mr-5">
+                 <input class="form-check-input mr-5" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
+                    <label class="form-check-label mr-5" for="flexRadioDefault1">
+                    walkin
+                    </label>
+               </div>
+               <div class="form-check ml-5">
+                 <input class="form-check-input ml-5" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                    <label class="form-check-label ml-5" for="flexRadioDefault2">
+                    refered
+                    </label>
+               </div>
+            </div>
+            <div class="wrapper list-section">
+               <div class="form-row" id="grs">
+                <label for="referer">referer</label>
+                <input required  class="form-control" id="referer" list="refererlist">
+               <datalist required name="referer" id="refid">
+                   
+               </datalist>
+               </div>
+                <div class="form-row" id="grs">
+                    <label for="institution">institution</label>
+                    <input required name="institution" id="institution" class="form-control" list="institutionlist">
+                    <datalist  required id="instid" name="institution">
+                      
+                    </datalist>
+                </div>
+                <div class="form-row">
+                    <label for="scan">scan</label>
+                    <input type="text" required class="form-control" id="scan" list ="scanlist" multiple>
+                    <datalist name="scan" id="scanlist">
+
+                    </datalist>
+                </div>
+                <div class="form-row">
+                    <label for="">paid amount</label>
+                     <input type="number" class="form-control" id="pd">
+                </div>
+                <div class="form-row">
+                    <label for="">cost</label>
+                    <input type="number" class="form-control" id="cc">
+                </div>
+                <div class="form-row">
+                    <label for="">discount</label>
+                    <input type="number" class="form-control" id="dA">
+                </div>
+                <div class="form-row">
+                    <label for="payment-mode">payment mode</label>
+                    <select name="payment-mode" id="pm" class="form-control">
+                        <option value="cash">cash</option>
+                        <option value="momo">momo</option>
+                    </select>
+                 </div>
+                <div class="form-row">
+                    <label for="state">state</label>
+                    <select name="state" id="st" class="form-control">
+                        <option value="in pains">in pains</option>
+                        <option value="empty bladder">empty bladder</option>
+                        <option value="null">null</option>
+                        <option value="unconscious">unconscious</option>
+                        <option value="disoriented">disoriented</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label for="">history</label>
+                    <textarea name="history" id="history" class="form-control" cols="30" rows="10"></textarea>
+                </div>
+                <div class="form-row">
+                    <button class="btn btn-outline-primary mt-3 p-2" type="button">save</button>
+                </div>
+            </div>
+        </section>
        </main>
    </section>
+   
    <script src="js/registration.js"></script>
 </body>

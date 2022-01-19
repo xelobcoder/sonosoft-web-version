@@ -64,6 +64,7 @@ window.onload = (ev) => {
       }
     })
   }
+  emptyInputs();
   // This return html into the datalist
   let htmlrender = function (p, a, name) {
     let parentElement = document.getElementById(p)
@@ -88,7 +89,7 @@ window.onload = (ev) => {
   }
 
   // deliver options into institution
-  const renderInstituition = function () {
+  const renderInstituition = function (a) {
     let promise = apiDeliverer('http://localhost:8000/institutions')
     promise
       .then((response) => {
@@ -120,13 +121,15 @@ window.onload = (ev) => {
 
   renderClinician()
 
-  let defualtCost = async function (response) {
+  let defualtCost = async function (response,scan,cost) {
+    console.log(response,scan,cost)
       if(scan) {
         scan.addEventListener("change",(ev) => {
           let SCANTYPE = ev.target.value;
           let filtered = response.filter( (t) => SCANTYPE == t["SCANS"]);
           if(filtered.length === 1) {
              let scancost = filtered[0]["COST"];
+             console.log(cost.value)
              cost.value = scancost;
              if(cost.value != "" || cost.value != undefined || cost.value != null) {
                 cost.disabled = true;
@@ -135,7 +138,13 @@ window.onload = (ev) => {
        })
     }
   }
-  const renderScan = function () {
+
+  const discountedValue = (a,d,c) => {
+    av = c - d;
+    return a == av ?  true : false;
+  }
+
+  const renderScan = function (t,c) {
     let promise = apiDeliverer('http://localhost:8000/scanpanel')
     promise
       .then((response) => {
@@ -152,14 +161,14 @@ window.onload = (ev) => {
           .join('')
         let parent = document.getElementById('scanlist')
          parent.innerHTML = insertion;
-         defualtCost(response)
+         defualtCost(response,t,c)
       })
       .catch((err) => {
         if (err) throw err
       })
   }
 
-  renderScan()
+  renderScan(scan,cost)
 
   const saveButton = document.getElementById('saveButton')
 
@@ -209,16 +218,23 @@ window.onload = (ev) => {
       event.preventDefault()
       check()
     } else {
-      deliverPost('http://localhost:8000/registration', customer, 'POST')
+      if(discountedValue(customer.amountpaid, customer.discount,customer.cost) == true) {
+        deliverPost('http://localhost:8000/registration', customer, 'POST')
         .then(function (res) {
           return res.json()
         })
         .then(function (res) {
-          console.log(res)
+          console.log(res);
+          document.getElementById("registration-form").reset();
         })
         .catch((err) => {
           if (err) throw err
         })
+      } else {
+        let p = "accessMessage";
+        let m = "check discounted amount and amount paid in relation to cost";
+        message.staging(p,m,"alert-warning");
+      }
     }
   }
 
@@ -231,4 +247,115 @@ window.onload = (ev) => {
       body: JSON.stringify(data),
     })
   }
+  var message = {
+    staging : function(p,m,s){
+      let v = document.getElementById(p);
+      let isV = v.style.display == "none" ? true : false;
+      if(isV){
+        v.style.display = "block";
+        v.classList.add(s);
+        v.innerHTML = m;
+        setTimeout((ev)=>{ v.classList.remove(s); v.style.display = "none";;},10000)
+      }
+   },
+   validateMembership : function() {
+      const d = document.getElementById("searchref");
+      const s = document.getElementById("sb");  
+      s.addEventListener("click",
+      function(ev) {
+        deliverPost("/v1/api/registration/activation",{ref: d.value},"POST")
+        .then ( (t) => { return t.json()}).
+        then ( (u) => {const {REFID} = u[0]; document.getElementById("ac-d").innerHTML =  REFID; message.display("activation-list")})
+        .catch ( (er) => { throw er;})
+      });
+   },
+   onActivation: function() {
+    this.display("activation-continue");
+    this.hide("#activation-search-area");
+    let refered = document.getElementById("flexRadioDefault2");
+    let walkin = document.getElementById("flexRadioDefault1");
+    let grs = document.querySelectorAll("#grs");
+    if(walkin.checked) {
+      grs.forEach( (i) => { i.style.display = "none"})
+    }
+    refered.addEventListener("click", (ev) => {
+      grs.forEach( (i) => { i.style.display = "block"});
+    })
+    walkin.addEventListener("click", (ev) => {
+      grs.forEach( (i) => { i.style.display = "none"}) 
+    })
+
+    let s = document.getElementById("scan");
+    let c = document.getElementById("cc");
+    renderScan(s,c)
+    
+
+ },
+   activation : function (b) {
+    const t = document.getElementById("acbtn");
+     t.addEventListener("click", function(ev){
+       if(document.getElementById("ac-d").innerHTML.trim() == "") {
+         document.getElementById(b).autofocus(); 
+       } else {
+        let v = document.getElementById("ac-d").innerHTML.trim();
+        deliverPost("/v1/api/registration/activation/user",{refupdate: v},"POST")
+        .then ( (u) => {return u.json()})
+        .then ( (w) => { 
+          if(w) {
+            message.onActivation();
+          } 
+        }).
+        catch ( (err) => {throw err;})
+       }
+     })
+   },
+ 
+
+   display : function (a) {
+      let d = document.getElementById(a);
+      if(d.style.display == "none") {
+         d.style.display = "block";
+      } else {
+        return false;
+      }
+   },
+   hide : function (r) {
+     let d = document.querySelector(r);
+     if(d.style.display == "block") {
+       return d.style.display = "none";
+     }
+   },
+  //  change regchoices,registration input fills wrapper and activation area to none
+   
+  clearAllRegistrationPanel : function(a,b,c) {
+      [a,b,c].forEach( (t) => {
+       let item = document.querySelector(t);
+         item.style.display = "none";
+     })
+   },
+  //  select registration pattern, onetime customer or activate membership button
+   registration : function () {
+     let r = document.querySelectorAll("#rc")[0];
+     let m = document.querySelectorAll("#rc")[1];
+     r.addEventListener("click",
+     function(ev){
+       message.clearAllRegistrationPanel("#activation-search-area","#registration","#regchoice");
+        message.display("registration");
+     })
+     m.addEventListener("click", 
+     function(ev){
+      message.clearAllRegistrationPanel("#activation-search-area","#registration","#regchoice");
+      message.display("activation-search-area");
+      message.validateMembership();
+      message.activation();
+     })
+   },
+   
+  }
+
+  message.registration();
+
+  // console.log(message.clearAllRegistrationPanel("#activation-search-area","#registration","#regchoice"));
+
 }
+

@@ -36,8 +36,8 @@ window.onload = (ev) => {
             <td>${element.TRANSACTIONID}</td>
             <td >${element.FULLNAME}</td>
             <td>${element.GENDER}</td>
-            <td>${element.SCAN}</td>
-            <td>${element.TIME}</td>
+            <td id="scan">${element.SCAN}</td>
+            <td id="datetime">${element.DATETIME}</td>
             <td>${element.STATE}</td>
             <td> ${element.REFERER} </td>
             <td historyid = "${element.ID}"><button class="btn btn-info" id="viewHistory">history</button></td>
@@ -82,8 +82,10 @@ window.onload = (ev) => {
     }
     getAllClients("http://localhost:8000/registration").then ( (res) => {
         display(res);
+        manipulateDatetime()
         handleAllresult();
         historyView();
+        
     })
     .catch ( (err) => {if(err) throw err})
 
@@ -225,6 +227,27 @@ const selectScan = (data) => {
         }
     }
 }
+
+
+const manipulateDatetime = (t) => {
+    const datetime = document.querySelectorAll("#datetime");
+    const manipulate = (s) => {
+       let valid =  typeof s === "string" ? s.split("T") : "string required";
+       const dateDt = (u) => { const [a,b] = u ; return {d:a, t:b.slice(0,8)}};
+       return dateDt(valid);
+    }
+
+    // console.log(manipulate("2022-01-17T11:30:12.384Z"))
+    datetime.forEach( (v) => { 
+        let u = v.innerHTML.trim();
+        let dt = manipulate(u);
+        console.log(dt)
+        v.innerHTML = `${dt.d} ${dt.t}`;
+     })
+}
+
+
+
 
 
 

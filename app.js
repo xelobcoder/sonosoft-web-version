@@ -423,3 +423,12 @@ app.post("/v1/api/registration/filterlist", (request,response) => {
   console.log(request.body)
   sonosoft.matchColumnText(filter,search,"registration",response);
 })
+
+app.post("/v1/api/registration/activation" , (request,response) => {
+   const {ref} = request.body;
+   sonosoft.validateREF(ref,response);
+})
+app.post("/v1/api/registration/activation/user" , (request,response) => {
+  const {refupdate} = request.body;
+  sonosoft.updateREF(refupdate,response);
+})
