@@ -12,7 +12,9 @@ window.onload = (ev) => {
   const momoID = document.getElementById('transaction')
   const cost = document.getElementById('cost')
   const gender = document.getElementById('gender')
-  const history = document.getElementById('history')
+  const history = document.getElementById('history');
+
+  var vu = undefined;
 
   // form reset function;
 
@@ -78,7 +80,6 @@ window.onload = (ev) => {
           return html(t)
         })
         .join('')
-      console.log(insertion)
       parentElement.innerHTML = insertion
     }
   }
@@ -122,14 +123,12 @@ window.onload = (ev) => {
   renderClinician()
 
   let defualtCost = async function (response,scan,cost) {
-    console.log(response,scan,cost)
       if(scan) {
         scan.addEventListener("change",(ev) => {
           let SCANTYPE = ev.target.value;
           let filtered = response.filter( (t) => SCANTYPE == t["SCANS"]);
           if(filtered.length === 1) {
              let scancost = filtered[0]["COST"];
-             console.log(cost.value)
              cost.value = scancost;
              if(cost.value != "" || cost.value != undefined || cost.value != null) {
                 cost.disabled = true;
@@ -247,6 +246,8 @@ window.onload = (ev) => {
       body: JSON.stringify(data),
     })
   }
+
+  // message 
   var message = {
     staging : function(p,m,s){
       let v = document.getElementById(p);
@@ -292,6 +293,7 @@ window.onload = (ev) => {
 
  },
    activation : function (b) {
+    var v = null; 
     const t = document.getElementById("acbtn");
      t.addEventListener("click", function(ev){
        if(document.getElementById("ac-d").innerHTML.trim() == "") {
@@ -303,11 +305,15 @@ window.onload = (ev) => {
         .then ( (w) => { 
           if(w) {
             message.onActivation();
+            for(key in w[0]) {
+              window.sessionStorage.setItem(key,w[0][key]);
+            }
           } 
         }).
         catch ( (err) => {throw err;})
        }
      })
+     return v;
    },
  
 
@@ -347,15 +353,75 @@ window.onload = (ev) => {
       message.clearAllRegistrationPanel("#activation-search-area","#registration","#regchoice");
       message.display("activation-search-area");
       message.validateMembership();
-      message.activation();
+      console.log(message.activation());
      })
    },
+   fowardData : function () {
+     let s = document.getElementById("scan");
+     let c = document.getElementById("cc");
+     let p = document.getElementById("pd");
+     let d = document.getElementById("d");
+     let py = document.getElementById("pm");
+     let st = document.getElementById("st");
+     let r = document.getElementById("refid");
+     let i = document.getElementById("instid");
+     let h = document.getElementById("history");
+     const o = window.sessionStorage;
+     
+     let activateNew = new Membership(null,c,d,p,s,r,i,o,h,st,py);
+
+   }
    
   }
 
+  class Membership {
+    constructor(u,c,p,d,s,r,i,pi,h,st,m) {
+      this.type = u;
+      this.cost = c;
+      this.discount = d;
+      this.paid = p;
+      this.scan = s;
+      this.referer = r;
+      this.inst = i;
+      this.state = st;
+      this.hsitory = h;
+      this.mode = m;
+      this.personalInformation = pi;
+    }
+
+    isPersonalInformation = function() {
+       return typeof this.personalInformation === "object" ? true :  new Error("Type object required");
+    }
+    validcost = function () {
+      return this.cost != null || this.cost != "" ? parseInt(this.cost) : false;
+    }
+    validpaid = function() {
+      return this.paid != null || this.paid == null ? parseInt(this.paid) : false;
+    }
+    validreferer = function () {
+      if(this.type === "referer") {
+         return this.referer != " " ? this.referer : false;
+      } else {
+        return null;
+      }
+    }
+
+    validDiscount = function() {
+      let actualcost = this.cost - this.discount;
+      let d = this.discount; let c = this.cost; let p = this.paid;
+      if(c === d + p) {
+        return;
+      } else {
+        if(Number.isNaN(actualcost) && Number.isInteger(actualcost) > 0) {
+           
+        } else {
+          return `${d} `;
+        }
+      }
+    }
+  }
+
+
   message.registration();
-
-  // console.log(message.clearAllRegistrationPanel("#activation-search-area","#registration","#regchoice"));
-
 }
 

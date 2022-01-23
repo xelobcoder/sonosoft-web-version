@@ -184,60 +184,67 @@
                     </label>
                </div>
             </div>
-            <div class="wrapper list-section">
-               <div class="form-row" id="grs">
-                <label for="referer">referer</label>
-                <input required  class="form-control" id="referer" list="refererlist">
-               <datalist required name="referer" id="refid">
-                   
-               </datalist>
+            <div class="wrapper list-section" style="display: grid; grid-template-columns: 50% auto;">
+               <div class="split mr-5" style="padding: 10px 20px;">
+                    <div class="form-row">
+                        <label for="scan">scan</label>
+                        <input type="text" required class="form-control" id="scan" list ="scanlist" multiple>
+                        <datalist name="scan" id="scanlist">
+    
+                        </datalist>
+                    </div>
+                    <div class="form-row">
+                        <label for="">cost</label>
+                        <input type="number" class="form-control" id="cc">
+                    </div>
+                    <div class="form-row">
+                        <label for="">paid amount</label>
+                         <input type="number" class="form-control" id="pd">
+                    </div>
+                    <div class="form-row">
+                        <label for="">discount</label>
+                        <input type="number" class="form-control" id="dA">
+                    </div>
+                    <div class="form-row">
+                        <label for="payment-mode">payment mode</label>
+                        <select name="payment-mode" id="pm" class="form-control">
+                            <option value="cash">cash</option>
+                            <option value="momo">momo</option>
+                        </select>
+                     </div>
                </div>
-                <div class="form-row" id="grs">
-                    <label for="institution">institution</label>
-                    <input required name="institution" id="institution" class="form-control" list="institutionlist">
-                    <datalist  required id="instid" name="institution">
-                      
-                    </datalist>
-                </div>
-                <div class="form-row">
-                    <label for="scan">scan</label>
-                    <input type="text" required class="form-control" id="scan" list ="scanlist" multiple>
-                    <datalist name="scan" id="scanlist">
-
-                    </datalist>
-                </div>
-                <div class="form-row">
-                    <label for="">paid amount</label>
-                     <input type="number" class="form-control" id="pd">
-                </div>
-                <div class="form-row">
-                    <label for="">cost</label>
-                    <input type="number" class="form-control" id="cc">
-                </div>
-                <div class="form-row">
-                    <label for="">discount</label>
-                    <input type="number" class="form-control" id="dA">
-                </div>
-                <div class="form-row">
-                    <label for="payment-mode">payment mode</label>
-                    <select name="payment-mode" id="pm" class="form-control">
-                        <option value="cash">cash</option>
-                        <option value="momo">momo</option>
-                    </select>
-                 </div>
-                <div class="form-row">
-                    <label for="state">state</label>
-                    <select name="state" id="st" class="form-control">
-                        <option value="in pains">in pains</option>
-                        <option value="empty bladder">empty bladder</option>
-                        <option value="null">null</option>
-                        <option value="unconscious">unconscious</option>
-                        <option value="disoriented">disoriented</option>
-                    </select>
-                </div>
-                <div class="form-row">
-                    <label for="">history</label>
-                    <textarea name="history" id="history" class="form-control" cols="30" rows="10"></textarea>
+ 
+                <div class="split" style="padding: 10px 20px;">
+                   
+                    <div class="form-row">
+                        <label for="state">state</label>
+                        <select name="state" id="st" class="form-control">
+                            <option value="in pains">in pains</option>
+                            <option value="empty bladder">empty bladder</option>
+                            <option value="null">null</option>
+                            <option value="unconscious">unconscious</option>
+                            <option value="disoriented">disoriented</option>
+                        </select>
+                    </div>
+                    <div class="form-row" id="grs">
+                        <label for="referer">referer</label>
+                        <input required  class="form-control" id="referer" list="refererlist">
+                       <datalist required name="referer" id="refid">
+                           
+                       </datalist>
+                       </div>
+                        <div class="form-row" id="grs">
+                            <label for="institution">institution</label>
+                            <input required name="institution" id="institution" class="form-control" list="institutionlist">
+                            <datalist  required id="instid" name="institution">
+                              
+                            </datalist>
+                        </div>
+                    <div class="form-row">
+                        <label for="">history</label>
+                        <textarea name="history" id="history" class="form-control" cols="30" rows="10"></textarea>
+                    </div>
+                   
                 </div>
                 <div class="form-row">
                     <button class="btn btn-outline-primary mt-3 p-2" type="button">save</button>
@@ -248,4 +255,4 @@
    </section>
    
    <script src="js/registration.js"></script>
-</body>
+ 
