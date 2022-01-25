@@ -412,11 +412,7 @@ window.onload = (ev) => {
       if(c === d + p) {
         return;
       } else {
-        if(Number.isNaN(actualcost) && Number.isInteger(actualcost) > 0) {
-           
-        } else {
-          return `${d} `;
-        }
+        
       }
     }
   }
