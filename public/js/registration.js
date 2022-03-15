@@ -16,6 +16,8 @@ window.onload = (ev) => {
 
   var vu = undefined;
 
+  var TYPE = 'WALKIN';
+
   // form reset function;
 
   let resetFunction = function (formid) {
@@ -281,6 +283,7 @@ window.onload = (ev) => {
     }
     refered.addEventListener("click", (ev) => {
       grs.forEach( (i) => { i.style.display = "block"});
+      TYPE = "REFERER";
     })
     walkin.addEventListener("click", (ev) => {
       grs.forEach( (i) => { i.style.display = "none"}) 
@@ -293,7 +296,6 @@ window.onload = (ev) => {
 
  },
    activation : function (b) {
-    var v = null; 
     const t = document.getElementById("acbtn");
      t.addEventListener("click", function(ev){
        if(document.getElementById("ac-d").innerHTML.trim() == "") {
@@ -308,12 +310,11 @@ window.onload = (ev) => {
             for(key in w[0]) {
               window.sessionStorage.setItem(key,w[0][key]);
             }
-          } 
+          }
         }).
         catch ( (err) => {throw err;})
        }
      })
-     return v;
    },
  
 
@@ -353,7 +354,7 @@ window.onload = (ev) => {
       message.clearAllRegistrationPanel("#activation-search-area","#registration","#regchoice");
       message.display("activation-search-area");
       message.validateMembership();
-      console.log(message.activation());
+      message.activation();
      })
    },
    fowardData : function () {
@@ -367,8 +368,15 @@ window.onload = (ev) => {
      let i = document.getElementById("instid");
      let h = document.getElementById("history");
      const o = window.sessionStorage;
+     let type = TYPE;
      
-     let activateNew = new Membership(null,c,d,p,s,r,i,o,h,st,py);
+     let activateNew = new Membership(type,c,d,p,s,r,i,o,h,st,py);
+    
+     let saveButton = doument.getElementById("saveAct");
+
+     saveButton.addEventListener("click", function(ev){
+        console.log(ev.target)
+     })
 
    }
    
@@ -378,13 +386,13 @@ window.onload = (ev) => {
     constructor(u,c,p,d,s,r,i,pi,h,st,m) {
       this.type = u;
       this.cost = c;
-      this.discount = d;
+      this.discount = 0 || d;
       this.paid = p;
       this.scan = s;
       this.referer = r;
       this.inst = i;
       this.state = st;
-      this.hsitory = h;
+      this.history = h;
       this.mode = m;
       this.personalInformation = pi;
     }
@@ -407,13 +415,29 @@ window.onload = (ev) => {
     }
 
     validDiscount = function() {
-      let actualcost = this.cost - this.discount;
-      let d = this.discount; let c = this.cost; let p = this.paid;
-      if(c === d + p) {
-        return;
-      } else {
-        
-      }
+    const HIGH_DISCOUNT = "High discount than cost";
+     if(this.cost < this.discount) {
+       return  HIGH_DISCOUNT;
+     }
+
+     let payable = this.cost - this.discount;
+     if(this.cost > this.discount ) {
+       if(this.paid < this.cost ){
+         return payable;
+       }
+     }
+    }
+    validData = function() {
+      let activatedClient = this.personalInformation;
+      activatedClient["TYPE"] = this.type;
+      activatedClient["STATE"] = this.state;
+      activatedClient["HISTORY"] = this.hsitory;
+      activatedClient["PAID"] = this.validpaid();
+      activatedClient["REFERER"] = this.validreferer();
+      activatedClient["DISCOUNT"] = this.validDiscount();
+      activatedClient["COST"] = this.validcost();
+      // return activatedClient;
+      console.log(activatedClient)
     }
   }
 
